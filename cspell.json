@@ -1,0 +1,21 @@
+{
+	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/packages/cspell-types/cspell.schema.json",
+	"words": [
+		"Baatchia",
+		"headlessui",
+		"nextjs",
+		"Parens",
+		"pnpm",
+		"vercel",
+		"eslintcache",
+		"tailwindcss",
+		"tsbuildinfo"
+	],
+	"ignorePaths": [
+		"pnpm-lock.yaml",
+		"*.tsbuildinfo",
+		".cspellcache",
+		".prettier-cache",
+		".eslintcache"
+	]
+}
