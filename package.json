@@ -8,6 +8,7 @@
 		"start": "next start",
 		"lint": "next lint",
 		"format": "prettier --write --ignore-unknown --cache --cache-location=.prettier-cache .",
+		"clean": "rm -rf .next",
 		"prepare": "husky install"
 	},
 	"dependencies": {
@@ -22,13 +23,14 @@
 		"typescript": "5.0.3"
 	},
 	"devDependencies": {
-		"@next/bundle-analyzer": "^13.2.4",
+		"@next/bundle-analyzer": "^13.3.0",
 		"autoprefixer": "^10.4.14",
 		"cspell": "^6.31.1",
 		"eslint-config-prettier": "^8.8.0",
 		"husky": "^8.0.3",
 		"lint-staged": "^13.2.0",
 		"postcss": "^8.4.21",
+		"postcss-import": "^15.1.0",
 		"prettier": "^2.8.7",
 		"prettier-plugin-tailwindcss": "0.1.9",
 		"tailwindcss": "^3.3.1"
