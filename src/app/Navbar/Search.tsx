@@ -7,13 +7,13 @@ export default function Search() {
 				<button className='flex items-center'>
 					<span className='px-4 text-gray-400'>Any where</span>
 					<span className='flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white'>
-						<i className='ph ph-magnifying-glass'></i>
+						<i className='ri-search-line'></i>
 					</span>
 				</button>
 			</div>
 
 			<button className='flex h-14 w-full items-center gap-x-4 rounded-full border-2 py-2 shadow-md md:hidden'>
-				<i className='ph ph-magnifying-glass ml-5 text-xl font-semibold'></i>
+				<i className='ri-search-line ml-5 text-xl'></i>
 				<div className='flex flex-col items-start text-sm'>
 					<span className='font font-bold'>Anywhere</span>
 					<div className='text-xs text-gray-400'>
@@ -23,7 +23,7 @@ export default function Search() {
 					</div>
 				</div>
 				<span className='ml-auto mr-3 flex h-9 w-9 items-center justify-center rounded-full border'>
-					<i className='ph ph-sliders-horizontal text-lg font-semibold'></i>
+					<i className='ri-equalizer-fill'></i>
 				</span>
 			</button>
 		</>

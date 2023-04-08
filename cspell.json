@@ -2,14 +2,19 @@
 	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/packages/cspell-types/cspell.schema.json",
 	"words": [
 		"Baatchia",
+		"cssnano",
+		"eslintcache",
+		"fullhuman",
 		"headlessui",
 		"nextjs",
 		"Parens",
 		"pnpm",
-		"vercel",
-		"eslintcache",
+		"purgecss",
+		"remixicon",
 		"tailwindcss",
-		"tsbuildinfo"
+		"tsbuildinfo",
+		"vercel",
+		"webp"
 	],
 	"ignorePaths": [
 		"pnpm-lock.yaml",
