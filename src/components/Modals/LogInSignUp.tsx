@@ -1,9 +1,15 @@
 'use client';
 
-import { logInSignUpModalOpenAtom } from '@/jotai/atoms';
+import {
+	logInSignUpFromTypeAtom,
+	logInSignUpModalOpenAtom,
+} from '@/jotai/atoms';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAtom, useSetAtom } from 'jotai';
 import { Fragment } from 'react';
+import LoginForm from '../Forms/Login';
+import SignUpForm from '../Forms/SignUp';
+import MockAccountsList from '../MockAccountsList';
 
 export default function LogInSignUp() {
 	const [modalOpen, setModalOpen] = useAtom(logInSignUpModalOpenAtom);
@@ -45,6 +51,12 @@ export default function LogInSignUp() {
 
 function LogInSignUpForm() {
 	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
+	const [fromType, setFromType] = useAtom(logInSignUpFromTypeAtom);
+	const toggleFormType = () =>
+		setFromType((prevFromType) =>
+			prevFromType === 'login' ? 'sign-up' : 'login'
+		);
+
 	return (
 		<div>
 			<div className='relative p-6'>
@@ -60,38 +72,51 @@ function LogInSignUpForm() {
 			<div className='border-t' />
 			<div className='space-y-5 p-6'>
 				<h1 className='text-2xl font-bold'>Welcome to Airbnb</h1>
-				<form>
-					<input
-						type='text'
-						placeholder='Username'
-						className='h-14 w-full rounded-t-md border-x border-t border-gray-400 bg-transparent p-4'
-					/>
-					<input
-						type='password'
-						placeholder='Password'
-						className='h-14 w-full rounded-b-md border border-gray-400 bg-transparent p-4'
-					/>
-				</form>
-				<button className='h-12 w-full rounded-md bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] font-bold text-white'>
-					Continue
-				</button>
+
+				{fromType === 'mock-list' && <MockAccountsList />}
+				{fromType === 'sign-up' && <SignUpForm />}
+				{fromType === 'login' && <LoginForm />}
+
 				<div className='flex items-center gap-x-5'>
 					<span className='grow border-t' />
 					<span>or</span>
 					<span className='grow border-t' />
 				</div>
-				<button className='relative h-12 w-full rounded-md border border-black dark:border-white'>
-					<i className='ri-user-smile-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
-					<span className='font-bold'>Continue with Mock account</span>
-				</button>
+
+				{fromType !== 'mock-list' && (
+					<button
+						onClick={() => setFromType('mock-list')}
+						className='relative h-12 w-full animate-pulse rounded-md border bg-neutral-950 text-white dark:bg-white dark:text-black'
+					>
+						<i className='ri-user-smile-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
+						<span className='font-bold'>Continue with Mock account</span>
+					</button>
+				)}
+
 				<button className='relative h-12 w-full rounded-md border border-black dark:border-white'>
 					<i className='ri-github-fill absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
 					<span className='font-bold'>Continue with Github</span>
 				</button>
-				<button className='relative h-12 w-full rounded-md border border-black dark:border-white'>
-					<i className='ri-mail-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
-					<span className='font-bold'>Continue with Email</span>
-				</button>
+
+				{fromType !== 'sign-up' && (
+					<button
+						onClick={toggleFormType}
+						className='relative h-12 w-full rounded-md border border-black dark:border-white'
+					>
+						<i className='ri-mail-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
+						<span className='font-bold'>Sign up with Email and password</span>
+					</button>
+				)}
+
+				{fromType !== 'login' && (
+					<button
+						onClick={toggleFormType}
+						className='relative h-12 w-full rounded-md border border-black dark:border-white'
+					>
+						<i className='ri-mail-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
+						<span className='font-bold'>Login with Email and password</span>
+					</button>
+				)}
 			</div>
 		</div>
 	);

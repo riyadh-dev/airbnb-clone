@@ -1,6 +1,9 @@
 'use client';
 
-import { logInSignUpModalOpenAtom } from '@/jotai/atoms';
+import {
+	logInSignUpFromTypeAtom,
+	logInSignUpModalOpenAtom,
+} from '@/jotai/atoms';
 import { classNames } from '@/utils';
 import { Menu } from '@headlessui/react';
 import { useSetAtom } from 'jotai';
@@ -33,6 +36,20 @@ export default function RightSection() {
 	}, [setTheme, theme]);
 
 	const setSignUpModalOpen = useSetAtom(logInSignUpModalOpenAtom);
+	const setLoginSignUpFormType = useSetAtom(logInSignUpFromTypeAtom);
+
+	const openSignUpModal = () => {
+		setLoginSignUpFormType('sign-up');
+		setSignUpModalOpen(true);
+	};
+	const openLoginModal = () => {
+		setLoginSignUpFormType('login');
+		setSignUpModalOpen(true);
+	};
+	const openMockAccountList = () => {
+		setLoginSignUpFormType('mock-list');
+		setSignUpModalOpen(true);
+	};
 
 	return (
 		<div className='hidden w-72 items-center justify-end bg-inherit max-lg:ml-auto md:flex'>
@@ -50,20 +67,29 @@ export default function RightSection() {
 				<Menu.Items className='absolute right-0 mt-2 w-60 rounded-lg border bg-inherit py-3 shadow-md'>
 					<Menu.Item>
 						<div
-							onClick={() => setSignUpModalOpen(true)}
+							onClick={openMockAccountList}
 							className='cursor-pointer px-5 py-2 font-bold hover:bg-slate-100 dark:hover:bg-gray-700'
+						>
+							Mock account
+						</div>
+					</Menu.Item>
+					<Menu.Item>
+						<div
+							onClick={openSignUpModal}
+							className='cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'
 						>
 							Sign up
 						</div>
 					</Menu.Item>
 					<Menu.Item>
 						<div
-							onClick={() => setSignUpModalOpen(true)}
+							onClick={openLoginModal}
 							className='cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'
 						>
 							Log in
 						</div>
 					</Menu.Item>
+
 					<div className='my-2 h-[0.25px] w-full bg-gray-200' />
 					<Menu.Item>
 						<div

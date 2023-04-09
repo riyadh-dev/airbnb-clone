@@ -1,7 +1,7 @@
 import CATEGORIES from '@/constants/categories';
 import Image from 'next/image';
 
-export default function Categories() {
+export default function CategoriesBar() {
 	return (
 		<nav className='sticky top-20 z-20 flex h-20 bg-inherit px-10 shadow-md xl:px-20'>
 			<ul className='flex items-stretch gap-x-8 overflow-x-hidden text-gray-500'>

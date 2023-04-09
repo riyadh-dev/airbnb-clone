@@ -14,7 +14,8 @@
 		"tailwindcss",
 		"tsbuildinfo",
 		"vercel",
-		"webp"
+		"webp",
+		"xsgames"
 	],
 	"ignorePaths": [
 		"pnpm-lock.yaml",

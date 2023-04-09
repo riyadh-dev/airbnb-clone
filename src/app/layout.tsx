@@ -1,8 +1,8 @@
 import { Providers } from '@/providers';
 import { Nunito } from 'next/font/google';
-import Categories from './Categories';
-import LogInSignUp from './Modals/LogInSignUp';
-import Navbar from './Navbar';
+import CategoriesBar from '../components/CategoriesBar';
+import LogInSignUp from '../components/Modals/LogInSignUp';
+import Navbar from '../components/Navbar';
 
 import 'remixicon/fonts/remixicon.css';
 import './globals.css';
@@ -34,7 +34,7 @@ export default function RootLayout({
 			<body className='bg-white font-primary dark:bg-neutral-950'>
 				<Providers>
 					<Navbar />
-					<Categories />
+					<CategoriesBar />
 					{children}
 					<LogInSignUp />
 				</Providers>
