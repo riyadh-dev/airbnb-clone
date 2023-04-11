@@ -4,9 +4,6 @@ import CategoriesBar from '../components/CategoriesBar';
 import LogInSignUp from '../components/Modals/LogInSignUp';
 import Navbar from '../components/Navbar';
 
-import 'remixicon/fonts/remixicon.css';
-import './globals.css';
-
 export const metadata = {
 	title: 'Airbnb Clone',
 	description: 'An airbnb clone app using NexJS 13',
@@ -18,6 +15,9 @@ const nunito = Nunito({
 	subsets: ['latin'],
 	display: 'swap',
 });
+
+import 'remixicon/fonts/remixicon.css';
+import './globals.css';
 
 export default async function RootLayout({
 	children,

@@ -27,7 +27,7 @@ export default function RightSection() {
 			<Menu as='div' className='relative bg-inherit'>
 				<Menu.Button
 					disabled={disabled}
-					className='ml-2 flex h-14 items-center justify-center gap-x-3 rounded-full border-2 max-md:p-2 max-md:shadow-md md:h-10 md:border md:hover:shadow-md'
+					className='ml-2 flex h-14 items-center justify-center gap-x-3 rounded-full border-2 max-md:w-14 max-md:p-2 max-md:shadow-md md:h-10 md:border md:hover:shadow-md'
 				>
 					<i className='ri-menu-line ml-3 hidden text-lg md:block'></i>
 					{disabled && (
@@ -54,7 +54,7 @@ export default function RightSection() {
 							alt='avatar'
 							width={48}
 							height={48}
-							className='aspect-square h-full rounded-full md:mx-1 md:ml-1 md:h-8 md:w-8'
+							className='h-full w-full rounded-full md:mx-1 md:ml-1 md:h-8 md:w-8'
 						/>
 					)}
 				</Menu.Button>
