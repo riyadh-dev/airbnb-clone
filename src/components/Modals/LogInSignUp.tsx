@@ -1,11 +1,12 @@
 'use client';
 
 import {
+	disableUserSignActionsAtom,
 	logInSignUpFromTypeAtom,
 	logInSignUpModalOpenAtom,
 } from '@/jotai/atoms';
 import { Dialog, Transition } from '@headlessui/react';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Fragment } from 'react';
 import LoginForm from '../Forms/Login';
 import SignUpForm from '../Forms/SignUp';
@@ -57,6 +58,8 @@ function LogInSignUpForm() {
 			prevFromType === 'login' ? 'sign-up' : 'login'
 		);
 
+	const disabled = useAtomValue(disableUserSignActionsAtom);
+
 	return (
 		<div>
 			<div className='relative p-6'>
@@ -85,6 +88,7 @@ function LogInSignUpForm() {
 
 				{fromType !== 'mock-list' && (
 					<button
+						disabled={disabled}
 						onClick={() => setFromType('mock-list')}
 						className='relative h-12 w-full animate-pulse rounded-md border bg-neutral-950 text-white dark:bg-white dark:text-black'
 					>
@@ -93,13 +97,14 @@ function LogInSignUpForm() {
 					</button>
 				)}
 
-				<button className='relative h-12 w-full rounded-md border border-black dark:border-white'>
+				{/* 	<button className='relative h-12 w-full rounded-md border border-black dark:border-white'>
 					<i className='ri-github-fill absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
 					<span className='font-bold'>Continue with Github</span>
-				</button>
+				</button> */}
 
 				{fromType !== 'sign-up' && (
 					<button
+						disabled={disabled}
 						onClick={toggleFormType}
 						className='relative h-12 w-full rounded-md border border-black dark:border-white'
 					>
@@ -110,6 +115,7 @@ function LogInSignUpForm() {
 
 				{fromType !== 'login' && (
 					<button
+						disabled={disabled}
 						onClick={toggleFormType}
 						className='relative h-12 w-full rounded-md border border-black dark:border-white'
 					>

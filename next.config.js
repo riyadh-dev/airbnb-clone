@@ -6,6 +6,7 @@ const nextConfig = {
 	experimental: {
 		appDir: true,
 	},
+	transpilePackages: ['jotai-devtools'],
 };
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({

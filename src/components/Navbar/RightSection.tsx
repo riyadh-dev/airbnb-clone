@@ -1,106 +1,64 @@
 'use client';
 
-import {
-	logInSignUpFromTypeAtom,
-	logInSignUpModalOpenAtom,
-} from '@/jotai/atoms';
-import { classNames } from '@/utils';
+import { disableUserSignActionsAtom } from '@/jotai/atoms';
 import { Menu } from '@headlessui/react';
-import { useSetAtom } from 'jotai';
-import { useTheme } from 'next-themes';
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { useAtomValue } from 'jotai';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import LoadingSpinner from '../LoadingSpinner';
+import GuestMenu from './GuestMenu';
+import UserMenu from './UserMenu';
 
 export default function RightSection() {
-	const { setTheme, theme } = useTheme();
-	const toggleTheme: MouseEventHandler<HTMLElement> = (e) => {
-		e.preventDefault();
-		setTheme(theme === 'dark' ? 'light' : 'dark');
-	};
+	const session = useSession();
+	const disableUserSignActions = useAtomValue(disableUserSignActionsAtom);
+	const disabled = disableUserSignActions || session.status === 'loading';
 
-	const [themeIcon, setThemeIcon] = useState<
-		'ri-moon-line' | 'ri-computer-line' | 'ri-sun-line'
-	>('ri-computer-line');
-
-	useEffect(() => {
-		switch (theme) {
-			case 'light':
-				setThemeIcon('ri-sun-line');
-				break;
-			case 'dark':
-				setThemeIcon('ri-moon-line');
-				break;
-			default:
-				setThemeIcon('ri-computer-line');
-				break;
-		}
-	}, [setTheme, theme]);
-
-	const setSignUpModalOpen = useSetAtom(logInSignUpModalOpenAtom);
-	const setLoginSignUpFormType = useSetAtom(logInSignUpFromTypeAtom);
-
-	const openSignUpModal = () => {
-		setLoginSignUpFormType('sign-up');
-		setSignUpModalOpen(true);
-	};
-	const openLoginModal = () => {
-		setLoginSignUpFormType('login');
-		setSignUpModalOpen(true);
-	};
-	const openMockAccountList = () => {
-		setLoginSignUpFormType('mock-list');
-		setSignUpModalOpen(true);
-	};
+	const avatar = session?.data?.user?.avatar;
 
 	return (
-		<div className='hidden w-72 items-center justify-end bg-inherit max-lg:ml-auto md:flex'>
-			<button className='rounded-full p-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700'>
+		<div className='flex items-center justify-end bg-inherit max-lg:ml-auto md:w-72'>
+			<button className='hidden rounded-full p-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 md:block'>
 				Airbnb your home
 			</button>
-			<button className='flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-700'>
+			<button className='hidden h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 md:flex'>
 				<i className='ri-earth-line text-lg'></i>
 			</button>
 			<Menu as='div' className='relative bg-inherit'>
-				<Menu.Button className='ml-2 flex h-10 items-center justify-center gap-x-3 rounded-full border px-3 hover:shadow-md'>
-					<i className='ri-menu-line text-lg'></i>
-					<i className='ri-user-line text-2xl'></i>
+				<Menu.Button
+					disabled={disabled}
+					className='ml-2 flex h-14 items-center justify-center gap-x-3 rounded-full border-2 max-md:p-2 max-md:shadow-md md:h-10 md:border md:hover:shadow-md'
+				>
+					<i className='ri-menu-line ml-3 hidden text-lg md:block'></i>
+					{disabled && (
+						<LoadingSpinner className='h-full md:mx-1 md:ml-1 md:h-8 md:w-8' />
+					)}
+					{session.status === 'unauthenticated' && !avatar && !disabled && (
+						<svg
+							viewBox='0 0 32 32'
+							xmlns='http://www.w3.org/2000/svg'
+							aria-hidden='true'
+							role='presentation'
+							focusable='false'
+							className='h-full opacity-50 dark:opacity-100 dark:invert md:mx-1 md:ml-1 md:h-8 md:w-8'
+						>
+							<path d='m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z'></path>
+						</svg>
+					)}
+					{session.status === 'authenticated' && !avatar && !disabled && (
+						<div className='aspect-square h-full rounded-full bg-gradient-to-br from-[#e61e4d] from-40% to-[#bd1e59] md:mx-1 md:ml-1 md:h-8' />
+					)}
+					{avatar && !disabled && (
+						<Image
+							src={avatar}
+							alt='avatar'
+							width={48}
+							height={48}
+							className='aspect-square h-full rounded-full md:mx-1 md:ml-1 md:h-8 md:w-8'
+						/>
+					)}
 				</Menu.Button>
-				<Menu.Items className='absolute right-0 mt-2 w-60 rounded-lg border bg-inherit py-3 shadow-md'>
-					<Menu.Item>
-						<div
-							onClick={openMockAccountList}
-							className='cursor-pointer px-5 py-2 font-bold hover:bg-slate-100 dark:hover:bg-gray-700'
-						>
-							Mock account
-						</div>
-					</Menu.Item>
-					<Menu.Item>
-						<div
-							onClick={openSignUpModal}
-							className='cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'
-						>
-							Sign up
-						</div>
-					</Menu.Item>
-					<Menu.Item>
-						<div
-							onClick={openLoginModal}
-							className='cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'
-						>
-							Log in
-						</div>
-					</Menu.Item>
-
-					<div className='my-2 h-[0.25px] w-full bg-gray-200' />
-					<Menu.Item>
-						<div
-							onClick={toggleTheme}
-							className='flex cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'
-						>
-							<span className='first-letter:capitalize'>{theme} theme</span>
-							<i className={classNames(themeIcon, 'ml-auto')}></i>
-						</div>
-					</Menu.Item>
-				</Menu.Items>
+				{session.status === 'authenticated' ? <UserMenu /> : <GuestMenu />}
 			</Menu>
 		</div>
 	);

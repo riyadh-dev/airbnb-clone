@@ -6,6 +6,7 @@
 		"eslintcache",
 		"fullhuman",
 		"headlessui",
+		"hookform",
 		"nextjs",
 		"Parens",
 		"pnpm",
@@ -15,6 +16,10 @@
 		"tsbuildinfo",
 		"vercel",
 		"webp",
+		"typeof",
+		"cuid",
+		"datasource",
+		"msedge",
 		"xsgames"
 	],
 	"ignorePaths": [

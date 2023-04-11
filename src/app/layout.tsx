@@ -1,4 +1,4 @@
-import { Providers } from '@/providers';
+import Providers from '@/app/providers';
 import { Nunito } from 'next/font/google';
 import CategoriesBar from '../components/CategoriesBar';
 import LogInSignUp from '../components/Modals/LogInSignUp';
@@ -19,7 +19,7 @@ const nunito = Nunito({
 	display: 'swap',
 });
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
