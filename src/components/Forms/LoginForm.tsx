@@ -62,7 +62,7 @@ export default function LoginForm() {
 			<button
 				disabled={disabled}
 				type='submit'
-				className='mt-5 h-12 w-full rounded-md bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] font-bold text-white'
+				className='mt-5 h-12 w-full rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] font-bold text-white'
 			>
 				Continue
 			</button>

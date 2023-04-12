@@ -4,7 +4,7 @@ import useSignUp from '@/hooks/useSignUp';
 import useZodForm from '@/hooks/useZodForm';
 import { disableUserSignActionsAtom } from '@/jotai/atoms';
 import { signUpInputSchema } from '@/zod/user';
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { useState } from 'react';
 import LoadingSpinner from '../LoadingSpinner';
 import CustomInput from './CustomInput';
@@ -19,13 +19,8 @@ export default function SignUpFrom() {
 		formState: { errors: formErrors },
 	} = useZodForm(signUpInputSchema);
 
-	const [disabled, setDisableUserSignActions] = useAtom(
-		disableUserSignActionsAtom
-	);
-
-	const [requestError, setRequestError] = useState<IRequestError>();
-
 	const signUp = useSignUp();
+	const [requestError, setRequestError] = useState<IRequestError>();
 
 	const onSubmit = handleSubmit(async (body) => {
 		const requestError = await signUp(body);
@@ -33,6 +28,7 @@ export default function SignUpFrom() {
 		if (errorData) setRequestError(errorData as IRequestError);
 	});
 
+	const disabled = useAtomValue(disableUserSignActionsAtom);
 	if (disabled) return <LoadingSpinner className='!my-14 mx-auto h-20' />;
 
 	return (
@@ -104,7 +100,7 @@ export default function SignUpFrom() {
 			<button
 				disabled={disabled}
 				type='submit'
-				className='mt-5 h-12 w-full rounded-md bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] font-bold text-white'
+				className='mt-5 h-12 w-full rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] font-bold text-white'
 			>
 				Continue
 			</button>

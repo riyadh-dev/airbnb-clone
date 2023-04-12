@@ -1,8 +1,13 @@
 'use client';
 
-import { disableUserSignActionsAtom } from '@/jotai/atoms';
+import {
+	disableUserSignActionsAtom,
+	logInSignUpFromTypeAtom,
+	logInSignUpModalOpenAtom,
+	rentModalOpenAtom,
+} from '@/jotai/atoms';
 import { Menu } from '@headlessui/react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import LoadingSpinner from '../LoadingSpinner';
@@ -14,11 +19,24 @@ export default function RightSection() {
 	const disableUserSignActions = useAtomValue(disableUserSignActionsAtom);
 	const disabled = disableUserSignActions || session.status === 'loading';
 
-	const avatar = session?.data?.user?.avatar;
+	const setSignUpModalOpen = useSetAtom(logInSignUpModalOpenAtom);
+	const setLoginSignUpFormType = useSetAtom(logInSignUpFromTypeAtom);
+	const setRentModalOpen = useSetAtom(rentModalOpenAtom);
 
+	const handleRentClick = () => {
+		if (session.status !== 'authenticated') {
+			setLoginSignUpFormType('login');
+			setSignUpModalOpen(true);
+		} else setRentModalOpen(true);
+	};
+
+	const avatar = session?.data?.user?.avatar;
 	return (
 		<div className='flex items-center justify-end bg-inherit max-lg:ml-auto md:w-72'>
-			<button className='hidden rounded-full p-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 md:block'>
+			<button
+				onClick={handleRentClick}
+				className='hidden rounded-full p-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 md:block'
+			>
 				Airbnb your home
 			</button>
 			<button className='hidden h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 md:flex'>

@@ -44,7 +44,7 @@ export default function MockAccountsList() {
 	return (
 		<div>
 			<h1 className='pb-3 text-center text-gray-400'>Choose a mock account</h1>
-			<ul className='-mr-5 grid max-h-56 grid-cols-2 gap-3 overflow-y-scroll pr-5'>
+			<ul className='-mr-5 grid max-h-56 grid-cols-2 gap-2 overflow-y-scroll pr-5'>
 				{isLoading && <MockAccountsListSkeleton />}
 				{!isLoading &&
 					!disabled &&
@@ -52,7 +52,7 @@ export default function MockAccountsList() {
 						<li
 							onClick={handleLogin(user)}
 							key={user.id}
-							className='flex cursor-pointer items-center gap-x-4 rounded-md bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] p-2 font-bold text-white'
+							className='flex cursor-pointer items-center gap-x-4 rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] p-2 font-bold text-white'
 						>
 							{user.avatar ? (
 								<Image
@@ -88,11 +88,11 @@ function MockAccountsListSkeleton() {
 			{[...Array(8)].map((_, index) => (
 				<li
 					key={index}
-					className='flex items-center gap-x-4 rounded-md bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] px-5 py-2 font-bold text-white'
+					className='flex items-center gap-x-4 rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] px-5 py-2 font-bold text-white'
 				>
 					<span className='h-10 w-10 animate-pulse rounded-full bg-rose-400' />
 
-					<span className='h-4 w-28 animate-pulse rounded-md bg-rose-400' />
+					<span className='h-4 w-28 animate-pulse rounded-lg bg-rose-400' />
 				</li>
 			))}
 		</>

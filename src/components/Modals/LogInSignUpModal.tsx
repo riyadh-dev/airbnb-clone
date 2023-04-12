@@ -8,11 +8,11 @@ import {
 import { Dialog, Transition } from '@headlessui/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Fragment } from 'react';
-import LoginForm from '../Forms/Login';
-import SignUpForm from '../Forms/SignUp';
+import LoginForm from '../Forms/LoginForm';
+import SignUpForm from '../Forms/SignUpForm';
 import MockAccountsList from '../MockAccountsList';
 
-export default function LogInSignUp() {
+export default function LogInSignUpModal() {
 	const [modalOpen, setModalOpen] = useAtom(logInSignUpModalOpenAtom);
 	return (
 		<Transition show={modalOpen} as={Fragment}>
@@ -42,7 +42,7 @@ export default function LogInSignUp() {
 					as={Fragment}
 				>
 					<Dialog.Panel className='bg fixed inset-0 m-auto h-fit max-w-xl rounded-xl bg-white dark:bg-neutral-800'>
-						<LogInSignUpForm />
+						<LogInSignUpModalInner />
 					</Dialog.Panel>
 				</Transition.Child>
 			</Dialog>
@@ -50,7 +50,7 @@ export default function LogInSignUp() {
 	);
 }
 
-function LogInSignUpForm() {
+function LogInSignUpModalInner() {
 	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
 	const [fromType, setFromType] = useAtom(logInSignUpFromTypeAtom);
 	const toggleFormType = () =>
@@ -90,14 +90,14 @@ function LogInSignUpForm() {
 					<button
 						disabled={disabled}
 						onClick={() => setFromType('mock-list')}
-						className='relative h-12 w-full animate-pulse rounded-md border bg-neutral-950 text-white dark:bg-white dark:text-black'
+						className='relative h-12 w-full animate-pulse rounded-lg border bg-neutral-950 text-white dark:bg-white dark:text-black'
 					>
 						<i className='ri-user-smile-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
 						<span className='font-bold'>Continue with Mock account</span>
 					</button>
 				)}
 
-				{/* 	<button className='relative h-12 w-full rounded-md border border-black dark:border-white'>
+				{/* 	<button className='relative h-12 w-full rounded-lg border border-black dark:border-white'>
 					<i className='ri-github-fill absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
 					<span className='font-bold'>Continue with Github</span>
 				</button> */}
@@ -106,7 +106,7 @@ function LogInSignUpForm() {
 					<button
 						disabled={disabled}
 						onClick={toggleFormType}
-						className='relative h-12 w-full rounded-md border border-black dark:border-white'
+						className='relative h-12 w-full rounded-lg border border-black dark:border-white'
 					>
 						<i className='ri-mail-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
 						<span className='font-bold'>Sign up with Email and password</span>
@@ -117,7 +117,7 @@ function LogInSignUpForm() {
 					<button
 						disabled={disabled}
 						onClick={toggleFormType}
-						className='relative h-12 w-full rounded-md border border-black dark:border-white'
+						className='relative h-12 w-full rounded-lg border border-black dark:border-white'
 					>
 						<i className='ri-mail-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
 						<span className='font-bold'>Login with Email and password</span>

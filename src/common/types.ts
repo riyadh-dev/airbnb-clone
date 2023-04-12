@@ -12,3 +12,16 @@ export type TThemeRemixIcon =
 	| 'ri-moon-line'
 	| 'ri-computer-line'
 	| 'ri-sun-line';
+
+export type TListingCategory =
+	| 'Trending'
+	| 'Amazing views'
+	| 'Tiny homes'
+	| 'OMG!'
+	| 'Golfing'
+	| 'Private rooms'
+	| 'Beachfront'
+	| 'Boats'
+	| 'Amazing pools'
+	| 'Bed and breakfast'
+	| 'Castles';
