@@ -75,7 +75,7 @@ function LogInSignUpModalInner() {
 			<div className='border-t' />
 			<div className='space-y-5 p-6'>
 				<h1 className='text-2xl font-bold'>Welcome to Airbnb</h1>
-
+				{/*TODO change to a switch statement */}
 				{fromType === 'mock-list' && <MockAccountsList />}
 				{fromType === 'sign-up' && <SignUpForm />}
 				{fromType === 'login' && <LoginForm />}

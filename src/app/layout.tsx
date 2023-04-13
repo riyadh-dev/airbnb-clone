@@ -1,9 +1,5 @@
 import Providers from '@/app/providers';
-import RentModal from '@/components/Modals/RentModal';
 import { Nunito } from 'next/font/google';
-import ListingCategoriesBar from '../components/ListingCategoriesBar';
-import LogInSignUpModal from '../components/Modals/LogInSignUpModal';
-import Navbar from '../components/Navbar';
 export const metadata = {
 	title: 'Airbnb Clone',
 	description: 'An airbnb clone app using NexJS 13',
@@ -32,13 +28,7 @@ export default async function RootLayout({
 			className={`${nunito.variable}`}
 		>
 			<body className='bg-white font-primary dark:bg-neutral-950'>
-				<Providers>
-					<Navbar />
-					<ListingCategoriesBar />
-					{children}
-					<LogInSignUpModal />
-					<RentModal />
-				</Providers>
+				<Providers>{children}</Providers>
 			</body>
 		</html>
 	);

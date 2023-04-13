@@ -4,12 +4,12 @@ import {
 	disableUserSignActionsAtom,
 	logInSignUpFromTypeAtom,
 	logInSignUpModalOpenAtom,
-	rentModalOpenAtom,
 } from '@/jotai/atoms';
 import { Menu } from '@headlessui/react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import LoadingSpinner from '../LoadingSpinner';
 import GuestMenu from './GuestMenu';
 import UserMenu from './UserMenu';
@@ -19,21 +19,22 @@ export default function RightSection() {
 	const disableUserSignActions = useAtomValue(disableUserSignActionsAtom);
 	const disabled = disableUserSignActions || session.status === 'loading';
 
-	const setSignUpModalOpen = useSetAtom(logInSignUpModalOpenAtom);
 	const setLoginSignUpFormType = useSetAtom(logInSignUpFromTypeAtom);
-	const setRentModalOpen = useSetAtom(rentModalOpenAtom);
+	const setLogInSignUpModalOpen = useSetAtom(logInSignUpModalOpenAtom);
+	const router = useRouter();
 
 	const handleRentClick = () => {
 		if (session.status !== 'authenticated') {
-			setLoginSignUpFormType('login');
-			setSignUpModalOpen(true);
-		} else setRentModalOpen(true);
+			setLoginSignUpFormType('mock-list');
+			setLogInSignUpModalOpen(true);
+		} else router.push('/became-a-host/category');
 	};
 
 	const avatar = session?.data?.user?.avatar;
 	return (
 		<div className='flex items-center justify-end bg-inherit max-lg:ml-auto md:w-72'>
 			<button
+				disabled={disabled}
 				onClick={handleRentClick}
 				className='hidden rounded-full p-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 md:block'
 			>

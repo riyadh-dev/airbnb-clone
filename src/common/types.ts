@@ -25,3 +25,12 @@ export type TListingCategory =
 	| 'Amazing pools'
 	| 'Bed and breakfast'
 	| 'Castles';
+
+export type TRentModalStep =
+	| 'category'
+	| 'location'
+	| 'floor-plan'
+	| 'photos'
+	| 'title'
+	| 'description'
+	| 'price';

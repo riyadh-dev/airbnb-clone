@@ -8,8 +8,6 @@ export function exclude<TObject, Key extends keyof TObject>(
 	object: TObject,
 	keys: Key[]
 ): Omit<TObject, Key> {
-	for (let key of keys) {
-		delete object[key];
-	}
+	for (let key of keys) delete object[key];
 	return object;
 }
