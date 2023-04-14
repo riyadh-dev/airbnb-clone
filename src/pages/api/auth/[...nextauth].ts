@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
 			return session;
 		},
 	},
-	pages: { signIn: process.env.NEXTAUTH_URL },
+	pages: { signIn: '/' },
 	session: { strategy: 'jwt' },
 	debug: !Boolean(process.env.NODE_ENV === 'development'),
 };
