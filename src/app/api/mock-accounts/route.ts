@@ -1,14 +1,19 @@
-import { exclude } from '@/common/utils';
-import prisma from '@/lib/prisma';
+import db from '@/db';
+import { users } from '@/db/schema';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
 	try {
-		const users = await prisma.user.findMany({
-			where: { isMockAccount: true },
-		});
-		return NextResponse.json(users.map((user) => exclude(user, ['password'])));
-	} catch {
+		const mockedUsers = await db
+			.select({
+				id: users.id,
+				name: users.name,
+				email: users.email,
+				image: users.image,
+			})
+			.from(users);
+		return NextResponse.json(mockedUsers);
+	} catch (e) {
 		return new Response('DB Error', { status: 502 });
 	}
 }

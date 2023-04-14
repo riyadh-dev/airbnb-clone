@@ -54,10 +54,10 @@ export default function MockAccountsList() {
 							key={user.id}
 							className='flex cursor-pointer items-center gap-x-4 rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] p-2 font-bold text-white'
 						>
-							{user.avatar ? (
+							{user.image ? (
 								<Image
-									src={user.avatar}
-									alt='avatar'
+									src={user.image}
+									alt='image'
 									width={40}
 									height={40}
 									className='rounded-full'

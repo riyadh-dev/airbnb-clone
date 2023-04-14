@@ -1,6 +1,8 @@
 import { TLoginInput, TUiUser } from '@/common/types';
-import prisma from '@/lib/prisma';
+import db from '@/db';
+import { users } from '@/db/schema';
 import { compare } from 'bcrypt';
+import { eq } from 'drizzle-orm';
 import NextAuth, { DefaultSession, NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -20,7 +22,9 @@ const authOptions: NextAuthOptions = {
 					throw new Error('Invalid credentials');
 				}
 
-				const user = await prisma.user.findUnique({ where: { email } });
+				const user = (
+					await db.select().from(users).where(eq(users.email, email))
+				)[0];
 
 				if (!user || !user?.password) {
 					throw new Error('Invalid credentials');
@@ -33,7 +37,7 @@ const authOptions: NextAuthOptions = {
 					throw new Error('Invalid credentials');
 				}
 
-				return uiUser;
+				return uiUser as any;
 			},
 		}),
 	],
