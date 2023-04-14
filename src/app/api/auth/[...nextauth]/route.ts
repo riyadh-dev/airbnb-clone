@@ -16,6 +16,7 @@ const authOptions: NextAuthOptions = {
 	providers: [
 		CredentialsProvider({
 			credentials: {},
+			// @ts-ignore
 			async authorize(credentials) {
 				const { email, password } = credentials as Partial<TLoginInput>;
 				if (!email || !password) {
@@ -37,7 +38,7 @@ const authOptions: NextAuthOptions = {
 					throw new Error('Invalid credentials');
 				}
 
-				return uiUser as any;
+				return uiUser;
 			},
 		}),
 	],
@@ -51,8 +52,9 @@ const authOptions: NextAuthOptions = {
 			return session;
 		},
 	},
-	pages: { signIn: '/' },
-	debug: !Boolean(process.env.NODE_ENV === 'production'),
+	pages: { signIn: process.env.NEXTAUTH_URL },
+	session: { strategy: 'jwt' },
+	debug: !Boolean(process.env.NODE_ENV === 'development'),
 };
 
 const handler = NextAuth(authOptions);
