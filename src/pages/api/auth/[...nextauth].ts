@@ -1,7 +1,7 @@
 import { TLoginInput, TUiUser } from '@/common/types';
 import db from '@/db';
 import { users } from '@/db/schema';
-import { compare } from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { eq } from 'drizzle-orm';
 import NextAuth, { DefaultSession, NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -12,7 +12,7 @@ declare module 'next-auth' {
 	}
 }
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
 	providers: [
 		CredentialsProvider({
 			credentials: {},
@@ -32,7 +32,10 @@ const authOptions: NextAuthOptions = {
 				}
 
 				const { password: hashedPassword, ...uiUser } = user;
-				const isCorrectPassword = await compare(password, hashedPassword);
+				const isCorrectPassword = await bcrypt.compare(
+					password,
+					hashedPassword
+				);
 
 				if (!isCorrectPassword) {
 					throw new Error('Invalid credentials');
@@ -57,5 +60,4 @@ const authOptions: NextAuthOptions = {
 	debug: !Boolean(process.env.NODE_ENV === 'development'),
 };
 
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export default NextAuth(authOptions);

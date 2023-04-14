@@ -6,10 +6,8 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function Navigation() {
-	const stepName = usePathname().replace(
-		'/became-a-host/',
-		''
-	) as TRentModalStep;
+	const stepName = (usePathname()?.replace('/became-a-host/', '') ??
+		'category') as TRentModalStep;
 	const [links, setLinks] = useState<{
 		prevLink: TRentModalStep;
 		nextLink: TRentModalStep;
