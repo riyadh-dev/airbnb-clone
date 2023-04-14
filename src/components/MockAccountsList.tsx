@@ -12,14 +12,10 @@ import Image from 'next/image';
 import useSWR from 'swr';
 import LoadingSpinner from './LoadingSpinner';
 
-const fetcher = (route: string) =>
-	axios.get(process.env.NEXT_PUBLIC_API_URL + route).then((res) => res.data);
+const fetcher = (route: string) => axios.get(route).then((res) => res.data);
 
 export default function MockAccountsList() {
-	const { data, isLoading, error } = useSWR<TUiUser[]>(
-		'mock-accounts',
-		fetcher
-	);
+	const { data, isLoading } = useSWR<TUiUser[]>('/api/mock-accounts', fetcher);
 
 	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
 	const [disabled, setDisableUserSignActions] = useAtom(
