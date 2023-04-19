@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
+		"build:analyze": "set ANALYZE=true&& pnpm build",
 		"start": "next start",
 		"lint": "next lint",
 		"format": "prettier --write --ignore-unknown --cache --cache-location=.prettier-cache .",
