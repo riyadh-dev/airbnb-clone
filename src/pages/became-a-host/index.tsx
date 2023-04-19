@@ -6,11 +6,7 @@ export const metadata = {
 	description: 'An airbnb clone app using NexJS 13',
 };
 
-export default async function Layout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<div className='flex h-screen flex-col justify-between bg-inherit'>
 			<nav className='sticky top-0 z-30 flex min-h-[80px] items-center justify-between bg-inherit px-10 xl:px-20'>

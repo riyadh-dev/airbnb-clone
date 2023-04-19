@@ -1,18 +1,17 @@
 import { faker } from '@faker-js/faker';
-import { connect } from '@planetscale/database';
 import { hashSync } from 'bcrypt';
-import { drizzle } from 'drizzle-orm/planetscale-serverless';
+import { config } from 'dotenv';
+import { drizzle } from 'drizzle-orm/mysql2';
+import { createPool } from 'mysql2/promise';
 import { users } from './schema';
+config();
 
 const USERS_NUMBER = 15;
 const password = hashSync('password', 10);
 
-export const db = drizzle(
-	connect({ url: process.env.DATABASE_URL as string }),
-	{
-		logger: true,
-	}
-);
+const db = drizzle(createPool(process.env.DATABASE_URL), {
+	logger: true,
+});
 
 const insertUsersPromises: Promise<unknown>[] = [];
 for (let index = 0; index < USERS_NUMBER; index++) {

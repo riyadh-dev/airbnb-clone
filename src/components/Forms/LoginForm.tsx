@@ -1,5 +1,3 @@
-'use client';
-
 import useZodForm from '@/hooks/useZodForm';
 import {
 	disableUserSignActionsAtom,
@@ -8,8 +6,15 @@ import {
 import { loginInputSchema } from '@/zod/user';
 import { useAtom, useSetAtom } from 'jotai';
 import { signIn } from 'next-auth/react';
+import { useState } from 'react';
 import LoadingSpinner from '../LoadingSpinner';
 import CustomInput from './CustomInput';
+
+const INVALID_CREDENTIALS = 'Invalid credentials';
+
+interface IRequestError {
+	[key: string]: string | undefined;
+}
 
 export default function LoginForm() {
 	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
@@ -22,12 +27,16 @@ export default function LoginForm() {
 	const [disabled, setDisableUserSignActions] = useAtom(
 		disableUserSignActionsAtom
 	);
+
+	const [loginError, setLoginError] = useState<IRequestError>({});
 	const onSubmit = handleSubmit(async (body) => {
 		setDisableUserSignActions(true);
 		signIn('credentials', { redirect: false, ...body }).then((response) => {
 			setDisableUserSignActions(false);
 			if (response?.ok) setModalOpen(false);
-			if (response?.error) console.log(response.error);
+			else if (response?.error && response.error === INVALID_CREDENTIALS)
+				setLoginError({ badCredentials: INVALID_CREDENTIALS });
+			else console.log(response?.error);
 		});
 	});
 
@@ -45,7 +54,7 @@ export default function LoginForm() {
 						placeholder: 'Email',
 						...register('email'),
 					}}
-					errorMessage={formErrors.email?.message}
+					errorMessage={formErrors.email?.message || loginError?.badCredentials}
 				/>
 
 				<CustomInput
@@ -55,7 +64,9 @@ export default function LoginForm() {
 						placeholder: 'Password',
 						...register('password'),
 					}}
-					errorMessage={formErrors.password?.message}
+					errorMessage={
+						formErrors.password?.message || loginError?.badCredentials
+					}
 				/>
 			</div>
 

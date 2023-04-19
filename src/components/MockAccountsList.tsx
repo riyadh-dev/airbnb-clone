@@ -1,32 +1,26 @@
-'use client';
-
-import { TUiUser } from '@/common/types';
 import {
 	disableUserSignActionsAtom,
 	logInSignUpModalOpenAtom,
 } from '@/jotai/atoms';
-import axios from 'axios';
+import { trpc } from '@/utils/trpc';
 import { useAtom, useSetAtom } from 'jotai';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
-import useSWR from 'swr';
 import LoadingSpinner from './LoadingSpinner';
 
-const fetcher = (route: string) => axios.get(route).then((res) => res.data);
-
 export default function MockAccountsList() {
-	const { data, isLoading } = useSWR<TUiUser[]>('/api/mock-accounts', fetcher);
+	const { data, isLoading } = trpc.mockedUser.useQuery();
 
 	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
 	const [disabled, setDisableUserSignActions] = useAtom(
 		disableUserSignActionsAtom
 	);
 
-	const handleLogin = (user: TUiUser) => () => {
+	const handleLogin = (email: string) => () => {
 		setDisableUserSignActions(true);
 		signIn('credentials', {
 			redirect: false,
-			email: user.email,
+			email,
 			password: 'password',
 		}).then((response) => {
 			setDisableUserSignActions(false);
@@ -46,7 +40,7 @@ export default function MockAccountsList() {
 					!disabled &&
 					data?.map((user) => (
 						<li
-							onClick={handleLogin(user)}
+							onClick={handleLogin(user.email)}
 							key={user.id}
 							className='flex cursor-pointer items-center gap-x-4 rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] p-2 font-bold text-white'
 						>

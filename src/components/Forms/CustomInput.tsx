@@ -1,4 +1,4 @@
-import { classNames } from '@/common/utils';
+import { classNames } from '@/utils/helpers';
 import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 import InputErrorMessage from './InputErrorMessage';
 

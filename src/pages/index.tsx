@@ -1,8 +1,14 @@
 import garden from '@/../public/garden.webp';
+import Head from 'next/head';
 import Image from 'next/image';
+
 export default function Home() {
 	return (
 		<main>
+			<Head>
+				<title>Airbnb clone</title>
+				<meta name='description' content='An airbnb clone app using NexJS 13' />
+			</Head>
 			<ul className='grid grid-cols-1 gap-x-6 gap-y-10 px-20 pt-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
 				{[...Array(10)].map((_, index) => (
 					<li key={index} className='space-y-3'>
@@ -14,7 +20,7 @@ export default function Home() {
 							/>
 						</div>
 						<div>
-							<div className='flex h-6 items-center justify-between leading-3'>
+							<div className='h flex h-6 items-center justify-between leading-3'>
 								<span className='font-bold'>Private room in Kyoto</span>
 								<div className='flex items-center gap-1'>
 									<i className='ri-star-fill text-sm'></i>

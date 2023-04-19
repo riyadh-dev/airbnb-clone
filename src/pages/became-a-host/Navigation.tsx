@@ -1,5 +1,3 @@
-'use client';
-
 import { TRentModalStep } from '@/common/types';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

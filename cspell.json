@@ -20,6 +20,8 @@
 		"purgecss",
 		"remixicon",
 		"tailwindcss",
+		"tanstack",
+		"trpc",
 		"tsbuildinfo",
 		"typeof",
 		"vercel",

@@ -1,5 +1,3 @@
-'use client';
-
 import { TLoginInSignUpFormTypes } from '@/common/types';
 import {
 	logInSignUpFromTypeAtom,

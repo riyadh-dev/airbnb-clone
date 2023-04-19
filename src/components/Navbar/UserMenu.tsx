@@ -1,5 +1,3 @@
-'use client';
-
 import { disableUserSignActionsAtom } from '@/jotai/atoms';
 import { Menu } from '@headlessui/react';
 import { useSetAtom } from 'jotai';

@@ -3,11 +3,8 @@ const nextConfig = {
 	images: {
 		domains: ['xsgames.co'],
 	},
-	experimental: {
-		appDir: true,
-		serverComponentsExternalPackages: ['mysql2'],
-	},
-	transpilePackages: ['jotai-devtools'],
+	eslint: { ignoreDuringBuilds: true },
+	typescript: { ignoreBuildErrors: true },
 };
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({

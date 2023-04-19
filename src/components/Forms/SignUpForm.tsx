@@ -1,13 +1,14 @@
-'use client';
-
 import useSignUp from '@/hooks/useSignUp';
 import useZodForm from '@/hooks/useZodForm';
 import { disableUserSignActionsAtom } from '@/jotai/atoms';
+import { exclude } from '@/utils/helpers';
 import { signUpInputSchema } from '@/zod/user';
 import { useAtomValue } from 'jotai';
 import { useState } from 'react';
 import LoadingSpinner from '../LoadingSpinner';
 import CustomInput from './CustomInput';
+import InputErrorMessage from './InputErrorMessage';
+
 interface IRequestError {
 	[key: string]: string | undefined;
 }
@@ -23,9 +24,15 @@ export default function SignUpFrom() {
 	const [requestError, setRequestError] = useState<IRequestError>();
 
 	const onSubmit = handleSubmit(async (body) => {
-		const requestError = await signUp(body);
-		const errorData = requestError?.response?.data;
-		if (errorData) setRequestError(errorData as IRequestError);
+		const requestError = await signUp(
+			exclude(body, ['confirmPassword', 'confirmEmail'])
+		);
+		const isEmailUsed = requestError?.message.includes('Duplicate');
+		setRequestError(
+			isEmailUsed
+				? { email: 'Email already in use' }
+				: { other: 'Internal server error' }
+		);
 	});
 
 	const disabled = useAtomValue(disableUserSignActionsAtom);
@@ -95,6 +102,7 @@ export default function SignUpFrom() {
 						errorMessage={formErrors.confirmPassword?.message}
 					/>
 				</div>
+				<InputErrorMessage message={requestError?.other} />
 			</div>
 
 			<button

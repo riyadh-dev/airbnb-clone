@@ -1,6 +1,4 @@
-'use client';
-
-import { classNames } from '@/common/utils';
+import { classNames } from '@/utils/helpers';
 
 export default function PriceForm() {
 	return (

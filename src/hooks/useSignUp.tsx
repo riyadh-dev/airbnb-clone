@@ -1,22 +1,22 @@
 import { TSignUpBody } from '@/common/types';
-import { exclude } from '@/common/utils';
 import {
 	disableUserSignActionsAtom,
 	logInSignUpModalOpenAtom,
 } from '@/jotai/atoms';
-import axios, { AxiosError } from 'axios';
+import { AppRouter } from '@/server/router/_app';
+import { exclude } from '@/utils/helpers';
+import { trpc } from '@/utils/trpc';
+import { TRPCClientError } from '@trpc/client';
 import { useSetAtom } from 'jotai';
 import { signIn } from 'next-auth/react';
 
 export default function useSignUp() {
 	const setDisableUserSignActions = useSetAtom(disableUserSignActionsAtom);
 	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
-
+	const { error, mutateAsync } = trpc.signUp.useMutation();
 	return async (body: TSignUpBody) => {
 		setDisableUserSignActions(true);
-
-		return axios
-			.post(process.env.NEXT_PUBLIC_API_URL + 'auth/sign-up', body)
+		return mutateAsync(body)
 			.then(() => {
 				signIn('credentials', {
 					redirect: false,
@@ -30,7 +30,7 @@ export default function useSignUp() {
 			})
 			.catch((error) => {
 				setDisableUserSignActions(false);
-				return error as AxiosError;
+				return error as TRPCClientError<AppRouter>;
 			});
 	};
 }

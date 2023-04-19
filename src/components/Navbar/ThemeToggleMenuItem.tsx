@@ -1,6 +1,5 @@
-'use client';
 import { TThemeRemixIcon } from '@/common/types';
-import { classNames } from '@/common/utils';
+import { classNames } from '@/utils/helpers';
 import { Menu } from '@headlessui/react';
 import { useTheme } from 'next-themes';
 import { MouseEventHandler, useEffect, useState } from 'react';
