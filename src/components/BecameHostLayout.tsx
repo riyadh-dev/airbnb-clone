@@ -1,14 +1,17 @@
 import Link from 'next/link';
-import Navigation from './Navigation';
 
 export const metadata = {
 	title: 'Became a host',
 	description: 'An airbnb clone app using NexJS 13',
 };
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function BecameHostLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
 	return (
-		<div className='flex h-screen flex-col justify-between bg-inherit'>
+		<div className='flex min-h-screen flex-col justify-between bg-inherit'>
 			<nav className='sticky top-0 z-30 flex min-h-[80px] items-center justify-between bg-inherit px-10 xl:px-20'>
 				<svg height='32' width='112'>
 					<path
@@ -28,7 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 				</Link>
 			</nav>
 			{children}
-			<Navigation />
+			{/* <Navigation /> */}
 		</div>
 	);
 }

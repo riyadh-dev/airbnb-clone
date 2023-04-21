@@ -8,8 +8,8 @@ import { AppProps } from 'next/app';
 import { Nunito } from 'next/font/google';
 import { usePathname } from 'next/navigation';
 import 'remixicon/fonts/remixicon.css';
-import BecameHostLayout from './became-a-host/layout';
-import MainLayout from './layout';
+import BecameHostLayout from '../components/BecameHostLayout';
+import MainLayout from '../components/MainLayout';
 
 import { useMemo } from 'react';
 const nunito = Nunito({

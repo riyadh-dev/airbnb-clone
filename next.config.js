@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
-		domains: ['xsgames.co'],
+		domains: ['xsgames.co', 'unsplash.com'],
 	},
 	eslint: { ignoreDuringBuilds: true },
 	typescript: { ignoreBuildErrors: true },

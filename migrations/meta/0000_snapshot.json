@@ -1,0 +1,248 @@
+{
+	"version": "5",
+	"dialect": "mysql",
+	"id": "5de6cc51-b600-424a-a4d0-ec1a80417988",
+	"prevId": "00000000-0000-0000-0000-000000000000",
+	"tables": {
+		"listings": {
+			"name": "listings",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"owner_id": {
+					"name": "owner_id",
+					"type": "bigint unsigned",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"category": {
+					"name": "category",
+					"type": "varchar(191)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"country": {
+					"name": "country",
+					"type": "varchar(191)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"state": {
+					"name": "state",
+					"type": "varchar(191)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"city": {
+					"name": "city",
+					"type": "varchar(191)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"postal_code": {
+					"name": "postal_code",
+					"type": "varchar(191)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"address_line_1": {
+					"name": "address_line_1",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"address_line_2": {
+					"name": "address_line_2",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"guests_count": {
+					"name": "guests_count",
+					"type": "int",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"bedrooms_count": {
+					"name": "bedrooms_count",
+					"type": "int",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"beds_count": {
+					"name": "beds_count",
+					"type": "int",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"baths_count": {
+					"name": "baths_count",
+					"type": "int",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"image_csv": {
+					"name": "image_csv",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"title": {
+					"name": "title",
+					"type": "varchar(191)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"price": {
+					"name": "price",
+					"type": "int",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "(now())"
+				},
+				"updated_at": {
+					"name": "updated_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"onUpdate": true,
+					"default": "(now())"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"listings_owner_id_users_id_fk": {
+					"name": "listings_owner_id_users_id_fk",
+					"tableFrom": "listings",
+					"tableTo": "users",
+					"columnsFrom": ["owner_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade"
+				}
+			},
+			"compositePrimaryKeys": {}
+		},
+		"users": {
+			"name": "users",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(191)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"email": {
+					"name": "email",
+					"type": "varchar(191)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"email_verified": {
+					"name": "email_verified",
+					"type": "datetime",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"image": {
+					"name": "image",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"password": {
+					"name": "password",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "(now())"
+				},
+				"updated_at": {
+					"name": "updated_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"onUpdate": true,
+					"default": "(now())"
+				},
+				"is_mock_account": {
+					"name": "is_mock_account",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				}
+			},
+			"indexes": {
+				"email_idx": {
+					"name": "email_idx",
+					"columns": ["email"],
+					"isUnique": true
+				}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {}
+		}
+	},
+	"schemas": {},
+	"_meta": {
+		"schemas": {},
+		"tables": {},
+		"columns": {}
+	}
+}

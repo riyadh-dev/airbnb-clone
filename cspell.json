@@ -23,9 +23,12 @@
 		"tanstack",
 		"trpc",
 		"tsbuildinfo",
+		"tsup",
 		"typeof",
 		"vercel",
 		"webp",
+		"varchar",
+		"autoincrement",
 		"xsgames"
 	],
 	"ignorePaths": [

@@ -1,6 +1,8 @@
+import { users } from '@/db/schema';
+import { createInsertSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-export const signUpBodySchema = z.object({
+export const signUpBodySchema = createInsertSchema(users, {
 	name: z.string().min(2),
 	email: z.string().email().toLowerCase(),
 	password: z.string().min(8),

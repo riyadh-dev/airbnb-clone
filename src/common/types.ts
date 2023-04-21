@@ -1,4 +1,5 @@
 import { users } from '@/db/schema';
+import { listingInsertSchema } from '@/zod/listings';
 import { loginInputSchema, signUpBodySchema } from '@/zod/user';
 import { InferModel } from 'drizzle-orm';
 import { z } from 'zod';
@@ -6,6 +7,7 @@ import { z } from 'zod';
 export type TLoginInSignUpFormTypes = 'sign-up' | 'login' | 'mock-list';
 export type TSignUpBody = z.infer<typeof signUpBodySchema>;
 export type TLoginInput = z.infer<typeof loginInputSchema>;
+export type TListingINput = z.infer<typeof listingInsertSchema>;
 
 export type TUiUser = Omit<InferModel<typeof users>, 'password'>;
 

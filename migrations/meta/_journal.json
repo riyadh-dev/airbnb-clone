@@ -1,0 +1,13 @@
+{
+	"version": "5",
+	"dialect": "mysql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "5",
+			"when": 1682091173838,
+			"tag": "0000_public_gambit",
+			"breakpoints": false
+		}
+	]
+}
