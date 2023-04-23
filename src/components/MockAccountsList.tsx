@@ -9,7 +9,7 @@ import Image from 'next/image';
 import LoadingSpinner from './LoadingSpinner';
 
 export default function MockAccountsList() {
-	const { data, isLoading } = trpc.mockedUser.useQuery();
+	const { data, isLoading } = trpc.users.listMocked.useQuery();
 
 	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
 	const [disabled, setDisableUserSignActions] = useAtom(

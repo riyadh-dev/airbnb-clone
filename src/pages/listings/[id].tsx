@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import DatePicker from 'react-tailwindcss-datepicker';
 
-type TValue = {
+type TDateRange = {
 	startDate: string | null | Date;
 	endDate: string | null | Date;
 } | null;
@@ -19,21 +19,35 @@ export default function ListingPage() {
 	const { id } = router.query;
 
 	const { data: listing, isLoading: isLoadingListing } =
-		trpc.getListing.useQuery({ id: Number(id) }, { enabled: Boolean(id) });
-	const { data: user, isLoading: isLoadingUser } = trpc.getUserById.useQuery(
+		trpc.listings.getById.useQuery(
+			{ id: Number(id) },
+			{ enabled: Boolean(id) }
+		);
+	const { data: user, isLoading: isLoadingUser } = trpc.users.getById.useQuery(
 		{ id: Number(listing?.ownerId) },
 		{ enabled: Boolean(listing?.ownerId) }
 	);
 
-	const [value, setValue] = useState<TValue>({
+	const [dateRange, setDateRange] = useState<TDateRange>({
 		startDate: new Date(),
 		endDate: new Date(),
 	});
 
-	const handleValueChange = (newValue: TValue) => {
-		console.log('newValue:', newValue);
-		setValue(newValue);
+	const handleValueChange = (newDateRange: TDateRange) => {
+		console.log('newValue:', newDateRange);
+		setDateRange(newDateRange);
 	};
+
+	const [guests, setGuests] = useState({
+		children: 0,
+		adults: 0,
+		infants: 0,
+		pets: 0,
+	});
+
+	const setGuestsCategory =
+		(category: keyof typeof guests) => (newValue: number) =>
+			setGuests((prev) => ({ ...prev, [category]: newValue }));
 
 	if (isLoadingListing || isLoadingUser)
 		return (
@@ -49,17 +63,17 @@ export default function ListingPage() {
 			</div>
 		);
 
-	const startDate = !value?.startDate
+	const startDate = !dateRange?.startDate
 		? null
-		: typeof value.startDate === 'string'
-		? value.startDate
-		: value.startDate.toLocaleDateString();
+		: typeof dateRange.startDate === 'string'
+		? dateRange.startDate
+		: dateRange.startDate.toLocaleDateString();
 
-	const endDate = !value?.endDate
+	const endDate = !dateRange?.endDate
 		? null
-		: typeof value.endDate === 'string'
-		? value.endDate
-		: value.endDate.toLocaleDateString();
+		: typeof dateRange.endDate === 'string'
+		? dateRange.endDate
+		: dateRange.endDate.toLocaleDateString();
 
 	return (
 		<div className='mx-auto my-6 max-w-6xl space-y-6 px-4'>
@@ -149,7 +163,7 @@ export default function ListingPage() {
 							primaryColor='rose'
 							//@ts-expect-error
 							popoverDirection='down'
-							value={value}
+							value={dateRange}
 							onChange={handleValueChange}
 							minDate={new Date()}
 						/>
@@ -195,7 +209,10 @@ export default function ListingPage() {
 									<div className='text-sm'>Age 13+</div>
 								</div>
 
-								<CounterInput count={5} setCount={() => {}} />
+								<CounterInput
+									count={guests.adults}
+									setCount={setGuestsCategory('adults')}
+								/>
 							</div>
 							<div className='flex justify-between text-lg'>
 								<div>
@@ -203,14 +220,20 @@ export default function ListingPage() {
 									<div className='text-sm'>Ages 2-12</div>
 								</div>
 
-								<CounterInput count={6} setCount={() => {}} />
+								<CounterInput
+									count={guests.children}
+									setCount={setGuestsCategory('children')}
+								/>
 							</div>
 							<div className='flex justify-between text-lg'>
 								<div>
 									<div className='font-bold'>Infants</div>
 									<div className='text-sm'>Under 2</div>
 								</div>
-								<CounterInput count={7} setCount={() => {}} />
+								<CounterInput
+									count={guests.infants}
+									setCount={setGuestsCategory('infants')}
+								/>
 							</div>
 							<div className='flex justify-between text-lg'>
 								<div>
@@ -219,7 +242,10 @@ export default function ListingPage() {
 										Bringing a service animal?
 									</div>
 								</div>
-								<CounterInput count={8} setCount={() => {}} />
+								<CounterInput
+									count={guests.pets}
+									setCount={setGuestsCategory('pets')}
+								/>
 							</div>
 						</Menu.Items>
 					</Menu>

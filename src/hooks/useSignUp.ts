@@ -13,7 +13,7 @@ import { signIn } from 'next-auth/react';
 export default function useSignUp() {
 	const setDisableUserSignActions = useSetAtom(disableUserSignActionsAtom);
 	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
-	const { mutateAsync } = trpc.signUp.useMutation();
+	const { mutateAsync } = trpc.users.create.useMutation();
 	return async (body: TSignUpBody) => {
 		setDisableUserSignActions(true);
 		return mutateAsync(body)

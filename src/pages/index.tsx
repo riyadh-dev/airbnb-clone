@@ -17,7 +17,7 @@ export default function Home() {
 }
 
 function ListingsList() {
-	const { data: listings, isLoading } = trpc.getListings.useQuery();
+	const { data: listings, isLoading } = trpc.listings.list.useQuery();
 
 	if (isLoading) return <ListingsListSkeleton />;
 	if (!listings)

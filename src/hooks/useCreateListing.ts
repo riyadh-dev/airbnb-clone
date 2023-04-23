@@ -11,7 +11,7 @@ import { trpc } from '@/utils/trpc';
 import { useAtomValue } from 'jotai';
 
 export default function useCreateListing() {
-	const { mutate, ...rest } = trpc.createListing.useMutation();
+	const { mutate, ...rest } = trpc.listings.create.useMutation();
 	const category = useAtomValue(listingCategoryAtom);
 	const location = useAtomValue(listingLocationAtom);
 	const images = useAtomValue(listingImagesAtom);
