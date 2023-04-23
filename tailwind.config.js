@@ -2,7 +2,10 @@
 const plugin = require('tailwindcss/plugin');
 module.exports = {
 	darkMode: 'class',
-	content: ['./src/**/*.{js,ts,jsx,tsx}'],
+	content: [
+		'./src/**/*.{js,ts,jsx,tsx}',
+		'./node_modules/react-tailwindcss-datepicker/dist/index.esm.js',
+	],
 	theme: {
 		extend: {
 			fontFamily: { primary: ['var(--font-primary)'] },

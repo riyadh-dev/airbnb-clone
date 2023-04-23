@@ -4,6 +4,7 @@ import { listingInsertSchema } from '@/zod/listings';
 import { signUpBodySchema } from '@/zod/user';
 import { hash } from 'bcrypt';
 import { eq } from 'drizzle-orm/expressions';
+import { z } from 'zod';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 signUpBodySchema;
@@ -31,7 +32,12 @@ export const appRouter = router({
 			});
 			return 'user created successfully';
 		}),
-
+	getUserById: publicProcedure
+		.input(z.object({ id: z.number() }))
+		.query(
+			async ({ input }) =>
+				(await db.select().from(users).where(eq(users.id, input.id)))[0]
+		),
 	createListing: protectedProcedure
 		.input(listingInsertSchema)
 		.mutation(async ({ input, ctx }) => {
@@ -39,7 +45,13 @@ export const appRouter = router({
 			const results = await db.insert(listings).values(values);
 			return results.insertId;
 		}),
-	listings: publicProcedure.query(
+	getListing: publicProcedure
+		.input(z.object({ id: z.number() }))
+		.query(
+			async ({ input }) =>
+				(await db.select().from(listings).where(eq(listings.id, input.id)))[0]
+		),
+	getListings: publicProcedure.query(
 		async () =>
 			await db
 				.select({

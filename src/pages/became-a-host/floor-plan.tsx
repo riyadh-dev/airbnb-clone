@@ -1,4 +1,5 @@
 import BecameHostNavigation from '@/components/BecameHostNavigation';
+import CounterInput from '@/components/CounterInput';
 import { listingFloorPlanAtom } from '@/jotai/atoms';
 import { listingFloorPlanSchema } from '@/zod/listings';
 import { useAtom } from 'jotai';
@@ -28,28 +29,28 @@ export default function FloorPlanStep() {
 				<div className='divide-y pt-8'>
 					<div className='flex justify-between py-5 text-lg'>
 						<span>Guests</span>
-						<FloorPlanStepInput
+						<CounterInput
 							count={counts.guestsCount}
 							setCount={setCount('guestsCount')}
 						/>
 					</div>
 					<div className='flex justify-between py-5 text-lg'>
 						<span>Bedrooms</span>
-						<FloorPlanStepInput
+						<CounterInput
 							count={counts.bedroomsCount}
 							setCount={setCount('bedroomsCount')}
 						/>
 					</div>
 					<div className='flex justify-between py-5 text-lg'>
 						<span>Beds</span>
-						<FloorPlanStepInput
+						<CounterInput
 							count={counts.bedsCount}
 							setCount={setCount('bedsCount')}
 						/>
 					</div>
 					<div className='flex justify-between py-5 text-lg'>
 						<span>Bathrooms</span>
-						<FloorPlanStepInput
+						<CounterInput
 							count={counts.bathroomsCount}
 							setCount={setCount('bathroomsCount')}
 						/>
@@ -58,32 +59,5 @@ export default function FloorPlanStep() {
 			</div>
 			<BecameHostNavigation back='location' next='photos' />
 		</>
-	);
-}
-
-function FloorPlanStepInput({
-	setCount,
-	count,
-}: {
-	count: number;
-	setCount: (newCount: number) => void;
-}) {
-	return (
-		<div className='flex items-center gap-x-4'>
-			<button
-				disabled={count === 0}
-				onClick={() => setCount(count - 1)}
-				className='h-8 w-8 rounded-full border border-gray-400'
-			>
-				<i className='ri-subtract-line text-gray-400'></i>
-			</button>
-			<span className='text-base'>{count}</span>
-			<button
-				onClick={() => setCount(count + 1)}
-				className='h-8 w-8 rounded-full border border-gray-400'
-			>
-				<i className='ri-add-line text-gray-400'></i>
-			</button>
-		</div>
 	);
 }

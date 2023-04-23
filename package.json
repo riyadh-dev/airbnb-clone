@@ -40,6 +40,7 @@
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"react-hook-form": "^7.43.9",
+		"react-tailwindcss-datepicker": "^1.6.0",
 		"remixicon": "^3.2.0",
 		"sharp": "^0.32.0",
 		"typescript": "5.0.4",
@@ -75,5 +76,10 @@
 		"*.{ts,tsx}": [
 			"eslint --fix --max-warnings 0 --cache"
 		]
+	},
+	"pnpm": {
+		"patchedDependencies": {
+			"react-tailwindcss-datepicker@1.6.0": "patches/react-tailwindcss-datepicker@1.6.0.patch"
+		}
 	}
 }

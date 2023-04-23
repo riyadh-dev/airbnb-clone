@@ -1,0 +1,62 @@
+diff --git a/dist/index.cjs.js b/dist/index.cjs.js
+index e2a0f41661273015e9bb96d2bb6d2d5d63c29bdc..26b9c37232e3959405fd3dae75b24dfb54f7246d 100644
+--- a/dist/index.cjs.js
++++ b/dist/index.cjs.js
+@@ -886,7 +886,7 @@ const DoubleChevronRightIcon = ({ className = "w-6 h-6" }) => {
+ };
+ // eslint-disable-next-line react/display-name,@typescript-eslint/ban-types
+ const Arrow = React__default["default"].forwardRef((props, ref) => {
+-    return (React__default["default"].createElement("div", { ref: ref, className: "absolute z-20 h-4 w-4 rotate-45 mt-0.5 ml-[1.2rem] border-l border-t border-gray-300 bg-white dark:bg-slate-800 dark:border-slate-600" }));
++    return (React__default["default"].createElement("div", { ref: ref, className: "hidden" }));
+ });
+ const SecondaryButton = ({ children, onClick, disabled = false }) => {
+     // Contexts
+@@ -1472,7 +1472,7 @@ const Input = (e) => {
+         }
+         const border = BORDER_COLOR.focus[primaryColor];
+         const ring = RING_COLOR["second-focus"][primaryColor];
+-        const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring}`;
++        const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-neutral-950 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring}`;
+         return typeof inputClassName === "function"
+             ? inputClassName(defaultInputClassName)
+             : typeof inputClassName === "string" && inputClassName !== ""
+@@ -2019,7 +2019,7 @@ const Datepicker = ({ primaryColor = "blue", value = null, onChange, useRange =
+             React__default["default"].createElement(Input, { setContextRef: setInputRef }),
+             React__default["default"].createElement("div", { className: "transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden", ref: calendarContainerRef },
+                 React__default["default"].createElement(Arrow, { ref: arrowRef }),
+-                React__default["default"].createElement("div", { className: "mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg" },
++                React__default["default"].createElement("div", { className: "mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-neutral-950 dark:text-white dark:border-slate-600 rounded-lg" },
+                     React__default["default"].createElement("div", { className: "flex flex-col lg:flex-row py-2" },
+                         showShortcuts && React__default["default"].createElement(Shortcuts, null),
+                         React__default["default"].createElement("div", { className: `flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${showShortcuts ? "md:pl-2" : "md:pl-1"} pr-2 lg:pr-1` },
+diff --git a/dist/index.esm.js b/dist/index.esm.js
+index 86833fa48edd9dae5990a1ec6fc896ca223b39d7..4dbb3aa7c2123fd9d8712cce3966d6fec7421484 100644
+--- a/dist/index.esm.js
++++ b/dist/index.esm.js
+@@ -879,7 +879,7 @@ const DoubleChevronRightIcon = ({ className = "w-6 h-6" }) => {
+ };
+ // eslint-disable-next-line react/display-name,@typescript-eslint/ban-types
+ const Arrow = React.forwardRef((props, ref) => {
+-    return (React.createElement("div", { ref: ref, className: "absolute z-20 h-4 w-4 rotate-45 mt-0.5 ml-[1.2rem] border-l border-t border-gray-300 bg-white dark:bg-slate-800 dark:border-slate-600" }));
++    return (React.createElement("div", { ref: ref, className: "hidden" }));
+ });
+ const SecondaryButton = ({ children, onClick, disabled = false }) => {
+     // Contexts
+@@ -1465,7 +1465,7 @@ const Input = (e) => {
+         }
+         const border = BORDER_COLOR.focus[primaryColor];
+         const ring = RING_COLOR["second-focus"][primaryColor];
+-        const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring}`;
++        const defaultInputClassName = `relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-neutral-950 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed ${border} ${ring}`;
+         return typeof inputClassName === "function"
+             ? inputClassName(defaultInputClassName)
+             : typeof inputClassName === "string" && inputClassName !== ""
+@@ -2012,7 +2012,7 @@ const Datepicker = ({ primaryColor = "blue", value = null, onChange, useRange =
+             React.createElement(Input, { setContextRef: setInputRef }),
+             React.createElement("div", { className: "transition-all ease-out duration-300 absolute z-10 mt-[1px] text-sm lg:text-xs 2xl:text-sm translate-y-4 opacity-0 hidden", ref: calendarContainerRef },
+                 React.createElement(Arrow, { ref: arrowRef }),
+-                React.createElement("div", { className: "mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-600 rounded-lg" },
++                React.createElement("div", { className: "mt-2.5 shadow-sm border border-gray-300 px-1 py-0.5 bg-white dark:bg-neutral-950 dark:text-white dark:border-slate-600 rounded-lg" },
+                     React.createElement("div", { className: "flex flex-col lg:flex-row py-2" },
+                         showShortcuts && React.createElement(Shortcuts, null),
+                         React.createElement("div", { className: `flex items-stretch flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-1.5 ${showShortcuts ? "md:pl-2" : "md:pl-1"} pr-2 lg:pr-1` },
