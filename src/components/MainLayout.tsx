@@ -1,4 +1,3 @@
-import ListingCategoriesBar from '@/components/ListingCategoriesBar';
 import LogInSignUpModal from '@/components/Modals/LogInSignUpModal';
 import Navbar from '@/components/Navbar';
 
@@ -10,7 +9,6 @@ export default function MainLayout({
 	return (
 		<>
 			<Navbar />
-			<ListingCategoriesBar />
 			{children}
 			<LogInSignUpModal />
 		</>

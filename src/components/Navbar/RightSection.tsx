@@ -30,7 +30,7 @@ export default function RightSection() {
 
 	const image = session?.data?.user?.image;
 	return (
-		<div className='flex items-center justify-end bg-inherit max-lg:ml-auto md:w-72'>
+		<div className='flex items-center justify-end max-lg:ml-auto md:w-72'>
 			<button
 				disabled={disabled}
 				onClick={handleRentClick}
@@ -41,7 +41,7 @@ export default function RightSection() {
 			<button className='hidden h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 md:flex'>
 				<i className='ri-earth-line text-lg'></i>
 			</button>
-			<Menu as='div' className='relative bg-inherit'>
+			<Menu as='div' className='relative'>
 				<Menu.Button
 					disabled={disabled}
 					className='ml-2 flex h-14 items-center justify-center gap-x-3 rounded-full border-2 max-md:w-14 max-md:p-2 max-md:shadow-md md:h-10 md:border md:hover:shadow-md'

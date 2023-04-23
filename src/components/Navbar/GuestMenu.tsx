@@ -17,7 +17,7 @@ export default function GuestMenu() {
 	};
 
 	return (
-		<Menu.Items className='absolute right-0 mt-2 w-60 rounded-lg border bg-inherit py-3 shadow-md'>
+		<Menu.Items className='absolute right-0 mt-2 w-60 rounded-lg border bg-white py-3 shadow-md dark:bg-neutral-950'>
 			<Menu.Item>
 				<div
 					onClick={openModal('mock-list')}

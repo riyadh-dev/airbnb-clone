@@ -22,7 +22,7 @@ const nunito = Nunito({
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 	const pathname = usePathname();
 	const Layout = useMemo(
-		() => (pathname.includes('became-a-host') ? BecameHostLayout : MainLayout),
+		() => (pathname?.includes('became-a-host') ? BecameHostLayout : MainLayout),
 		[pathname]
 	);
 
@@ -30,12 +30,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 		<JotaiProvider>
 			<NextThemeProvider attribute='class'>
 				<SessionProvider session={session}>
-					<div
-						className={classNames(
-							nunito.variable,
-							'bg-white font-primary dark:bg-neutral-950'
-						)}
-					>
+					<div className={classNames(nunito.variable, 'font-primary')}>
 						<Layout>
 							<Component {...pageProps} />
 						</Layout>

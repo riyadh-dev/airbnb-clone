@@ -1,10 +1,12 @@
 {
 	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/packages/cspell-types/cspell.schema.json",
 	"words": [
+		"autoincrement",
 		"Baatchia",
 		"cssnano",
 		"cuid",
 		"datasource",
+		"datepicker",
 		"datetime",
 		"eslintcache",
 		"fullhuman",
@@ -25,10 +27,9 @@
 		"tsbuildinfo",
 		"tsup",
 		"typeof",
+		"varchar",
 		"vercel",
 		"webp",
-		"varchar",
-		"autoincrement",
 		"xsgames"
 	],
 	"ignorePaths": [

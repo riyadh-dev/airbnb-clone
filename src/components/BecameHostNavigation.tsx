@@ -15,7 +15,7 @@ export default function BecameHostNavigation({
 	disabled = false,
 }: IProps) {
 	return (
-		<nav className='sticky bottom-0 flex min-h-[80px] items-center justify-between border-t bg-inherit px-10 text-lg font-bold xl:px-20'>
+		<nav className='sticky bottom-0 flex min-h-[80px] items-center justify-between border-t bg-white px-10 text-lg font-bold dark:bg-neutral-950 xl:px-20'>
 			{typeof back === 'string' ? (
 				<Link
 					href={`/became-a-host/${back}`}

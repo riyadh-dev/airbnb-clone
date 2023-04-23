@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function ListingCategoriesBar() {
 	return (
-		<nav className='sticky top-20 z-20 flex h-20 bg-inherit px-10 shadow-md dark:border-b xl:px-20'>
+		<nav className='sticky top-20 z-20 flex h-20 bg-white px-10 shadow-md dark:border-b dark:bg-neutral-950 xl:px-20'>
 			<ul className='flex items-stretch gap-x-8 overflow-x-hidden text-gray-500'>
 				{LISTING_CATEGORIES.concat(LISTING_CATEGORIES).map(
 					(category, index) => (
