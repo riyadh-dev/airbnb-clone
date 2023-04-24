@@ -1,25 +1,10 @@
-import ListingCategoriesBar from '@/components/ListingCategoriesBar';
-import useListings from '@/hooks/useListings';
-import { classNames } from '@/utils/helpers';
-import Head from 'next/head';
+import { ListingsListSkeleton } from '@/components/ListingsListSkeleton';
+import useWishlists from '@/hooks/useWishlists';
 import Link from 'next/link';
-import { ListingsListSkeleton } from '../components/ListingsListSkeleton';
+type TProcedures = 'like' | 'unlike';
 
-export default function Home() {
-	return (
-		<main>
-			<Head>
-				<title>Airbnb clone</title>
-				<meta name='description' content='An airbnb clone app using NexJS 13' />
-			</Head>
-			<ListingCategoriesBar />
-			<ListingsList />
-		</main>
-	);
-}
-
-function ListingsList() {
-	const { isLoading, listings, toggleLike } = useListings();
+export default function Wishlist() {
+	const { isLoading, listings, toggleLike } = useWishlists();
 
 	if (isLoading) return <ListingsListSkeleton />;
 	if (!listings)
@@ -43,12 +28,7 @@ function ListingsList() {
 							aria-hidden='true'
 							role='presentation'
 							focusable='false'
-							className={classNames(
-								listing.isLiked
-									? 'fill-primary stroke-white stroke-2'
-									: 'fill-black/50 stroke-white stroke-2',
-								'h-6 w-6'
-							)}
+							className='w-6 fill-primary stroke-white stroke-2 first-letter:h-6'
 						>
 							<path d='m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z'></path>
 						</svg>

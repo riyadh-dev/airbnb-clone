@@ -3,6 +3,7 @@ import {
 	disableUserSignActionsAtom,
 	logInSignUpModalOpenAtom,
 } from '@/jotai/atoms';
+import { trpc } from '@/utils/trpc';
 import { loginInputSchema } from '@/zod/user';
 import { useAtom, useSetAtom } from 'jotai';
 import { signIn } from 'next-auth/react';
@@ -29,12 +30,15 @@ export default function LoginForm() {
 	);
 
 	const [loginError, setLoginError] = useState<IRequestError>({});
+	const utils = trpc.useContext();
 	const onSubmit = handleSubmit(async (body) => {
 		setDisableUserSignActions(true);
 		signIn('credentials', { redirect: false, ...body }).then((response) => {
 			setDisableUserSignActions(false);
-			if (response?.ok) setModalOpen(false);
-			else if (response?.error && response.error === INVALID_CREDENTIALS)
+			if (response?.ok) {
+				setModalOpen(false);
+				utils.listings.invalidate();
+			} else if (response?.error && response.error === INVALID_CREDENTIALS)
 				setLoginError({ badCredentials: INVALID_CREDENTIALS });
 			else console.log(response?.error);
 		});

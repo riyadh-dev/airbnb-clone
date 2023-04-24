@@ -16,6 +16,7 @@ export default function MockAccountsList() {
 		disableUserSignActionsAtom
 	);
 
+	const utils = trpc.useContext();
 	const handleLogin = (email: string) => () => {
 		setDisableUserSignActions(true);
 		signIn('credentials', {
@@ -24,7 +25,10 @@ export default function MockAccountsList() {
 			password: 'password',
 		}).then((response) => {
 			setDisableUserSignActions(false);
-			if (response?.ok) setModalOpen(false);
+			if (response?.ok) {
+				setModalOpen(false);
+				utils.listings.invalidate();
+			}
 			if (response?.error) console.log(response.error);
 		});
 	};

@@ -1,11 +1,10 @@
 import CounterInput from '@/components/CounterInput';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import useListing from '@/hooks/useListing';
 import { classNames } from '@/utils/helpers';
-import { trpc } from '@/utils/trpc';
 import { Menu } from '@headlessui/react';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import DatePicker from 'react-tailwindcss-datepicker';
 
@@ -15,18 +14,7 @@ type TDateRange = {
 } | null;
 
 export default function ListingPage() {
-	const router = useRouter();
-	const { id } = router.query;
-
-	const { data: listing, isLoading: isLoadingListing } =
-		trpc.listings.getById.useQuery(
-			{ id: Number(id) },
-			{ enabled: Boolean(id) }
-		);
-	const { data: user, isLoading: isLoadingUser } = trpc.users.getById.useQuery(
-		{ id: Number(listing?.ownerId) },
-		{ enabled: Boolean(listing?.ownerId) }
-	);
+	const { isLoading, listing, toggleLike, user } = useListing();
 
 	const [dateRange, setDateRange] = useState<TDateRange>({
 		startDate: new Date(),
@@ -49,7 +37,7 @@ export default function ListingPage() {
 		(category: keyof typeof guests) => (newValue: number) =>
 			setGuests((prev) => ({ ...prev, [category]: newValue }));
 
-	if (isLoadingListing || isLoadingUser)
+	if (isLoading)
 		return (
 			<div className='flex h-[calc(100vh-80px)] items-center justify-center'>
 				<LoadingSpinner className='w-32' />
@@ -80,7 +68,45 @@ export default function ListingPage() {
 			<Head>
 				<title>{listing.title}</title>
 			</Head>
-			<h1 className='text-4xl font-semibold capitalize'>{listing.title}</h1>
+			<div>
+				<h1 className='mb-1 text-4xl font-semibold capitalize'>
+					{listing.title}
+				</h1>
+				<div className='flex items-center gap-2'>
+					<div className='flex shrink-0 items-center gap-1'>
+						<i className='ri-star-fill'></i>
+						<span>4.85</span>
+						<span>.</span>
+						<span className='font-semibold underline'>5reviews</span>
+						<span>.</span>
+						<span className='font-semibold underline'>{listing.city},</span>
+						<span className='font-semibold underline'>{listing.state}</span>
+						<span className='font-semibold underline'>{listing.country}</span>
+					</div>
+					<button
+						onClick={() => toggleLike()}
+						className='ml-auto flex items-center gap-x-2 rounded-lg leading-[normal]'
+					>
+						<svg
+							viewBox='0 0 32 32'
+							xmlns='http://www.w3.org/2000/svg'
+							aria-hidden='true'
+							role='presentation'
+							focusable='false'
+							className={classNames(
+								listing.isLiked
+									? 'fill-primary dark:stroke-white'
+									: 'fill-white stroke-black stroke-2 dark:fill-black dark:stroke-white',
+								'h-5 w-5'
+							)}
+						>
+							<path d='m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z'></path>
+						</svg>
+						Wishlist
+					</button>
+				</div>
+			</div>
+
 			<div className='grid grid-cols-4 grid-rows-2 gap-3 overflow-hidden rounded-xl'>
 				{listing.imagesCSV
 					.split(',')

@@ -11,6 +11,12 @@ import {
 	varchar,
 } from 'drizzle-orm/mysql-core';
 
+//add bigint unsigned to drizzle-orm
+const bigintUnsigned = customType<{ data: number; driverData: string }>({
+	dataType: () => 'bigint unsigned',
+	fromDriver: (value) => Number(value),
+});
+
 export const users = mysqlTable(
 	'users',
 	{
@@ -29,11 +35,6 @@ export const users = mysqlTable(
 	})
 );
 
-//add bigint unsigned to drizzle-orm
-const bigintUnsigned = customType<{ data: number; driverData: string }>({
-	dataType: () => 'bigint unsigned',
-	fromDriver: (value) => Number(value),
-});
 export const listings = mysqlTable('listings', {
 	id: serial('id').primaryKey(),
 	ownerId: bigintUnsigned('owner_id').notNull(),
@@ -56,3 +57,17 @@ export const listings = mysqlTable('listings', {
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().onUpdateNow().notNull(),
 });
+
+export const userLikedListings = mysqlTable(
+	'user_liked_listings',
+	{
+		userId: bigintUnsigned('user_id').notNull(),
+		listingId: bigintUnsigned('listing_id').notNull(),
+	},
+	(table) => ({
+		userListingIdx: uniqueIndex('user_listing_idx').on(
+			table.userId,
+			table.listingId
+		),
+	})
+);
