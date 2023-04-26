@@ -1,5 +1,7 @@
+import AmenitiesListStatic from '@/components/AmenitiesListStatic';
 import CounterInput from '@/components/CounterInput';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import ReviewsListStatic from '@/components/ReviewsListStatic';
 import useListing from '@/hooks/useListing';
 import { classNames } from '@/utils/helpers';
 import { Menu } from '@headlessui/react';
@@ -64,20 +66,20 @@ export default function ListingPage() {
 		: dateRange.endDate.toLocaleDateString();
 
 	return (
-		<div className='mx-auto my-6 max-w-6xl space-y-6 px-4'>
+		<div className='mx-auto my-6 max-w-6xl px-4'>
 			<Head>
 				<title>{listing.title}</title>
 			</Head>
-			<div>
-				<h1 className='mb-1 text-4xl font-semibold capitalize'>
+			<div className='pb-6'>
+				<h1 className='mb-2 text-4xl font-semibold capitalize'>
 					{listing.title}
 				</h1>
-				<div className='flex items-center gap-2'>
-					<div className='flex shrink-0 items-center gap-1'>
+				<div className='flex flex-wrap items-center gap-2'>
+					<div className='flex flex-wrap items-center gap-1'>
 						<i className='ri-star-fill'></i>
 						<span>4.85</span>
 						<span>.</span>
-						<span className='font-semibold underline'>5reviews</span>
+						<span className='font-semibold underline'>10 reviews</span>
 						<span>.</span>
 						<span className='font-semibold underline'>{listing.city},</span>
 						<span className='font-semibold underline'>{listing.state}</span>
@@ -124,8 +126,9 @@ export default function ListingPage() {
 						/>
 					))}
 			</div>
-			<div className='flex gap-x-20 pt-6'>
-				<div className='space-y-4'>
+
+			<div className='flex gap-x-20 gap-y-8 pt-8 max-lg:flex-wrap'>
+				<div className='space-y-8'>
 					<div className='flex items-center'>
 						<div>
 							<h1 className='text-2xl font-semibold capitalize'>
@@ -154,11 +157,23 @@ export default function ListingPage() {
 							<div className='ml-auto h-14 w-14 rounded-full bg-gradient-to-br from-[#e61e4d] from-40% to-[#bd1e59]' />
 						)}
 					</div>
+
+					<div className='!mt-6 border-t' />
+
+					<div>
+						<h1 className='text-2xl font-semibold'>What this place offers</h1>
+						<AmenitiesListStatic />
+					</div>
+
 					<div className='border-t' />
-					<p>{listing.description}</p>
+
+					<div>
+						<h1 className='pb-1 text-2xl font-semibold'>Description</h1>
+						<p>{listing.description}</p>
+					</div>
 				</div>
 
-				<div className='w-[370px] shrink-0 space-y-4 rounded-xl border p-6 shadow-lg'>
+				<div className='mx-auto h-fit w-full space-y-4 rounded-xl border p-6 shadow-lg md:shrink-0 lg:w-[370px]'>
 					<div>
 						<div className='flex items-center justify-between'>
 							<span className='text-lg'>
@@ -168,12 +183,12 @@ export default function ListingPage() {
 								<i className='ri-star-fill text-sm'></i>
 								<span>4.85</span>
 								<span>.</span>
-								<span>5reviews</span>
+								<span>10 reviews</span>
 							</div>
 						</div>
 					</div>
 
-					<div className='relative flex h-14 w-full rounded-md border text-left'>
+					<div className='relative flex h-14 w-full rounded-t-md border-x border-t text-left'>
 						<div className='w-1/2 p-3'>
 							<div className='text-xs font-bold uppercase'>check-in</div>
 							<div className='text-sm'>{startDate}</div>
@@ -217,8 +232,8 @@ export default function ListingPage() {
 						></Menu.Items>
 					</Menu> */}
 
-					<Menu as='div' className='relative'>
-						<Menu.Button className='flex h-14 w-full rounded-md border p-3 text-left'>
+					<Menu as='div' className='relative !m-0'>
+						<Menu.Button className='flex h-14 w-full rounded-b-md border p-3 text-left'>
 							<div>
 								<div className='text-xs font-bold uppercase'>guests</div>
 								<div className='text-sm'>2 guests</div>
@@ -300,6 +315,17 @@ export default function ListingPage() {
 						<span className='ml-auto'>${(listing.price ?? 0) * 3 + 100}</span>
 					</div>
 				</div>
+			</div>
+
+			<div className='my-8 border-t' />
+
+			<div>
+				<div className='flex items-center pb-8 font-bold'>
+					<i className='ri-star-fill pr-2 text-lg'></i>
+					<h1 className='text-2xl'>4.85 . 10 reviews</h1>
+				</div>
+
+				<ReviewsListStatic />
 			</div>
 		</div>
 	);
