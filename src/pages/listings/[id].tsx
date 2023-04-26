@@ -114,10 +114,12 @@ export default function ListingPage() {
 					.split(',')
 					.splice(0, 5)
 					.map((image, index) => (
-						// eslint-disable-next-line @next/next/no-img-element
-						<img
+						<Image
 							key={index}
 							src={image}
+							width={index === 0 ? 760 : 380}
+							height={index === 0 ? 760 : 380}
+							quality={100}
 							alt='image'
 							className={classNames(
 								index === 0 ? 'col-span-2 row-span-2' : '',

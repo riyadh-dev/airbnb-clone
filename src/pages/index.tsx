@@ -2,6 +2,7 @@ import ListingCategoriesBar from '@/components/ListingCategoriesBar';
 import useListings from '@/hooks/useListings';
 import { classNames } from '@/utils/helpers';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ListingsListSkeleton } from '../components/ListingsListSkeleton';
 
@@ -55,11 +56,13 @@ function ListingsList() {
 					</button>
 					<Link href={`/listings/${listing.id}`}>
 						<div className='aspect-square'>
-							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img
+							<Image
 								src={listing.imagesCSV.split(',')[0] as string}
 								alt='image'
 								loading='lazy'
+								quality={100}
+								width={400}
+								height={400}
 								className='h-full rounded-2xl object-cover'
 							/>
 						</div>

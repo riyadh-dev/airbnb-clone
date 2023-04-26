@@ -1,6 +1,8 @@
 import { ListingsListSkeleton } from '@/components/ListingsListSkeleton';
 import useWishlists from '@/hooks/useWishlists';
+import Image from 'next/image';
 import Link from 'next/link';
+
 type TProcedures = 'like' | 'unlike';
 
 export default function Wishlist() {
@@ -35,11 +37,13 @@ export default function Wishlist() {
 					</button>
 					<Link href={`/listings/${listing.id}`}>
 						<div className='aspect-square'>
-							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img
+							<Image
 								src={listing.imagesCSV.split(',')[0] as string}
 								alt='image'
 								loading='lazy'
+								quality={100}
+								width={400}
+								height={400}
 								className='h-full rounded-2xl object-cover'
 							/>
 						</div>
