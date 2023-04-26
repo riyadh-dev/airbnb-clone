@@ -119,7 +119,7 @@ export default function AmenitiesListStatic() {
 		<ul className='grid grid-cols-2 gap-4 pt-6'>
 			{AMENITIES.map((amenity, index) => (
 				<li key={index} className='flex gap-x-6'>
-					<div className='h-6 w-6'>{amenity.icon}</div>
+					<div className='h-6 w-6 dark:invert'>{amenity.icon}</div>
 					<span>{amenity.name}</span>
 				</li>
 			))}

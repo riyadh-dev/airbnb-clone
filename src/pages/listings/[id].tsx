@@ -30,7 +30,7 @@ export default function ListingPage() {
 
 	const [guests, setGuests] = useState({
 		children: 0,
-		adults: 0,
+		adults: 1,
 		infants: 0,
 		pets: 0,
 	});
@@ -236,7 +236,12 @@ export default function ListingPage() {
 						<Menu.Button className='flex h-14 w-full rounded-b-md border p-3 text-left'>
 							<div>
 								<div className='text-xs font-bold uppercase'>guests</div>
-								<div className='text-sm'>2 guests</div>
+								<div className='text-sm capitalize'>
+									{guests.adults > 0 && `${guests.adults} adults` + ' '}
+									{guests.children > 0 && `${guests.children} children` + ' '}
+									{guests.infants > 0 && `${guests.infants} infants` + ' '}
+									{guests.pets > 0 && `${guests.pets} pets`}
+								</div>
 							</div>
 							<i className='ri-arrow-down-s-line ml-auto text-3xl'></i>
 						</Menu.Button>
