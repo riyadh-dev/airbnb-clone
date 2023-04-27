@@ -1,5 +1,5 @@
 import BecameHostNavigation from '@/components/BecameHostNavigation';
-import CounterInput from '@/components/CounterInput';
+import CounterInput from '@/components/Input/CounterInput';
 import { listingFloorPlanAtom } from '@/jotai/atoms';
 import { listingFloorPlanSchema } from '@/zod/listings';
 import { useAtom } from 'jotai';

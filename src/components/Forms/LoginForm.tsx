@@ -8,8 +8,8 @@ import { loginInputSchema } from '@/zod/user';
 import { useAtom, useSetAtom } from 'jotai';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
+import CustomInput from '../Input/CustomInput';
 import LoadingSpinner from '../LoadingSpinner';
-import CustomInput from './CustomInput';
 
 const INVALID_CREDENTIALS = 'Invalid credentials';
 

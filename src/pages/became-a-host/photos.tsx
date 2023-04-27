@@ -1,5 +1,5 @@
 import BecameHostNavigation from '@/components/BecameHostNavigation';
-import CustomInput from '@/components/Forms/CustomInput';
+import CustomInput from '@/components/Input/CustomInput';
 import useZodForm from '@/hooks/useZodForm';
 import { listingImagesAtom } from '@/jotai/atoms';
 import { useAtom } from 'jotai';

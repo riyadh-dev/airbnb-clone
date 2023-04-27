@@ -1,5 +1,5 @@
 import BecameHostNavigation from '@/components/BecameHostNavigation';
-import InputErrorMessage from '@/components/Forms/InputErrorMessage';
+import InputErrorMessage from '@/components/Input/InputErrorMessage';
 import useZodForm from '@/hooks/useZodForm';
 import { listingTitleAtom } from '@/jotai/atoms';
 import { useAtom } from 'jotai';

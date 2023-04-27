@@ -43,6 +43,7 @@
 		"react-tailwindcss-datepicker": "^1.6.0",
 		"remixicon": "^3.2.0",
 		"sharp": "^0.32.0",
+		"superjson": "^1.12.3",
 		"typescript": "5.0.4",
 		"zod": "^3.21.4"
 	},

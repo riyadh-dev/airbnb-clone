@@ -1,5 +1,6 @@
 import LogInSignUpModal from '@/components/Modals/LogInSignUpModal';
 import Navbar from '@/components/Navbar';
+import ConfirmReservationModal from './Modals/ConfirmReservationModal';
 
 export default function MainLayout({
 	children,
@@ -11,6 +12,7 @@ export default function MainLayout({
 			<Navbar />
 			{children}
 			<LogInSignUpModal />
+			<ConfirmReservationModal />
 		</>
 	);
 }

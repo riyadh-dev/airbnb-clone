@@ -22,12 +22,12 @@ export default function UserMenu() {
 				</div>
 			</Menu.Item>
 			<Menu.Item>
-				<div
-					onClick={handleSignOut}
-					className='cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'
+				<Link
+					href='/trips'
+					className='block cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'
 				>
-					Log out
-				</div>
+					Trips
+				</Link>
 			</Menu.Item>
 			<Menu.Item>
 				<Link
@@ -36,6 +36,14 @@ export default function UserMenu() {
 				>
 					Wishlist
 				</Link>
+			</Menu.Item>
+			<Menu.Item>
+				<div
+					onClick={handleSignOut}
+					className='cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'
+				>
+					Log out
+				</div>
 			</Menu.Item>
 			<ThemeToggleMenuItem />
 		</Menu.Items>

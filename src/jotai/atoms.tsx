@@ -1,4 +1,8 @@
-import { TLoginInSignUpFormTypes } from '@/common/types';
+import {
+	TListing,
+	TLoginInSignUpFormTypes,
+	TReservationInput,
+} from '@/common/types';
 import { listingFloorPlanSchema, listingLocationSchema } from '@/zod/listings';
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
@@ -10,6 +14,21 @@ export const rentModalOpenAtom = atom(false);
 export const logInSignUpFromTypeAtom = atom<TLoginInSignUpFormTypes>('sign-up');
 
 export const disableUserSignActionsAtom = atom(false);
+
+export const confirmReservationModalOpenAtom = atom(false);
+
+export const reservationListingAtom = atom<TListing | null>(null);
+export const reservationInputAtom = atom<TReservationInput>({
+	ownerId: 0,
+	listingId: 0,
+	startDate: new Date(),
+	endDate: new Date(),
+	adultGuestCount: 1,
+	childGuestCount: 0,
+	infantGuestCount: 0,
+	petCount: 0,
+	totalCost: 0,
+});
 
 export const listingCategoryAtom = atomWithStorage('listingCategory', '');
 

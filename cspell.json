@@ -21,6 +21,7 @@
 		"pnpm",
 		"purgecss",
 		"remixicon",
+		"superjson",
 		"tailwindcss",
 		"tanstack",
 		"trpc",

@@ -50,7 +50,8 @@ export default function useListing() {
 
 	return {
 		isLoading: isLoadingListing || isLoadingUser,
-		listing: data ? { ...data.listing, isLiked: data.isLiked } : null,
+		listing: data?.listing,
+		isLiked: data?.isLiked,
 		user,
 		toggleLike,
 	};

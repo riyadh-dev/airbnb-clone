@@ -1,7 +1,10 @@
 import { TRPCError, initTRPC } from '@trpc/server';
+import superjson from 'superjson';
 import { TContext } from './context';
 
-const t = initTRPC.context<TContext>().create();
+const t = initTRPC.context<TContext>().create({
+	transformer: superjson,
+});
 
 export const isAuthenticated = t.middleware(({ ctx, next }) => {
 	if (!ctx.session?.user) throw new TRPCError({ code: 'UNAUTHORIZED' });

@@ -3,10 +3,12 @@ import { hashSync } from 'bcrypt';
 import 'dotenv/config';
 import { createApi } from 'unsplash-js';
 import db from '.';
-import { listings, users } from './schema';
+import { listings, reservations, users } from './schema';
 
 const USERS_NUMBER = 10;
 const LISTINGS_PER_USER = 2;
+const RESERVATION_PER_USER = 3;
+
 const UNSPLASH_PARAMETERS = '?fm=webp&h=720&fit=max';
 
 const password = hashSync('password', 10);
@@ -30,11 +32,11 @@ export async function seedUsers() {
 		);
 	}
 
-	console.log('Clearing old users ...');
+	console.log('Clearing old users 🧔 🕐');
 	await db.delete(users);
-	console.log(`Start users seeding ...`);
+	console.log(`Users seeding 🧔 🕐`);
 	await Promise.all(insertUsersPromises);
-	console.log(`Seeding users finished ✔`);
+	console.log(`Seeding users finished 🧔 ✅`);
 }
 
 export async function seedListings() {
@@ -81,9 +83,39 @@ export async function seedListings() {
 		}
 	}
 
-	console.log('Clearing old listings ...');
+	console.log('Clearing old listings 🛌 🕐');
 	await db.delete(listings);
-	console.log(`Start listings seeding ...`);
+	console.log(`Listings seeding 🛌 🕐`);
 	await Promise.all(insertListingsPromises);
-	console.log(`Seeding listings finished ✔`);
+	console.log(`Seeding listings finished 🛌 ✅`);
+}
+
+export async function seedReservations() {
+	const insertReservationPromises: Promise<unknown>[] = [];
+	for (let ownerId = 1; ownerId < USERS_NUMBER + 1; ownerId++) {
+		for (let index = 0; index < RESERVATION_PER_USER; index++) {
+			insertReservationPromises.push(
+				db.insert(reservations).values({
+					ownerId,
+					listingId: faker.datatype.number({
+						min: 1,
+						max: LISTINGS_PER_USER * USERS_NUMBER,
+					}),
+					startDate: faker.date.recent(),
+					endDate: faker.date.recent(),
+					adultGuestCount: faker.datatype.number(),
+					childGuestCount: faker.datatype.number(),
+					infantGuestCount: faker.datatype.number(),
+					petCount: faker.datatype.number(),
+					totalCost: faker.datatype.number(),
+				})
+			);
+		}
+	}
+
+	console.log('Clearing old reservation 🧾 🕐');
+	await db.delete(listings);
+	console.log(`Reservation seeding 🧾 🕐`);
+	await Promise.all(insertReservationPromises);
+	console.log(`Seeding reservation finished 🧾 ✅`);
 }

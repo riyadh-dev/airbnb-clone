@@ -5,9 +5,9 @@ import { exclude } from '@/utils/helpers';
 import { signUpInputSchema } from '@/zod/user';
 import { useAtomValue } from 'jotai';
 import { useState } from 'react';
+import CustomInput from '../Input/CustomInput';
+import InputErrorMessage from '../Input/InputErrorMessage';
 import LoadingSpinner from '../LoadingSpinner';
-import CustomInput from './CustomInput';
-import InputErrorMessage from './InputErrorMessage';
 
 interface IRequestError {
 	[key: string]: string | undefined;

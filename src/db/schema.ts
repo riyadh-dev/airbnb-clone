@@ -71,3 +71,26 @@ export const userLikedListings = mysqlTable(
 		),
 	})
 );
+
+export const reservations = mysqlTable(
+	'reservations',
+	{
+		id: serial('id').primaryKey(),
+		ownerId: bigintUnsigned('owner_id').notNull(),
+		listingId: bigintUnsigned('listing_id').notNull(),
+		startDate: datetime('start_date').notNull(),
+		endDate: datetime('end_date').notNull(),
+		adultGuestCount: int('adult_guest_count').notNull(),
+		childGuestCount: int('child_guest_count').notNull(),
+		infantGuestCount: int('infant_guest_count').notNull(),
+		petCount: int('pet_count').notNull(),
+		totalCost: int('total_cost').notNull(),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		userListingIdx: uniqueIndex('user_listing_idx').on(
+			table.ownerId,
+			table.listingId
+		),
+	})
+);
