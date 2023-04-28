@@ -1,7 +1,8 @@
 import db from '@/db';
-import { listings, userLikedListings } from '@/db/schema';
+import { listings, reservations, userLikedListings } from '@/db/schema';
 import { listingInsertSchema } from '@/zod/listings';
-import { and, eq, exists, sql } from 'drizzle-orm';
+import { and, eq, exists } from 'drizzle-orm/expressions';
+import { SQL, sql } from 'drizzle-orm/sql';
 import { z } from 'zod';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 
@@ -43,23 +44,37 @@ const listingsRouter = router({
 			const select = {
 				listing: listings,
 				isLiked: user
-					? sql<1 | 0>`user_liked_listings.user_id = ${user.id}`
+					? (exists(
+							db
+								.select()
+								.from(userLikedListings)
+								.where(
+									and(
+										eq(listings.id, userLikedListings.listingId),
+										eq(userLikedListings.userId, user.id)
+									)
+								)
+					  ) as SQL<1 | 0>)
+					: sql<boolean>`false`,
+				isReserved: user
+					? (exists(
+							db
+								.select()
+								.from(reservations)
+								.where(
+									and(
+										eq(listings.id, reservations.listingId),
+										eq(reservations.ownerId, user.id)
+									)
+								)
+					  ) as SQL<1 | 0>)
 					: sql<boolean>`false`,
 			};
 
-			const results = !user
-				? await db.select(select).from(listings).where(eq(listings.id, id))
-				: await db
-						.select(select)
-						.from(listings)
-						.leftJoin(
-							userLikedListings,
-							and(
-								eq(listings.id, userLikedListings.listingId),
-								eq(userLikedListings.userId, user.id)
-							)
-						)
-						.where(eq(listings.id, id));
+			const results = await db
+				.select(select)
+				.from(listings)
+				.where(eq(listings.id, id));
 
 			return results.length ? results[0] : null;
 		}),

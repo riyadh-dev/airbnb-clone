@@ -8,10 +8,15 @@ import { classNames } from '@/utils/helpers';
 import { useSetAtom } from 'jotai';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 export default function ListingPage() {
-	const { isLoading, listing, toggleLike, user, isLiked } = useListing();
+	const { isLoading, listing, toggleLike, user } = useListing();
 	const setReservationListing = useSetAtom(reservationListingAtom);
+
+	useEffect(() => {
+		if (listing) setReservationListing(listing);
+	}, [listing, setReservationListing]);
 
 	if (isLoading)
 		return (
@@ -26,8 +31,6 @@ export default function ListingPage() {
 				Listing not found
 			</div>
 		);
-
-	setReservationListing(listing);
 
 	return (
 		<div className='mx-auto my-6 max-w-6xl px-4'>
@@ -60,7 +63,7 @@ export default function ListingPage() {
 							role='presentation'
 							focusable='false'
 							className={classNames(
-								isLiked
+								listing.isLiked
 									? 'fill-primary dark:stroke-white'
 									: 'fill-white stroke-black stroke-2 dark:fill-black dark:stroke-white',
 								'h-5 w-5'
@@ -139,7 +142,7 @@ export default function ListingPage() {
 					</div>
 				</div>
 
-				<ReservationBox />
+				<ReservationBox disabled={Boolean(listing.isReserved)} />
 			</div>
 
 			<div className='my-8 border-t' />

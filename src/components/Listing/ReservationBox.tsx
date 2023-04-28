@@ -3,6 +3,7 @@ import {
 	reservationInputAtom,
 	reservationListingAtom,
 } from '@/jotai/atoms';
+import { classNames } from '@/utils/helpers';
 import { Menu } from '@headlessui/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useState } from 'react';
@@ -14,7 +15,7 @@ type TDateRange = {
 	endDate: string | null | Date;
 } | null;
 
-export default function ReservationBox() {
+export default function ReservationBox({ disabled }: { disabled: boolean }) {
 	const listing = useAtomValue(reservationListingAtom);
 	const [reservationInput, setReservationInput] = useAtom(reservationInputAtom);
 	const setModalOpen = useSetAtom(confirmReservationModalOpenAtom);
@@ -87,6 +88,7 @@ export default function ReservationBox() {
 					value={dateRange}
 					onChange={handleValueChange}
 					minDate={new Date()}
+					disabled={disabled}
 				/>
 			</div>
 
@@ -113,7 +115,10 @@ export default function ReservationBox() {
         </Menu> */}
 
 			<Menu as='div' className='relative !m-0'>
-				<Menu.Button className='flex h-14 w-full rounded-b-md border p-3 text-left'>
+				<Menu.Button
+					disabled={disabled}
+					className='flex h-14 w-full rounded-b-md border p-3 text-left'
+				>
 					<div>
 						<div className='text-xs font-bold uppercase'>guests</div>
 						<div className='text-sm capitalize'>
@@ -181,10 +186,16 @@ export default function ReservationBox() {
 			</Menu>
 
 			<button
+				disabled={disabled}
 				onClick={() => setModalOpen(true)}
-				className='h-12 w-full rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] text-center font-bold text-white'
+				className={classNames(
+					disabled
+						? 'bg-neutral-400'
+						: 'bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59]',
+					'h-12 w-full rounded-lg text-center font-bold text-white'
+				)}
 			>
-				Reserve
+				{disabled ? 'Reserved' : 'Book now'}
 			</button>
 			<div className='text-center'>You won&apos;t be charged yet</div>
 

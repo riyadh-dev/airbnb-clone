@@ -22,7 +22,7 @@ export default function useListing() {
 
 	const utils = trpc.useContext();
 	const { mutate } = trpc.listings.toggleLike.useMutation({
-		async onMutate() {
+		async onMutate(id) {
 			await utils.listings.getById.cancel();
 			const prevListing = utils.listings.getById.getData(id);
 
@@ -32,7 +32,7 @@ export default function useListing() {
 
 			return { prevListing };
 		},
-		onError(error, variables, context) {
+		onError(error, id, context) {
 			utils.listings.getById.setData(id, context?.prevListing);
 		},
 	});
@@ -50,8 +50,9 @@ export default function useListing() {
 
 	return {
 		isLoading: isLoadingListing || isLoadingUser,
-		listing: data?.listing,
-		isLiked: data?.isLiked,
+		listing: data
+			? { ...data.listing, isLiked: data.isLiked, isReserved: data.isReserved }
+			: null,
 		user,
 		toggleLike,
 	};

@@ -7,9 +7,21 @@ import { trpc } from '@/utils/trpc';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import Image from 'next/image';
-import { Fragment } from 'react';
+import { useRouter } from 'next/router';
+import { Fragment, useEffect } from 'react';
 
 export default function ConfirmReservationModal() {
+	const router = useRouter();
+	const listingId = Number(router.query.id);
+	const setReservationInput = useSetAtom(reservationInputAtom);
+
+	useEffect(() => {
+		setReservationInput((prev) => ({
+			...prev,
+			listingId,
+		}));
+	});
+
 	const [modalOpen, setModalOpen] = useAtom(confirmReservationModalOpenAtom);
 
 	return (
@@ -52,7 +64,23 @@ function ConfirmReservationModalInner() {
 	const setModalOpen = useSetAtom(confirmReservationModalOpenAtom);
 	const listing = useAtomValue(reservationListingAtom);
 	const reservationInput = useAtomValue(reservationInputAtom);
-	const { mutate, isLoading, isError } = trpc.reservations.create.useMutation();
+
+	const utils = trpc.useContext();
+	const { mutate, isLoading, isError } = trpc.reservations.create.useMutation({
+		async onMutate({ listingId: id }) {
+			await utils.listings.getById.cancel();
+			const prevListing = utils.listings.getById.getData(id);
+
+			utils.listings.getById.setData(id, (old) =>
+				old ? { ...old, isReserved: !old.isReserved } : null
+			);
+
+			return { prevListing };
+		},
+		onError(error, { listingId: id }, context) {
+			utils.listings.getById.setData(id, context?.prevListing);
+		},
+	});
 
 	if (!listing || !reservationInput) return null;
 
