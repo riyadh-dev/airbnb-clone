@@ -53,7 +53,7 @@ export default function trips() {
 									quality={100}
 									width={400}
 									height={400}
-									className='h-full rounded-2xl object-cover'
+									className='h-full w-full rounded-2xl object-cover'
 								/>
 							</div>
 						</Link>

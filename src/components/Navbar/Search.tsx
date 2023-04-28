@@ -15,12 +15,7 @@ export default function Search() {
 			<button className='flex h-14 w-full items-center gap-x-4 rounded-full border-2 py-2 shadow-md md:hidden'>
 				<i className='ri-search-line ml-5 text-xl'></i>
 				<div className='flex flex-col items-start text-sm'>
-					<span className='font font-bold'>Anywhere</span>
-					<div className='text-xs text-gray-400'>
-						<span>Any week</span>
-						<span> . </span>
-						<span>Add guests</span>
-					</div>
+					<span className='font font-bold'>Search...</span>
 				</div>
 				<span className='ml-auto mr-3 flex h-9 w-9 items-center justify-center rounded-full border'>
 					<i className='ri-equalizer-fill'></i>
