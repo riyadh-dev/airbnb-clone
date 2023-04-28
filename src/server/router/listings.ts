@@ -8,7 +8,8 @@ import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 const listingListItemSelect = {
 	id: listings.id,
-	title: listings.title,
+	state: listings.state,
+	country: listings.country,
 	description: listings.description,
 	imagesCSV: listings.imagesCSV,
 	price: listings.price,

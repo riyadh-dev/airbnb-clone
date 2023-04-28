@@ -6,7 +6,8 @@ import { useState } from 'react';
 
 interface IListing {
 	id: number;
-	title: string;
+	state: string;
+	country: string;
 	price: number;
 	//if undefined assume its listing liked
 	isLiked?: boolean | 0 | 1;
@@ -149,14 +150,13 @@ function ListingListItem({
 					className='peer absolute left-0 top-0 z-10 h-full w-full'
 				/>
 
-				<div className='flex h-6 items-center justify-between leading-3'>
+				<div className='flex h-6 items-center justify-between'>
 					<span className='truncate font-bold capitalize'>
-						{/*TODO change to state and country */}
-						{listing.title}
+						{listing.country + ', ' + listing.state}
 					</span>
 					<div className='flex shrink-0 items-center gap-1'>
 						<i className='ri-star-fill text-sm'></i>
-						<span>4.85 (125)</span>
+						<span>4.85</span>
 					</div>
 				</div>
 
