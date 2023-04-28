@@ -4,7 +4,7 @@ import Search from './Search';
 
 export default function Navbar() {
 	return (
-		<nav className='sticky top-0 z-30 flex h-20 items-center border-b bg-white px-4 dark:bg-neutral-950 lg:justify-between xl:px-20'>
+		<nav className='sticky top-0 z-40 flex h-20 items-center border-b bg-white px-4 dark:bg-neutral-950 lg:justify-between xl:px-20'>
 			<div className='hidden w-10 md:block lg:w-72'>
 				<Link href='/' className='block w-28'>
 					<svg height='32' width='112'>

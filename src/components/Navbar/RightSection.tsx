@@ -9,8 +9,7 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import LoadingSpinner from '../LoadingSpinner';
-import GuestMenu from './GuestMenu';
-import UserMenu from './UserMenu';
+import NavbarMenuItems from './MenuItems';
 
 export default function RightSection() {
 	const session = useSession();
@@ -75,7 +74,7 @@ export default function RightSection() {
 						/>
 					)}
 				</Menu.Button>
-				{session.status === 'authenticated' ? <UserMenu /> : <GuestMenu />}
+				<NavbarMenuItems />
 			</Menu>
 		</div>
 	);

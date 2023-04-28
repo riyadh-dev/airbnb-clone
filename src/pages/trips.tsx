@@ -72,7 +72,7 @@ export default function trips() {
 						<button
 							onClick={() => mutate(reservation.id)}
 							disabled={isDeleting}
-							className='z- mt-2 h-8 w-full rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] font-bold text-white'
+							className='mt-2 h-8 w-full rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] font-bold text-white'
 						>
 							{isDeleting ? 'Canceling...' : 'Cancel Reservation'}
 						</button>
