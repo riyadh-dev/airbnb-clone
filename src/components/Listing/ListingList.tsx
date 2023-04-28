@@ -20,32 +20,34 @@ export default function ListingList({
 	toggleLike,
 }: {
 	listings: IListing[];
-	toggleLike: (id: number) => void;
+	toggleLike?: (id: number) => void;
 }) {
 	return (
-		<ul className='grid grid-cols-1 gap-x-6 gap-y-10 px-5 pt-5 md:grid-cols-2 md:px-20 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
+		<ul className='grid grid-cols-1 gap-x-6 gap-y-10 px-5 pt-6 md:grid-cols-2 md:px-20 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
 			{listings.map((listing) => (
 				<li key={listing.id} className='relative space-y-3'>
-					<button
-						onClick={() => toggleLike(listing.id)}
-						className='absolute right-3 top-3'
-					>
-						<svg
-							viewBox='0 0 32 32'
-							xmlns='http://www.w3.org/2000/svg'
-							aria-hidden='true'
-							role='presentation'
-							focusable='false'
-							className={classNames(
-								getIsLiked(listing.isLiked)
-									? 'fill-primary stroke-white stroke-2'
-									: 'fill-black/50 stroke-white stroke-2',
-								'h-6 w-6'
-							)}
+					{toggleLike && (
+						<button
+							onClick={() => toggleLike(listing.id)}
+							className='absolute right-3 top-3'
 						>
-							<path d='m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z'></path>
-						</svg>
-					</button>
+							<svg
+								viewBox='0 0 32 32'
+								xmlns='http://www.w3.org/2000/svg'
+								aria-hidden='true'
+								role='presentation'
+								focusable='false'
+								className={classNames(
+									getIsLiked(listing.isLiked)
+										? 'fill-primary stroke-white stroke-2'
+										: 'fill-black/50 stroke-white stroke-2',
+									'h-6 w-6'
+								)}
+							>
+								<path d='m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z'></path>
+							</svg>
+						</button>
+					)}
 					<Link href={`/listings/${listing.id}`}>
 						<div className='aspect-square'>
 							<Image
@@ -55,7 +57,7 @@ export default function ListingList({
 								quality={100}
 								width={400}
 								height={400}
-								className='h-full rounded-2xl object-cover'
+								className='h-full w-full rounded-2xl object-cover'
 							/>
 						</div>
 						<div>

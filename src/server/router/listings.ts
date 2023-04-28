@@ -111,6 +111,14 @@ const listingsRouter = router({
 				.where(isLikedSQL(ctx.session.user.id))
 	),
 
+	listByCurrentUser: protectedProcedure.query(
+		async ({ ctx }) =>
+			await db
+				.select(listingListItemSelect)
+				.from(listings)
+				.where(eq(listings.ownerId, ctx.session.user.id))
+	),
+
 	like: protectedProcedure
 		.input(z.number())
 		.mutation(async ({ ctx, input: id }) => {
