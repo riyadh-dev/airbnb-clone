@@ -149,7 +149,7 @@ export default function ListingPage() {
 					</div>
 				</div>
 
-				<ReservationBox disabled={Boolean(listing.isReserved)} />
+				<ReservationBox disabled={listing.isReserved === '1'} />
 			</div>
 
 			<div className='my-8 border-t' />
