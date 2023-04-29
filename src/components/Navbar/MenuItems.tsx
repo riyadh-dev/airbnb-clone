@@ -20,6 +20,7 @@ export default function NavbarMenuItems() {
 			) : (
 				<GuestMenuItems />
 			)}
+			<div className='my-2 h-[0.25px] w-full bg-gray-200' />
 			<ThemeToggleMenuItem />
 		</Menu.Items>
 	);
@@ -91,11 +92,7 @@ function UserMenuItems() {
 					Home
 				</Link>
 			</Menu.Item>
-			<Menu.Item>
-				<div className='cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'>
-					Profile
-				</div>
-			</Menu.Item>
+
 			<Menu.Item>
 				<Link
 					href='/trips'
@@ -118,6 +115,17 @@ function UserMenuItems() {
 					className='block cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'
 				>
 					Wishlist
+				</Link>
+			</Menu.Item>
+
+			<div className='my-2 h-[0.25px] w-full bg-gray-200' />
+
+			<Menu.Item>
+				<Link
+					href='/account'
+					className='block cursor-pointer px-5 py-2 hover:bg-slate-100 dark:hover:bg-gray-700'
+				>
+					Account
 				</Link>
 			</Menu.Item>
 			<Menu.Item>
