@@ -34,7 +34,7 @@ const listingsRouter = router({
 		.mutation(async ({ input, ctx }) => {
 			const values = { ownerId: ctx.session.user.id, ...input };
 			const results = await db.insert(listings).values(values);
-			return results[0].insertId;
+			return results.insertId;
 		}),
 
 	getById: publicProcedure
