@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { seedListings, seedUsers } from '../src/db/seed';
+import { seedListings, seedReservations, seedUsers } from '../src/db/seed';
 
 inquirer
 	.prompt([
@@ -10,6 +10,7 @@ inquirer
 			choices: [
 				{ name: 'User', value: seedUsers },
 				{ name: 'Listing', value: seedListings },
+				{ name: 'Reservation', value: seedReservations },
 			],
 		},
 	])

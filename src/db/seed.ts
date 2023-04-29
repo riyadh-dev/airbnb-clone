@@ -32,11 +32,11 @@ export async function seedUsers() {
 		);
 	}
 
-	console.log('Clearing old users 🧔 🕐');
+	console.log('Clearing old users 🙉 🕐');
 	await db.delete(users);
-	console.log(`Users seeding 🧔 🕐`);
+	console.log(`Users seeding 🙉 🕐`);
 	await Promise.all(insertUsersPromises);
-	console.log(`Seeding users finished 🧔 ✅`);
+	console.log(`Seeding users finished 🙉 ✅`);
 }
 
 export async function seedListings() {
@@ -92,17 +92,15 @@ export async function seedListings() {
 
 export async function seedReservations() {
 	const insertReservationPromises: Promise<unknown>[] = [];
+	let listingId = 1;
 	for (let ownerId = 1; ownerId < USERS_NUMBER + 1; ownerId++) {
 		for (let index = 0; index < RESERVATION_PER_USER; index++) {
 			insertReservationPromises.push(
 				db.insert(reservations).values({
 					ownerId,
-					listingId: faker.datatype.number({
-						min: 1,
-						max: LISTINGS_PER_USER * USERS_NUMBER,
-					}),
-					startDate: faker.date.recent(),
-					endDate: faker.date.recent(),
+					listingId,
+					startDate: faker.date.recent(356),
+					endDate: faker.date.recent(356),
 					adultGuestCount: faker.datatype.number(),
 					childGuestCount: faker.datatype.number(),
 					infantGuestCount: faker.datatype.number(),
@@ -110,11 +108,12 @@ export async function seedReservations() {
 					totalCost: faker.datatype.number(),
 				})
 			);
+			listingId++;
 		}
 	}
 
 	console.log('Clearing old reservation 🧾 🕐');
-	await db.delete(listings);
+	await db.delete(reservations);
 	console.log(`Reservation seeding 🧾 🕐`);
 	await Promise.all(insertReservationPromises);
 	console.log(`Seeding reservation finished 🧾 ✅`);
