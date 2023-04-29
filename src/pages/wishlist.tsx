@@ -22,7 +22,7 @@ export default function Wishlist() {
 				<title>Wishlist</title>
 			</Head>
 			<h1 className='mt-6 text-center text-4xl font-semibold'>Wishlist</h1>
-			<ListingList listings={listings} toggleLike={toggleLike} />;
+			<ListingList listings={listings} toggleLike={toggleLike} />
 		</main>
 	);
 }

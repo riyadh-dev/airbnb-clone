@@ -41,6 +41,7 @@ export default function trips() {
 			<Head>
 				<title>Trips</title>
 			</Head>
+			<h1 className='mt-6 text-center text-4xl font-semibold'>Your Trips</h1>
 			<ul className='grid grid-cols-1 gap-x-6 gap-y-10 px-5 pt-5 md:grid-cols-2 md:px-20 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
 				{data.map(({ listing, reservation }) => (
 					<li key={reservation.id} className='relative'>
