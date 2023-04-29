@@ -1,7 +1,6 @@
 import { TRentModalStep } from '@/common/types';
 import Link from 'next/link';
 
-//TODO make a handle next for each switch case;
 interface IProps {
 	back: TRentModalStep | (() => unknown);
 	next: TRentModalStep | (() => unknown);
