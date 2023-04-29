@@ -51,7 +51,7 @@ export default function ConfirmReservationModal() {
 					leaveTo='translate-y-[calc(50vh+50%)]'
 					as={Fragment}
 				>
-					<Dialog.Panel className='bg fixed inset-0 m-auto h-fit max-w-xl rounded-xl bg-white dark:bg-neutral-800'>
+					<Dialog.Panel className='fixed inset-0 m-auto mx-2 h-fit max-w-xl rounded-xl bg-white dark:bg-neutral-800'>
 						<ConfirmReservationModalInner />
 					</Dialog.Panel>
 				</Transition.Child>
@@ -105,22 +105,22 @@ function ConfirmReservationModalInner() {
 					<div className='text-base'>
 						{listing.description.substring(0, 100)}...
 					</div>
-					<div className='mt-auto'>4.98 (5 reviews)</div>
+					<div className='mt-4'>4.98 (5 reviews)</div>
 				</div>
 			</div>
 			<div className='border-t' />
-			<div className='space-y-4'>
-				<h1 className='text-2xl font-semibold'>Your trip</h1>
-				<div>
-					<h2 className='font-semibold'>Dates</h2>
-					<h2>
+			<div className='space-y-4 text-lg'>
+				<h1 className='text-3xl font-semibold'>Your Trip</h1>
+				<div className='flex flex-wrap justify-between'>
+					<h2 className='font-semibold'>Dates:</h2>
+					<h2 className='text-gray-400'>
 						{reservationInput.startDate.toLocaleDateString()} -{' '}
 						{reservationInput.endDate.toLocaleDateString()}
 					</h2>
 				</div>
-				<div>
-					<h2 className='font-semibold'>Guests</h2>
-					<h2 className='capitalize'>
+				<div className='flex flex-wrap justify-between'>
+					<h2 className='font-semibold'>Guests:</h2>
+					<h2 className='capitalize text-gray-400'>
 						{reservationInput.adultGuestCount > 0 &&
 							`${reservationInput.adultGuestCount} adults` + ' '}
 						{reservationInput.childGuestCount > 0 &&
@@ -131,27 +131,27 @@ function ConfirmReservationModalInner() {
 							`${reservationInput.petCount} pets`}
 					</h2>
 				</div>
-				<div className='border-t' />
-
 				<div className='flex justify-between'>
-					<button
-						onClick={() => setModalOpen(false)}
-						className='h-14 rounded-lg border px-12 text-xl font-bold text-white'
-					>
-						Cancel
-					</button>
-					<button
-						disabled={isLoading}
-						onClick={onConfirm}
-						className='h-14 rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] px-12 text-center text-xl font-bold text-white'
-					>
-						{isLoading
-							? 'Submitting...'
-							: isError
-							? 'Error'
-							: 'Confirm And Pay'}
-					</button>
+					<h2 className='font-semibold'>Total Cost:</h2>
+					<h2 className='text-gray-400'>${reservationInput.totalCost}</h2>
 				</div>
+			</div>
+			<div className='border-t' />
+
+			<div className='flex flex-wrap justify-between gap-4'>
+				<button
+					onClick={() => setModalOpen(false)}
+					className='h-14 rounded-lg border px-12 text-xl font-bold text-white'
+				>
+					Cancel
+				</button>
+				<button
+					disabled={isLoading}
+					onClick={onConfirm}
+					className='h-14 rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] px-12 text-center text-xl font-bold text-white'
+				>
+					{isLoading ? 'Submitting...' : isError ? 'Error' : 'Confirm And Pay'}
+				</button>
 			</div>
 		</div>
 	);
