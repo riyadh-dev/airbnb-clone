@@ -7,7 +7,14 @@ const reservationInsertBaseSchema = createInsertSchema(reservations, {
 	listingId: z.number().int(),
 });
 
-export const reservationInsertSchema = reservationInsertBaseSchema.omit({
-	createdAt: true,
-	id: true,
-});
+export const reservationInsertSchema = reservationInsertBaseSchema
+	.omit({
+		createdAt: true,
+		id: true,
+		totalCost: true,
+	})
+	.merge(
+		z.object({
+			pricePerNight: z.number(),
+		})
+	);

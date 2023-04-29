@@ -3,7 +3,7 @@ import ReservationBox from '@/components/Listing/ReservationBox';
 import ReviewsListStatic from '@/components/Listing/ReviewsListStatic';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import useListing from '@/hooks/useListing';
-import { reservationListingAtom } from '@/jotai/atoms';
+import { reservationInputAtom, reservationListingAtom } from '@/jotai/atoms';
 import { classNames } from '@/utils/helpers';
 import { useSetAtom } from 'jotai';
 import Head from 'next/head';
@@ -13,10 +13,17 @@ import { useEffect } from 'react';
 export default function ListingPage() {
 	const { isLoading, listing, toggleLike, user } = useListing();
 	const setReservationListing = useSetAtom(reservationListingAtom);
+	const setReservationInput = useSetAtom(reservationInputAtom);
 
 	useEffect(() => {
-		if (listing) setReservationListing(listing);
-	}, [listing, setReservationListing]);
+		if (listing) {
+			setReservationListing(listing);
+			setReservationInput((prev) => ({
+				...prev,
+				pricePerNight: listing.price,
+			}));
+		}
+	}, [listing, setReservationInput, setReservationListing]);
 
 	if (isLoading)
 		return (

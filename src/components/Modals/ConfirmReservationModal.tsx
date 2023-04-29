@@ -3,6 +3,7 @@ import {
 	reservationInputAtom,
 	reservationListingAtom,
 } from '@/jotai/atoms';
+import { reservationDateRangeAtom } from '@/jotai/selectors';
 import { trpc } from '@/utils/trpc';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
@@ -51,7 +52,7 @@ export default function ConfirmReservationModal() {
 					leaveTo='translate-y-[calc(50vh+50%)]'
 					as={Fragment}
 				>
-					<Dialog.Panel className='fixed inset-0 m-auto mx-2 h-fit max-w-xl rounded-xl bg-white dark:bg-neutral-800'>
+					<Dialog.Panel className='fixed inset-0 m-auto h-fit max-w-xl rounded-xl bg-white dark:bg-neutral-800'>
 						<ConfirmReservationModalInner />
 					</Dialog.Panel>
 				</Transition.Child>
@@ -64,6 +65,7 @@ function ConfirmReservationModalInner() {
 	const setModalOpen = useSetAtom(confirmReservationModalOpenAtom);
 	const listing = useAtomValue(reservationListingAtom);
 	const reservationInput = useAtomValue(reservationInputAtom);
+	const dateRange = useAtomValue(reservationDateRangeAtom);
 
 	const utils = trpc.useContext();
 	const { mutate, isLoading, isError } = trpc.reservations.create.useMutation({
@@ -133,7 +135,9 @@ function ConfirmReservationModalInner() {
 				</div>
 				<div className='flex justify-between'>
 					<h2 className='font-semibold'>Total Cost:</h2>
-					<h2 className='text-gray-400'>${reservationInput.totalCost}</h2>
+					<h2 className='text-gray-400'>
+						${listing.price} x {dateRange} nights = ${listing.price * dateRange}
+					</h2>
 				</div>
 			</div>
 			<div className='border-t' />

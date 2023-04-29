@@ -27,7 +27,7 @@ export const reservationInputAtom = atom<TReservationInput>({
 	childGuestCount: 0,
 	infantGuestCount: 0,
 	petCount: 0,
-	totalCost: 0,
+	pricePerNight: 0,
 });
 
 export const listingCategoryAtom = atomWithStorage('listingCategory', '');

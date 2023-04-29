@@ -1,12 +1,13 @@
+import { AIRBNB_SERVICE_FEE } from '@/constants';
 import {
 	confirmReservationModalOpenAtom,
 	reservationInputAtom,
 	reservationListingAtom,
 } from '@/jotai/atoms';
+import { reservationDateRangeAtom } from '@/jotai/selectors';
 import { classNames } from '@/utils/helpers';
 import { Menu } from '@headlessui/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { useState } from 'react';
 import DatePicker from 'react-tailwindcss-datepicker';
 import CounterInput from '../Input/CounterInput';
 
@@ -15,43 +16,44 @@ type TDateRange = {
 	endDate: string | null | Date;
 } | null;
 
+const getAsDate = (value?: string | null | Date) => {
+	if (!value) return new Date();
+	if (value instanceof Date) return value;
+	return new Date(value);
+};
+
+const getAsDateString = (value?: string | null | Date) => {
+	if (!value) return new Date().toLocaleDateString();
+	if (value instanceof Date) return value.toLocaleDateString();
+	return value;
+};
+
 export default function ReservationBox({ disabled }: { disabled: boolean }) {
 	const listing = useAtomValue(reservationListingAtom);
 	const [reservationInput, setReservationInput] = useAtom(reservationInputAtom);
+	const dateRange = useAtomValue(reservationDateRangeAtom);
 	const setModalOpen = useSetAtom(confirmReservationModalOpenAtom);
-
-	const [dateRange, setDateRange] = useState<TDateRange>({
-		startDate: new Date(),
-		endDate: new Date(),
-	});
 
 	if (!listing) return null;
 
-	const setGuestsCategory =
-		(
-			category: keyof Pick<
-				typeof reservationInput,
-				'adultGuestCount' | 'childGuestCount' | 'infantGuestCount' | 'petCount'
-			>
-		) =>
-		(newValue: number) =>
-			setReservationInput({ ...reservationInput, [category]: newValue });
+	type TGuestCountKey = keyof Pick<
+		typeof reservationInput,
+		'adultGuestCount' | 'childGuestCount' | 'infantGuestCount' | 'petCount'
+	>;
 
-	const handleValueChange = (newDateRange: TDateRange) => {
-		setDateRange(newDateRange);
-	};
+	const setGuestsCategory = (category: TGuestCountKey) => (newValue: number) =>
+		setReservationInput({ ...reservationInput, [category]: newValue });
 
-	const startDate = !dateRange?.startDate
-		? null
-		: typeof dateRange.startDate === 'string'
-		? dateRange.startDate
-		: dateRange.startDate.toLocaleDateString();
+	const handleValueChange = (newDateRange: TDateRange) =>
+		setReservationInput({
+			...reservationInput,
+			startDate: getAsDate(newDateRange?.startDate),
+			endDate: getAsDate(newDateRange?.endDate),
+		});
 
-	const endDate = !dateRange?.endDate
-		? null
-		: typeof dateRange.endDate === 'string'
-		? dateRange.endDate
-		: dateRange.endDate.toLocaleDateString();
+	const totalCostBeforeFee = dateRange * listing.price;
+	const totalCost =
+		totalCostBeforeFee + totalCostBeforeFee * AIRBNB_SERVICE_FEE;
 
 	return (
 		<div className='mx-auto h-fit w-full space-y-4 rounded-xl border p-6 shadow-lg md:shrink-0 lg:w-[370px]'>
@@ -72,12 +74,16 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 			<div className='relative flex h-14 w-full rounded-t-md border-x border-t text-left'>
 				<div className='w-1/2 p-3'>
 					<div className='text-xs font-bold uppercase'>check-in</div>
-					<div className='text-sm'>{startDate}</div>
+					<div className='text-sm'>
+						{getAsDateString(reservationInput.startDate)}
+					</div>
 				</div>
 				<div className='h-full w-1 border-l' />
 				<div className='w-1/2 p-3'>
 					<div className='text-xs font-bold uppercase'>checkout</div>
-					<div className='text-sm'>{endDate}</div>
+					<div className='text-sm'>
+						{getAsDateString(reservationInput.endDate)}
+					</div>
 				</div>
 				<DatePicker
 					containerClassName=' h-full w-full bg-transparent absolute left-0'
@@ -85,7 +91,10 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 					primaryColor='rose'
 					//@ts-expect-error
 					popoverDirection='down'
-					value={dateRange}
+					value={{
+						endDate: reservationInput.endDate,
+						startDate: reservationInput.startDate,
+					}}
 					onChange={handleValueChange}
 					minDate={new Date()}
 					disabled={disabled}
@@ -200,19 +209,24 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 			<div className='text-center'>You won&apos;t be charged yet</div>
 
 			<div className='flex'>
-				<span>${listing.price} x 3 nights</span>
-				<span className='ml-auto'>${(listing.price ?? 0) * 3}</span>
+				<span>
+					${listing.price} x {dateRange} nights
+				</span>
+				<span className='ml-auto'>${totalCostBeforeFee}</span>
 			</div>
 			<div className='flex'>
 				<span>Airbnb service fee</span>
-				<span className='ml-auto'>$100</span>
+				<span className='ml-auto'>
+					${(totalCostBeforeFee * AIRBNB_SERVICE_FEE).toFixed(2)} (
+					{AIRBNB_SERVICE_FEE * 100}%)
+				</span>
 			</div>
 
 			<div className='border-t' />
 
 			<div className='flex font-bold'>
 				<span>Total before taxes</span>
-				<span className='ml-auto'>${(listing.price ?? 0) * 3 + 100}</span>
+				<span className='ml-auto'>${totalCost}</span>
 			</div>
 		</div>
 	);
