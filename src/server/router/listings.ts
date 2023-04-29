@@ -15,19 +15,6 @@ const listingListItemSelect = {
 	price: listings.price,
 };
 
-const isLikedSQL = (userId: number) =>
-	exists(
-		db
-			.select()
-			.from(userLikedListings)
-			.where(
-				and(
-					eq(listings.id, userLikedListings.listingId),
-					eq(userLikedListings.userId, userId)
-				)
-			)
-	);
-
 const listingsRouter = router({
 	create: protectedProcedure
 		.input(listingInsertSchema)
@@ -44,32 +31,8 @@ const listingsRouter = router({
 
 			const select = {
 				listing: listings,
-				isLiked: user
-					? (exists(
-							db
-								.select()
-								.from(userLikedListings)
-								.where(
-									and(
-										eq(listings.id, userLikedListings.listingId),
-										eq(userLikedListings.userId, user.id)
-									)
-								)
-					  ) as SQL<1 | 0>)
-					: sql<boolean>`false`,
-				isReserved: user
-					? (exists(
-							db
-								.select()
-								.from(reservations)
-								.where(
-									and(
-										eq(listings.id, reservations.listingId),
-										eq(reservations.ownerId, user.id)
-									)
-								)
-					  ) as SQL<1 | 0>)
-					: sql<boolean>`false`,
+				isLiked: isLikedSQL(user?.id),
+				isReserved: isReservedSQL(user?.id),
 			};
 
 			const results = await db
@@ -85,23 +48,10 @@ const listingsRouter = router({
 
 		const select = {
 			...listingListItemSelect,
-			isLiked: user
-				? sql<1 | 0>`user_liked_listings.user_id = ${user.id}`
-				: sql<boolean>`false`,
+			isLiked: isLikedSQL(user?.id),
 		};
 
-		if (!user) return await db.select(select).from(listings);
-
-		return await db
-			.select(select)
-			.from(listings)
-			.leftJoin(
-				userLikedListings,
-				and(
-					eq(listings.id, userLikedListings.listingId),
-					eq(userLikedListings.userId, user.id)
-				)
-			);
+		return await db.select(select).from(listings);
 	}),
 
 	listLiked: protectedProcedure.query(
@@ -174,5 +124,38 @@ const listingsRouter = router({
 			return 'listing un-liked';
 		}),
 });
+
+//HACK for some reason working with planetscale return strings of 1 or 0 when using drizzle orm exists()
+function isLikedSQL(userId?: number) {
+	if (!userId) return sql<'0'>`0`;
+
+	return exists(
+		db
+			.select()
+			.from(userLikedListings)
+			.where(
+				and(
+					eq(listings.id, userLikedListings.listingId),
+					eq(userLikedListings.userId, userId)
+				)
+			)
+	) as SQL<'1' | '0'>;
+}
+
+function isReservedSQL(userId?: number) {
+	if (!userId) return sql<'0'>`0`;
+
+	return exists(
+		db
+			.select()
+			.from(reservations)
+			.where(
+				and(
+					eq(listings.id, reservations.listingId),
+					eq(reservations.ownerId, userId)
+				)
+			)
+	) as SQL<'1' | '0'>;
+}
 
 export default listingsRouter;

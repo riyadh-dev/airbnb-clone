@@ -10,13 +10,10 @@ interface IListing {
 	country: string;
 	price: number;
 	//if undefined assume its listing liked
-	isLiked?: boolean | 0 | 1;
+	isLiked?: '0' | '1';
 	imagesCSV: string;
 	description: string;
 }
-
-const getIsLiked = (isLiked: IListing['isLiked']) =>
-	isLiked === undefined ? true : isLiked;
 
 export default function ListingList({
 	listings,
@@ -73,7 +70,7 @@ function ListingListItem({
 						role='presentation'
 						focusable='false'
 						className={classNames(
-							getIsLiked(listing.isLiked)
+							listing.isLiked === '1' || listing.isLiked === undefined
 								? 'fill-primary stroke-white stroke-2'
 								: 'fill-black/50 stroke-white stroke-2',
 							'h-6 w-6'

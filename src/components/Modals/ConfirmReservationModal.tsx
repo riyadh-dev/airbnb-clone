@@ -74,7 +74,7 @@ function ConfirmReservationModalInner() {
 			const prevListing = utils.listings.getById.getData(id);
 
 			utils.listings.getById.setData(id, (old) =>
-				old ? { ...old, isReserved: !old.isReserved } : null
+				old ? { ...old, isReserved: old.isReserved === '1' ? '0' : '1' } : null
 			);
 
 			return { prevListing };

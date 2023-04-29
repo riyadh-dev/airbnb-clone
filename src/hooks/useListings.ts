@@ -18,7 +18,7 @@ export default function useListings() {
 			utils.listings.list.setData(undefined, (old) =>
 				old?.map((listing) =>
 					listing.id === id
-						? { ...listing, isLiked: !listing.isLiked }
+						? { ...listing, isLiked: listing.isLiked === '1' ? '0' : '1' }
 						: listing
 				)
 			);

@@ -27,7 +27,7 @@ export default function useListing() {
 			const prevListing = utils.listings.getById.getData(id);
 
 			utils.listings.getById.setData(id, (old) =>
-				old ? { ...old, isLiked: !old.isLiked } : null
+				old ? { ...old, isLiked: old.isLiked === '1' ? '0' : '1' } : null
 			);
 
 			return { prevListing };
