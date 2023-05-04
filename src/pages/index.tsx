@@ -1,5 +1,6 @@
 import ListingList from '@/components/Listing/ListingList';
 import ListingCategoriesBar from '@/components/ListingCategoriesBar';
+import FilterModal from '@/components/Modals/FilterModal';
 import useListings from '@/hooks/useListings';
 import Head from 'next/head';
 import { ListingsListSkeleton } from '../components/ListingsListSkeleton';
@@ -13,6 +14,7 @@ export default function Home() {
 			</Head>
 			<ListingCategoriesBar />
 			<HomeList />
+			<FilterModal />
 		</main>
 	);
 }

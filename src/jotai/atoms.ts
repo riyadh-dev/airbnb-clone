@@ -10,12 +10,11 @@ import { z } from 'zod';
 
 export const logInSignUpModalOpenAtom = atom(false);
 export const rentModalOpenAtom = atom(false);
+export const confirmReservationModalOpenAtom = atom(false);
+export const FilterModalOpenAtom = atom(false);
 
 export const logInSignUpFromTypeAtom = atom<TLoginInSignUpFormTypes>('sign-up');
-
 export const disableUserSignActionsAtom = atom(false);
-
-export const confirmReservationModalOpenAtom = atom(false);
 
 export const reservationListingAtom = atom<TListing | null>(null);
 export const reservationInputAtom = atom<TReservationInput>({
