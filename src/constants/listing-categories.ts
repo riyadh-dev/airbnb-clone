@@ -9,6 +9,10 @@ import house from '@/../public/images/categories/house.png';
 import pool from '@/../public/images/categories/pool.png';
 import ufo from '@/../public/images/categories/ufo.png';
 import view from '@/../public/images/categories/view.png';
+import bowling from '../../public/images/categories/bowling.png';
+import cabin from '../../public/images/categories/cabin.png';
+import tower from '../../public/images/categories/tower.png';
+
 import { TListingCategory } from '@/common/types';
 import { StaticImageData } from 'next/image';
 
@@ -27,6 +31,9 @@ const LISTING_CATEGORIES: {
 	{ title: 'Amazing pools', image: pool },
 	{ title: 'Bed and breakfast', image: coffee },
 	{ title: 'Castles', image: castle },
+	{ title: 'Bowling', image: bowling },
+	{ title: 'Cabins', image: cabin },
+	{ title: 'Towers', image: tower },
 ];
 
 export default LISTING_CATEGORIES;

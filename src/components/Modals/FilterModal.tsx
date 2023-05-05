@@ -1,8 +1,15 @@
-import { FilterModalOpenAtom } from '@/jotai/atoms';
+import useZodForm from '@/hooks/useZodForm';
+import { FilterModalOpenAtom, filterOptionsAtom } from '@/jotai/atoms';
+import { classNames } from '@/utils/helpers';
+import { listingFilterSchema } from '@/zod/listings';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAtom, useSetAtom } from 'jotai';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import CustomInput from '../Input/CustomInput';
+
+function isEmptyString(str: string) {
+	return !str || str.length === 0;
+}
 
 export default function FilterModal() {
 	const [modalOpen, setModalOpen] = useAtom(FilterModalOpenAtom);
@@ -45,9 +52,80 @@ export default function FilterModal() {
 
 function FilterModalInner() {
 	const setModalOpen = useSetAtom(FilterModalOpenAtom);
+	const [filterOptions, setFilterOptions] = useAtom(filterOptionsAtom);
+	const {
+		register,
+		handleSubmit,
+		setValue,
+		formState: { errors: formErrors },
+	} = useZodForm(
+		listingFilterSchema
+			.pick({
+				maxPrice: true,
+				minPrice: true,
+			})
+			.refine(
+				(data) =>
+					(data.minPrice && data.maxPrice) ||
+					(!data.minPrice && !data.maxPrice),
+				{
+					message: 'min and max must be provided together',
+					path: ['minPrice'],
+				}
+			)
+			.refine(
+				(data) =>
+					data.minPrice && data.maxPrice
+						? data.minPrice <= data.maxPrice
+						: true,
+				{
+					message: 'min must be less than max',
+					path: ['minPrice'],
+				}
+			),
+		{
+			defaultValues: {
+				maxPrice: filterOptions.maxPrice,
+				minPrice: filterOptions.minPrice,
+			},
+		}
+	);
+
+	const [bedCount, setBedCount] = useState<number | undefined>(undefined);
+	const [bathroomCount, setBathroomCount] = useState<number | undefined>(
+		undefined
+	);
+
+	useEffect(() => {
+		if (filterOptions.bedCount) setBedCount(filterOptions.bedCount);
+		if (filterOptions.bathroomCount)
+			setBathroomCount(filterOptions.bathroomCount);
+	}, [
+		filterOptions.bathroomCount,
+		filterOptions.bedCount,
+		filterOptions.minPrice,
+	]);
+
+	const onSubmit = handleSubmit(({ maxPrice, minPrice }) => {
+		setFilterOptions({
+			...filterOptions,
+			maxPrice,
+			minPrice,
+			bedCount,
+			bathroomCount,
+		});
+		setModalOpen(false);
+	});
+
+	const onClear = () => {
+		setValue('maxPrice', undefined);
+		setValue('minPrice', undefined);
+		setBedCount(undefined);
+		setBathroomCount(undefined);
+	};
 
 	return (
-		<div>
+		<form onSubmit={onSubmit}>
 			<div className='relative p-6'>
 				<span className='absolute flex h-8 w-8 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-gray-700'>
 					<i
@@ -60,52 +138,102 @@ function FilterModalInner() {
 			<div className='border-t' />
 			<div className='space-y-5 p-6'>
 				<h1 className='text-xl font-bold'>Price Range ($)</h1>
-				<div className='flex items-center gap-x-6 [&>*]:grow'>
+				<div className='flex gap-x-6 [&>*]:grow'>
 					<CustomInput
 						inputProps={{
 							type: 'number',
 							placeholder: 'Minimum',
+							...register('minPrice', {
+								setValueAs: (value) =>
+									isEmptyString(value) ? undefined : Number(value),
+							}),
 						}}
+						errorMessage={formErrors.minPrice?.message}
 					/>
-					<div className='max-w-[16px] border-t-2' />
+					<div className='max-w-[16px] self-center border-t-2' />
 					<CustomInput
 						inputProps={{
 							type: 'number',
 							placeholder: 'Maximum',
+							...register('maxPrice', {
+								setValueAs: (value) =>
+									isEmptyString(value) ? undefined : Number(value),
+							}),
 						}}
+						errorMessage={formErrors.maxPrice?.message}
 					/>
 				</div>
 				<div className='border-t' />
 				<h1 className='text-xl font-bold'>Beds and bathrooms</h1>
 				<h3 className='text-lg'>Beds </h3>
 				<div className='flex items-center gap-x-2'>
-					<button className='h-10 rounded-full border bg-black px-6 text-white'>
+					<button
+						type='button'
+						onClick={() => setBedCount(undefined)}
+						className={classNames(
+							bedCount === undefined
+								? 'bg-slate-950 text-white transition-colors duration-300 dark:bg-white dark:text-black'
+								: '',
+							'h-10 rounded-full border px-6'
+						)}
+					>
 						Any
 					</button>
-					{Array.from({ length: 7 }, (_, i) => (
-						<button key={i} className='h-10 rounded-full border px-6'>
+					{Array.from({ length: 8 }, (_, i) => (
+						<button
+							type='button'
+							onClick={() => setBedCount(i + 1)}
+							key={i}
+							className={classNames(
+								bedCount === i + 1
+									? 'bg-slate-950 text-white transition-colors duration-300 dark:bg-white dark:text-black'
+									: '',
+								'h-10 rounded-full border px-6'
+							)}
+						>
 							{i + 1}
 						</button>
 					))}
-					<button className='h-10 rounded-full border px-6'>8+</button>
 				</div>
 
 				<h3 className='text-lg'>Bathrooms</h3>
 				<div className='flex items-center gap-x-2'>
-					<button className='h-10 rounded-full border bg-black px-6 text-white'>
+					<button
+						type='button'
+						onClick={() => setBathroomCount(undefined)}
+						className={classNames(
+							bathroomCount === undefined
+								? 'bg-slate-950 text-white transition-colors duration-300 dark:bg-white dark:text-black'
+								: '',
+							'h-10 rounded-full border px-6'
+						)}
+					>
 						Any
 					</button>
-					{Array.from({ length: 7 }, (_, i) => (
-						<button key={i} className='h-10 rounded-full border px-6'>
+					{Array.from({ length: 8 }, (_, i) => (
+						<button
+							type='button'
+							onClick={() => setBathroomCount(i + 1)}
+							key={i}
+							className={classNames(
+								bathroomCount === i + 1
+									? 'bg-slate-950 text-white transition-colors duration-300 dark:bg-white dark:text-black'
+									: '',
+								'h-10 rounded-full border px-6'
+							)}
+						>
 							{i + 1}
 						</button>
 					))}
-					<button className='h-10 rounded-full border px-6'>8+</button>
 				</div>
 			</div>
 			<div className='border-t' />
 			<div className='flex justify-between p-6'>
-				<button type='submit' className='h-12 rounded-lg border px-4 font-bold'>
+				<button
+					onClick={onClear}
+					type='button'
+					className='h-12 rounded-lg border px-4 font-bold'
+				>
 					Clear
 				</button>
 				<button
@@ -115,6 +243,6 @@ function FilterModalInner() {
 					Show places
 				</button>
 			</div>
-		</div>
+		</form>
 	);
 }

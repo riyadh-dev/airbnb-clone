@@ -1,24 +1,46 @@
 import LISTING_CATEGORIES from '@/constants/listing-categories';
-import { FilterModalOpenAtom } from '@/jotai/atoms';
-import { useSetAtom } from 'jotai';
+import { FilterModalOpenAtom, filterCategoryAtom } from '@/jotai/atoms';
+import { classNames } from '@/utils/helpers';
+import { useAtom, useSetAtom } from 'jotai';
 import Image from 'next/image';
 
 export default function ListingCategoriesBar() {
 	const setModalOpen = useSetAtom(FilterModalOpenAtom);
+	const [selectedCategory, setCategory] = useAtom(filterCategoryAtom);
+
 	return (
 		<nav className='sticky top-20 z-30 flex h-20 bg-white px-10 shadow-md dark:border-b dark:bg-neutral-950 xl:px-20'>
-			<ul className='flex items-stretch gap-x-8 overflow-x-hidden text-gray-500'>
+			<ul className='flex items-stretch gap-x-8 overflow-x-hidden'>
 				{LISTING_CATEGORIES.map((category, index) => (
-					<li key={index} className='group mt-auto cursor-pointer space-y-2'>
+					<li
+						onClick={() => setCategory(category.title)}
+						key={index}
+						className='group mt-auto cursor-pointer space-y-2'
+					>
 						<Image
 							alt='icon'
 							src={category.image}
-							className='mx-auto aspect-square h-6 w-6 opacity-60 dark:invert'
+							className={classNames(
+								selectedCategory === category.title ? '' : 'opacity-60',
+								'mx-auto aspect-square h-6 w-6 dark:invert'
+							)}
 						/>
-						<div className='whitespace-nowrap text-xs font-bold'>
+						<div
+							className={classNames(
+								selectedCategory === category.title ? '' : 'text-gray-500',
+								'whitespace-nowrap text-xs font-bold'
+							)}
+						>
 							{category.title}
 						</div>
-						<div className='invisible mt-auto h-[2.5px] w-full rounded-full bg-gray-300 group-hover:visible' />
+						<div
+							className={classNames(
+								selectedCategory === category.title
+									? 'bg-slate-950 dark:bg-white'
+									: 'invisible bg-gray-300 group-hover:visible',
+								'mt-auto h-[2.5px] w-full rounded-full'
+							)}
+						/>
 					</li>
 				))}
 			</ul>

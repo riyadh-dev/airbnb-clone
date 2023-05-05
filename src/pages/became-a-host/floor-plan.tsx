@@ -30,29 +30,29 @@ export default function FloorPlanStep() {
 					<div className='flex justify-between py-5 text-lg'>
 						<span>Guests</span>
 						<CounterInput
-							count={counts.guestsCount}
-							setCount={setCount('guestsCount')}
+							count={counts.guestCount}
+							setCount={setCount('guestCount')}
 						/>
 					</div>
 					<div className='flex justify-between py-5 text-lg'>
 						<span>Bedrooms</span>
 						<CounterInput
-							count={counts.bedroomsCount}
-							setCount={setCount('bedroomsCount')}
+							count={counts.bedroomCount}
+							setCount={setCount('bedroomCount')}
 						/>
 					</div>
 					<div className='flex justify-between py-5 text-lg'>
 						<span>Beds</span>
 						<CounterInput
-							count={counts.bedsCount}
-							setCount={setCount('bedsCount')}
+							count={counts.bedCount}
+							setCount={setCount('bedCount')}
 						/>
 					</div>
 					<div className='flex justify-between py-5 text-lg'>
 						<span>Bathrooms</span>
 						<CounterInput
-							count={counts.bathroomsCount}
-							setCount={setCount('bathroomsCount')}
+							count={counts.bathroomCount}
+							setCount={setCount('bathroomCount')}
 						/>
 					</div>
 				</div>

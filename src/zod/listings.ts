@@ -10,10 +10,10 @@ const listingInsertBaseSchema = createInsertSchema(listings, {
 	state: z.string().nonempty(),
 	postalCode: z.string().nonempty(),
 
-	guestsCount: z.number().positive(),
-	bedroomsCount: z.number().positive(),
-	bedsCount: z.number().positive(),
-	bathroomsCount: z.number().positive(),
+	guestCount: z.number().positive(),
+	bedroomCount: z.number().positive(),
+	bedCount: z.number().positive(),
+	bathroomCount: z.number().positive(),
 
 	imagesCSV: z.string().nonempty(),
 
@@ -34,10 +34,10 @@ export const listingLocationSchema = listingInsertBaseSchema.pick({
 });
 
 export const listingFloorPlanSchema = listingInsertBaseSchema.pick({
-	guestsCount: true,
-	bedroomsCount: true,
-	bedsCount: true,
-	bathroomsCount: true,
+	guestCount: true,
+	bedroomCount: true,
+	bedCount: true,
+	bathroomCount: true,
 });
 
 const listingRestSchema = listingInsertBaseSchema.pick({
@@ -51,3 +51,20 @@ const listingRestSchema = listingInsertBaseSchema.pick({
 export const listingInsertSchema = listingLocationSchema
 	.merge(listingFloorPlanSchema)
 	.merge(listingRestSchema);
+
+export const listingFilterSchema = createInsertSchema(listings, {
+	bedCount: z.number().positive().optional(),
+	bathroomCount: z.number().positive().optional(),
+	category: z.string().optional(),
+})
+	.pick({
+		bedCount: true,
+		bathroomCount: true,
+		category: true,
+	})
+	.merge(
+		z.object({
+			minPrice: z.coerce.number().positive().optional(),
+			maxPrice: z.coerce.number().positive().optional(),
+		})
+	);

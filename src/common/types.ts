@@ -1,4 +1,4 @@
-import { listings, reservations, users } from '@/db/schema';
+import { listings, users } from '@/db/schema';
 import { listingInsertSchema } from '@/zod/listings';
 import { reservationInsertSchema } from '@/zod/reservation';
 import { loginInputSchema, signUpBodySchema } from '@/zod/user';
@@ -30,7 +30,10 @@ export type TListingCategory =
 	| 'Boats'
 	| 'Amazing pools'
 	| 'Bed and breakfast'
-	| 'Castles';
+	| 'Castles'
+	| 'Bowling'
+	| 'Cabins'
+	| 'Towers';
 
 export type TRentModalStep =
 	| 'category'

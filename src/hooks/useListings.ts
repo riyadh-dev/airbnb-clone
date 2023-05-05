@@ -1,13 +1,22 @@
 import {
+	filterCategoryAtom,
+	filterOptionsAtom,
 	logInSignUpFromTypeAtom,
 	logInSignUpModalOpenAtom,
 } from '@/jotai/atoms';
 import { trpc } from '@/utils/trpc';
-import { useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useSession } from 'next-auth/react';
 
 export default function useListings() {
-	const { data: listings, isLoading } = trpc.listings.list.useQuery();
+	const filterOption = useAtomValue(filterOptionsAtom);
+	const filterCategory = useAtomValue(filterCategoryAtom);
+
+	//const { data: listings, isLoading } = trpc.listings.list.useQuery();
+	const { data: listings, isLoading } = trpc.listings.listFilter.useQuery({
+		...filterOption,
+		category: filterCategory === 'Trending' ? undefined : filterCategory,
+	});
 
 	const utils = trpc.useContext();
 	const { mutate } = trpc.listings.toggleLike.useMutation({

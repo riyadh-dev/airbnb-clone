@@ -111,13 +111,13 @@ export default function ListingPage() {
 								Hosted by {user.name}
 							</h1>
 							<div className='space-x-1'>
-								<span>{listing.guestsCount} Guests</span>
+								<span>{listing.guestCount} Guests</span>
 								<span>.</span>
-								<span>{listing.bedroomsCount} Bedrooms</span>
+								<span>{listing.bedroomCount} Bedrooms</span>
 								<span>.</span>
-								<span>{listing.bedsCount} Beds</span>
+								<span>{listing.bedCount} Beds</span>
 								<span>.</span>
-								<span>{listing.bathroomsCount} Bathrooms</span>
+								<span>{listing.bathroomCount} Bathrooms</span>
 							</div>
 						</div>
 

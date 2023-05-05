@@ -1,7 +1,7 @@
 import db from '@/db';
 import { listings, reservations, userLikedListings } from '@/db/schema';
-import { listingInsertSchema } from '@/zod/listings';
-import { and, eq, exists } from 'drizzle-orm/expressions';
+import { listingFilterSchema, listingInsertSchema } from '@/zod/listings';
+import { and, between, eq, exists } from 'drizzle-orm/expressions';
 import { SQL, sql } from 'drizzle-orm/sql';
 import { z } from 'zod';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
@@ -53,6 +53,29 @@ const listingsRouter = router({
 
 		return await db.select(select).from(listings);
 	}),
+
+	listFilter: publicProcedure
+		.input(listingFilterSchema)
+		.query(async ({ ctx, input }) => {
+			const user = ctx.session?.user;
+
+			const select = {
+				...listingListItemSelect,
+				isLiked: isLikedSQL(user?.id),
+			};
+
+			const query = db.select(select).from(listings);
+
+			let whereArgs = [];
+			if (input.bathroomCount)
+				whereArgs.push(eq(listings.bathroomCount, input.bathroomCount));
+			if (input.bedCount) whereArgs.push(eq(listings.bedCount, input.bedCount));
+			if (input.maxPrice && input.minPrice)
+				whereArgs.push(between(listings.price, input.minPrice, input.maxPrice));
+			if (input.category) whereArgs.push(eq(listings.category, input.category));
+
+			return await query.where(and(...whereArgs));
+		}),
 
 	listLiked: protectedProcedure.query(
 		async ({ ctx }) =>

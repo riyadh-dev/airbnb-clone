@@ -23,7 +23,7 @@ function HomeList() {
 	const { isLoading, listings, toggleLike } = useListings();
 
 	if (isLoading) return <ListingsListSkeleton />;
-	if (!listings)
+	if (!listings || listings.length === 0)
 		return (
 			<div className='mt-32 flex items-center justify-center text-2xl font-bold text-gray-400'>
 				No Results Found

@@ -1,5 +1,6 @@
 import {
 	TListing,
+	TListingCategory,
 	TLoginInSignUpFormTypes,
 	TReservationInput,
 } from '@/common/types';
@@ -29,6 +30,14 @@ export const reservationInputAtom = atom<TReservationInput>({
 	pricePerNight: 0,
 });
 
+export const filterOptionsAtom = atom<{
+	minPrice?: number;
+	maxPrice?: number;
+	bedCount?: number;
+	bathroomCount?: number;
+}>({});
+export const filterCategoryAtom = atom<TListingCategory>('Trending');
+
 export const listingCategoryAtom = atomWithStorage('listingCategory', '');
 
 type TListingLocation = z.infer<typeof listingLocationSchema>;
@@ -48,10 +57,10 @@ type TListingFloorPlan = z.infer<typeof listingFloorPlanSchema>;
 export const listingFloorPlanAtom = atomWithStorage<TListingFloorPlan>(
 	'listingFloorPlan',
 	{
-		guestsCount: 0,
-		bedroomsCount: 0,
-		bedsCount: 0,
-		bathroomsCount: 0,
+		guestCount: 0,
+		bedroomCount: 0,
+		bedCount: 0,
+		bathroomCount: 0,
 	}
 );
 
