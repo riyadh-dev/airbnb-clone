@@ -41,7 +41,7 @@ export default function FilterModal() {
 					leaveTo='translate-y-[calc(50vh+50%)]'
 					as={Fragment}
 				>
-					<Dialog.Panel className='fixed inset-0 m-auto h-fit max-w-2xl rounded-xl bg-white dark:bg-neutral-800'>
+					<Dialog.Panel className='fixed inset-0 mx-2 my-auto h-fit max-w-2xl rounded-xl bg-white dark:bg-neutral-800 md:mx-auto'>
 						<FilterModalInner />
 					</Dialog.Panel>
 				</Transition.Child>
@@ -166,7 +166,7 @@ function FilterModalInner() {
 				<div className='border-t' />
 				<h1 className='text-xl font-bold'>Beds and bathrooms</h1>
 				<h3 className='text-lg'>Beds </h3>
-				<div className='flex items-center gap-x-2'>
+				<div className='flex flex-wrap items-center gap-2'>
 					<button
 						type='button'
 						onClick={() => setBedCount(undefined)}
@@ -197,7 +197,7 @@ function FilterModalInner() {
 				</div>
 
 				<h3 className='text-lg'>Bathrooms</h3>
-				<div className='flex items-center gap-x-2'>
+				<div className='flex flex-wrap items-center gap-2'>
 					<button
 						type='button'
 						onClick={() => setBathroomCount(undefined)}
