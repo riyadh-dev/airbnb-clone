@@ -70,10 +70,10 @@ export default function ListingPage() {
 							role='presentation'
 							focusable='false'
 							className={classNames(
-								listing.isLiked
+								listing.isLiked === '1'
 									? 'fill-primary dark:stroke-white'
 									: 'fill-white stroke-black stroke-2 dark:fill-black dark:stroke-white',
-								'h-5 w-5'
+								'h-5 w-5',
 							)}
 						>
 							<path d='m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z'></path>
@@ -97,7 +97,7 @@ export default function ListingPage() {
 							alt='image'
 							className={classNames(
 								index === 0 ? 'col-span-2 row-span-2' : '',
-								'aspect-square h-full object-cover'
+								'aspect-square h-full object-cover',
 							)}
 						/>
 					))}

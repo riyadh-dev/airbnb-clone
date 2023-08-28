@@ -89,7 +89,6 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 					containerClassName=' h-full w-full bg-transparent absolute left-0'
 					inputClassName='h-full w-full opacity-0 cursor-pointer'
 					primaryColor='rose'
-					//@ts-expect-error
 					popoverDirection='down'
 					value={{
 						endDate: reservationInput.endDate,
@@ -201,7 +200,7 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 					disabled
 						? 'bg-neutral-400'
 						: 'bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59]',
-					'h-12 w-full rounded-lg text-center font-bold text-white'
+					'h-12 w-full rounded-lg text-center font-bold text-white',
 				)}
 			>
 				{disabled ? 'Reserved' : 'Book now'}
