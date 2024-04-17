@@ -2,8 +2,8 @@ export default function CounterInput({
 	setCount,
 	count,
 }: {
-	count: number;
-	setCount: (newCount: number) => void;
+	count: number
+	setCount: (newCount: number) => void
 }) {
 	return (
 		<div className='flex items-center gap-x-4'>
@@ -22,5 +22,5 @@ export default function CounterInput({
 				<i className='ri-add-line text-gray-400'></i>
 			</button>
 		</div>
-	);
+	)
 }

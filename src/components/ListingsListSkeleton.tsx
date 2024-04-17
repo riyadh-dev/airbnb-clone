@@ -16,5 +16,5 @@ export function ListingsListSkeleton() {
 				</li>
 			))}
 		</ul>
-	);
+	)
 }

@@ -1,26 +1,26 @@
-import { classNames } from '@/utils/helpers';
-import { useKeenSlider } from 'keen-slider/react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useState } from 'react';
+import { classNames } from '@/utils/helpers'
+import { useKeenSlider } from 'keen-slider/react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
 
 interface IListing {
-	id: number;
-	state: string;
-	country: string;
-	price: number;
+	id: number
+	state: string
+	country: string
+	price: number
 	//if undefined assume its listing liked
-	isLiked?: '0' | '1';
-	imagesCSV: string;
-	description: string;
+	isLiked?: '0' | '1'
+	imagesCSV: string
+	description: string
 }
 
 export default function ListingList({
 	listings,
 	toggleLike,
 }: {
-	listings: IListing[];
-	toggleLike?: (id: number) => void;
+	listings: IListing[]
+	toggleLike?: (id: number) => void
 }) {
 	return (
 		<ul className='grid grid-cols-1 gap-x-6 gap-y-10 px-5 pt-6 md:grid-cols-2 md:px-20 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
@@ -32,29 +32,29 @@ export default function ListingList({
 				/>
 			))}
 		</ul>
-	);
+	)
 }
 
 function ListingListItem({
 	listing,
 	toggleLike,
 }: {
-	listing: IListing;
-	toggleLike?: (id: number) => void;
+	listing: IListing
+	toggleLike?: (id: number) => void
 }) {
-	const [currentSlide, setCurrentSlide] = useState(0);
-	const [loaded, setLoaded] = useState(false);
+	const [currentSlide, setCurrentSlide] = useState(0)
+	const [loaded, setLoaded] = useState(false)
 	const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
 		initial: 0,
 		renderMode: 'performance',
 		loop: true,
 		slideChanged(slider) {
-			setCurrentSlide(slider.track.details.rel);
+			setCurrentSlide(slider.track.details.rel)
 		},
 		created() {
-			setLoaded(true);
+			setLoaded(true)
 		},
-	});
+	})
 
 	return (
 		<li key={listing.id} className='relative'>
@@ -70,7 +70,8 @@ function ListingListItem({
 						role='presentation'
 						focusable='false'
 						className={classNames(
-							listing.isLiked === '1' || listing.isLiked === undefined
+							listing.isLiked === '1' ||
+								listing.isLiked === undefined
 								? 'fill-primary stroke-white stroke-2'
 								: 'fill-black/50 stroke-white stroke-2',
 							'h-6 w-6'
@@ -121,12 +122,15 @@ function ListingListItem({
 
 						<div className='absolute bottom-2 z-20 flex w-full items-center justify-center gap-x-1'>
 							{Array.from({
-								length: instanceRef.current.track.details.slides.length,
+								length: instanceRef.current.track.details.slides
+									.length,
 							}).map((_, idx) => {
 								return (
 									<button
 										key={idx}
-										onClick={() => instanceRef.current?.moveToIdx(idx)}
+										onClick={() =>
+											instanceRef.current?.moveToIdx(idx)
+										}
 										className={classNames(
 											idx === currentSlide
 												? 'h-2 w-2 bg-white'
@@ -134,7 +138,7 @@ function ListingListItem({
 											'rounded-full'
 										)}
 									></button>
-								);
+								)
 							})}
 						</div>
 					</>
@@ -157,7 +161,9 @@ function ListingListItem({
 					</div>
 				</div>
 
-				<div className='truncate text-gray-400'>{listing.description}</div>
+				<div className='truncate text-gray-400'>
+					{listing.description}
+				</div>
 
 				<div className='text-gray-400'>July 30 - Aug 25</div>
 
@@ -167,5 +173,5 @@ function ListingListItem({
 				</div>
 			</div>
 		</li>
-	);
+	)
 }

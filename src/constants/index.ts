@@ -1,1 +1,1 @@
-export const AIRBNB_SERVICE_FEE = 0.03;
+export const AIRBNB_SERVICE_FEE = 0.03

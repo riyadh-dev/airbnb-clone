@@ -1,59 +1,61 @@
-import { AIRBNB_SERVICE_FEE } from '@/constants';
+import { AIRBNB_SERVICE_FEE } from '@/constants'
 import {
 	confirmReservationModalOpenAtom,
 	reservationInputAtom,
 	reservationListingAtom,
-} from '@/jotai/atoms';
-import { reservationDateRangeAtom } from '@/jotai/selectors';
-import { classNames } from '@/utils/helpers';
-import { Menu } from '@headlessui/react';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import DatePicker from 'react-tailwindcss-datepicker';
-import CounterInput from '../Input/CounterInput';
+} from '@/jotai/atoms'
+import { reservationDateRangeAtom } from '@/jotai/selectors'
+import { classNames } from '@/utils/helpers'
+import { Menu } from '@headlessui/react'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import DatePicker from 'react-tailwindcss-datepicker'
+import CounterInput from '../Input/CounterInput'
 
 type TDateRange = {
-	startDate: string | null | Date;
-	endDate: string | null | Date;
-} | null;
+	startDate: string | null | Date
+	endDate: string | null | Date
+} | null
 
 const getAsDate = (value?: string | null | Date) => {
-	if (!value) return new Date();
-	if (value instanceof Date) return value;
-	return new Date(value);
-};
+	if (!value) return new Date()
+	if (value instanceof Date) return value
+	return new Date(value)
+}
 
 const getAsDateString = (value?: string | null | Date) => {
-	if (!value) return new Date().toLocaleDateString();
-	if (value instanceof Date) return value.toLocaleDateString();
-	return value;
-};
+	if (!value) return new Date().toLocaleDateString()
+	if (value instanceof Date) return value.toLocaleDateString()
+	return value
+}
 
 export default function ReservationBox({ disabled }: { disabled: boolean }) {
-	const listing = useAtomValue(reservationListingAtom);
-	const [reservationInput, setReservationInput] = useAtom(reservationInputAtom);
-	const dateRange = useAtomValue(reservationDateRangeAtom);
-	const setModalOpen = useSetAtom(confirmReservationModalOpenAtom);
+	const listing = useAtomValue(reservationListingAtom)
+	const [reservationInput, setReservationInput] =
+		useAtom(reservationInputAtom)
+	const dateRange = useAtomValue(reservationDateRangeAtom)
+	const setModalOpen = useSetAtom(confirmReservationModalOpenAtom)
 
-	if (!listing) return null;
+	if (!listing) return null
 
 	type TGuestCountKey = keyof Pick<
 		typeof reservationInput,
 		'adultGuestCount' | 'childGuestCount' | 'infantGuestCount' | 'petCount'
-	>;
+	>
 
-	const setGuestsCategory = (category: TGuestCountKey) => (newValue: number) =>
-		setReservationInput({ ...reservationInput, [category]: newValue });
+	const setGuestsCategory =
+		(category: TGuestCountKey) => (newValue: number) =>
+			setReservationInput({ ...reservationInput, [category]: newValue })
 
 	const handleValueChange = (newDateRange: TDateRange) =>
 		setReservationInput({
 			...reservationInput,
 			startDate: getAsDate(newDateRange?.startDate),
 			endDate: getAsDate(newDateRange?.endDate),
-		});
+		})
 
-	const totalCostBeforeFee = dateRange * listing.price;
+	const totalCostBeforeFee = dateRange * listing.price
 	const totalCost =
-		totalCostBeforeFee + totalCostBeforeFee * AIRBNB_SERVICE_FEE;
+		totalCostBeforeFee + totalCostBeforeFee * AIRBNB_SERVICE_FEE
 
 	return (
 		<div className='mx-auto h-fit w-full space-y-4 rounded-xl border p-6 shadow-lg md:shrink-0 lg:w-[370px]'>
@@ -128,14 +130,19 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 					className='flex h-14 w-full rounded-b-md border p-3 text-left'
 				>
 					<div>
-						<div className='text-xs font-bold uppercase'>guests</div>
+						<div className='text-xs font-bold uppercase'>
+							guests
+						</div>
 						<div className='text-sm capitalize'>
 							{reservationInput.adultGuestCount > 0 &&
-								`${reservationInput.adultGuestCount} adults` + ' '}
+								`${reservationInput.adultGuestCount} adults` +
+									' '}
 							{reservationInput.childGuestCount > 0 &&
-								`${reservationInput.childGuestCount} children` + ' '}
+								`${reservationInput.childGuestCount} children` +
+									' '}
 							{reservationInput.infantGuestCount > 0 &&
-								`${reservationInput.infantGuestCount} infants` + ' '}
+								`${reservationInput.infantGuestCount} infants` +
+									' '}
 							{reservationInput.petCount > 0 &&
 								`${reservationInput.petCount} pets`}
 						</div>
@@ -200,7 +207,7 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 					disabled
 						? 'bg-neutral-400'
 						: 'bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59]',
-					'h-12 w-full rounded-lg text-center font-bold text-white',
+					'h-12 w-full rounded-lg text-center font-bold text-white'
 				)}
 			>
 				{disabled ? 'Reserved' : 'Book now'}
@@ -228,5 +235,5 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 				<span className='ml-auto'>${totalCost}</span>
 			</div>
 		</div>
-	);
+	)
 }

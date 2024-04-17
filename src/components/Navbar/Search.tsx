@@ -22,5 +22,5 @@ export default function Search() {
 				</span>
 			</button>
 		</>
-	);
+	)
 }

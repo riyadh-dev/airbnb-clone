@@ -112,7 +112,7 @@ const AMENITIES = [
 			</svg>
 		),
 	},
-];
+]
 
 export default function AmenitiesListStatic() {
 	return (
@@ -124,5 +124,5 @@ export default function AmenitiesListStatic() {
 				</li>
 			))}
 		</ul>
-	);
+	)
 }

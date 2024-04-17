@@ -1,54 +1,64 @@
-import { ListingsListSkeleton } from '@/components/ListingsListSkeleton';
-import { trpc } from '@/utils/trpc';
-import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
+import { ListingsListSkeleton } from '@/components/ListingsListSkeleton'
+import { trpc } from '@/utils/trpc'
+import Head from 'next/head'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function trips() {
-	const { data, isLoading } = trpc.reservations.listWithListing.useQuery();
+	const { data, isLoading } = trpc.reservations.listWithListing.useQuery()
 
-	const utils = trpc.useContext();
+	const utils = trpc.useContext()
 	const { mutate, isLoading: isDeleting } =
 		trpc.reservations.delete.useMutation({
 			async onMutate(reservationId) {
-				await utils.listings.getById.cancel();
-				const prevData = utils.reservations.listWithListing.getData();
+				await utils.listings.getById.cancel()
+				const prevData = utils.reservations.listWithListing.getData()
 
-				utils.reservations.listWithListing.setData(undefined, (old) =>
-					old?.filter((item) => item.reservation.id !== reservationId)
-				);
+				utils.reservations.listWithListing.setData(
+					undefined,
+					(old) =>
+						old?.filter(
+							(item) => item.reservation.id !== reservationId
+						)
+				)
 
-				return { prevData };
+				return { prevData }
 			},
 			onError(error, variables, context) {
 				utils.reservations.listWithListing.setData(
 					undefined,
 					context?.prevData
-				);
+				)
 			},
-		});
+		})
 
-	if (isLoading) return <ListingsListSkeleton />;
+	if (isLoading) return <ListingsListSkeleton />
 	if (!data?.length)
 		return (
 			<div className='mt-32 flex items-center justify-center text-2xl font-bold text-gray-400'>
 				No Results Found
 			</div>
-		);
+		)
 
 	return (
 		<main>
 			<Head>
 				<title>Trips</title>
 			</Head>
-			<h1 className='mt-6 text-center text-4xl font-semibold'>Your Trips</h1>
+			<h1 className='mt-6 text-center text-4xl font-semibold'>
+				Your Trips
+			</h1>
 			<ul className='grid grid-cols-1 gap-x-6 gap-y-10 px-5 pt-5 md:grid-cols-2 md:px-20 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
 				{data.map(({ listing, reservation }) => (
 					<li key={reservation.id} className='relative'>
 						<Link href={`/listings/${listing.id}`}>
 							<div className='aspect-square'>
 								<Image
-									src={listing.imagesCSV.split(',')[0] as string}
+									src={
+										listing.imagesCSV.split(
+											','
+										)[0] as string
+									}
 									alt='image'
 									loading='lazy'
 									quality={100}
@@ -59,8 +69,12 @@ export default function trips() {
 							</div>
 						</Link>
 						<div className='mt-2 flex flex-wrap gap-x-1'>
-							<span className='font-semibold'>{listing.state},</span>
-							<span className='font-semibold'>{listing.country}</span>
+							<span className='font-semibold'>
+								{listing.state},
+							</span>
+							<span className='font-semibold'>
+								{listing.country}
+							</span>
 						</div>
 
 						<div className='text-gray-400'>
@@ -68,7 +82,9 @@ export default function trips() {
 							{reservation.endDate.toLocaleDateString()}
 						</div>
 
-						<div className='font-bold'>${reservation.totalCost}</div>
+						<div className='font-bold'>
+							${reservation.totalCost}
+						</div>
 
 						<button
 							onClick={() => mutate(reservation.id)}
@@ -81,5 +97,5 @@ export default function trips() {
 				))}
 			</ul>
 		</main>
-	);
+	)
 }

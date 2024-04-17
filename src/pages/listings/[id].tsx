@@ -1,43 +1,43 @@
-import AmenitiesListStatic from '@/components/Listing/AmenitiesListStatic';
-import ReservationBox from '@/components/Listing/ReservationBox';
-import ReviewsListStatic from '@/components/Listing/ReviewsListStatic';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import useListing from '@/hooks/useListing';
-import { reservationInputAtom, reservationListingAtom } from '@/jotai/atoms';
-import { classNames } from '@/utils/helpers';
-import { useSetAtom } from 'jotai';
-import Head from 'next/head';
-import Image from 'next/image';
-import { useEffect } from 'react';
+import AmenitiesListStatic from '@/components/Listing/AmenitiesListStatic'
+import ReservationBox from '@/components/Listing/ReservationBox'
+import ReviewsListStatic from '@/components/Listing/ReviewsListStatic'
+import LoadingSpinner from '@/components/LoadingSpinner'
+import useListing from '@/hooks/useListing'
+import { reservationInputAtom, reservationListingAtom } from '@/jotai/atoms'
+import { classNames } from '@/utils/helpers'
+import { useSetAtom } from 'jotai'
+import Head from 'next/head'
+import Image from 'next/image'
+import { useEffect } from 'react'
 
 export default function ListingPage() {
-	const { isLoading, listing, toggleLike, user } = useListing();
-	const setReservationListing = useSetAtom(reservationListingAtom);
-	const setReservationInput = useSetAtom(reservationInputAtom);
+	const { isLoading, listing, toggleLike, user } = useListing()
+	const setReservationListing = useSetAtom(reservationListingAtom)
+	const setReservationInput = useSetAtom(reservationInputAtom)
 
 	useEffect(() => {
 		if (listing) {
-			setReservationListing(listing);
+			setReservationListing(listing)
 			setReservationInput((prev) => ({
 				...prev,
 				pricePerNight: listing.price,
-			}));
+			}))
 		}
-	}, [listing, setReservationInput, setReservationListing]);
+	}, [listing, setReservationInput, setReservationListing])
 
 	if (isLoading)
 		return (
 			<div className='flex h-[calc(100vh-80px)] items-center justify-center'>
 				<LoadingSpinner className='w-32' />
 			</div>
-		);
+		)
 
 	if (!listing || !user)
 		return (
 			<div className='mt-32 flex items-center justify-center text-2xl font-bold text-gray-400'>
 				Listing not found
 			</div>
-		);
+		)
 
 	return (
 		<div className='mx-auto my-6 max-w-6xl px-4'>
@@ -53,11 +53,19 @@ export default function ListingPage() {
 						<i className='ri-star-fill'></i>
 						<span>4.85</span>
 						<span>.</span>
-						<span className='font-semibold underline'>10 reviews</span>
+						<span className='font-semibold underline'>
+							10 reviews
+						</span>
 						<span>.</span>
-						<span className='font-semibold underline'>{listing.city},</span>
-						<span className='font-semibold underline'>{listing.state}</span>
-						<span className='font-semibold underline'>{listing.country}</span>
+						<span className='font-semibold underline'>
+							{listing.city},
+						</span>
+						<span className='font-semibold underline'>
+							{listing.state}
+						</span>
+						<span className='font-semibold underline'>
+							{listing.country}
+						</span>
 					</div>
 					<button
 						onClick={() => toggleLike()}
@@ -73,7 +81,7 @@ export default function ListingPage() {
 								listing.isLiked === '1'
 									? 'fill-primary dark:stroke-white'
 									: 'fill-white stroke-black stroke-2 dark:fill-black dark:stroke-white',
-								'h-5 w-5',
+								'h-5 w-5'
 							)}
 						>
 							<path d='m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z'></path>
@@ -97,7 +105,7 @@ export default function ListingPage() {
 							alt='image'
 							className={classNames(
 								index === 0 ? 'col-span-2 row-span-2' : '',
-								'aspect-square h-full object-cover',
+								'aspect-square h-full object-cover'
 							)}
 						/>
 					))}
@@ -137,14 +145,18 @@ export default function ListingPage() {
 					<div className='!mt-6 border-t' />
 
 					<div>
-						<h1 className='text-2xl font-semibold'>What this place offers</h1>
+						<h1 className='text-2xl font-semibold'>
+							What this place offers
+						</h1>
 						<AmenitiesListStatic />
 					</div>
 
 					<div className='border-t' />
 
 					<div>
-						<h1 className='pb-1 text-2xl font-semibold'>Description</h1>
+						<h1 className='pb-1 text-2xl font-semibold'>
+							Description
+						</h1>
 						<p>{listing.description}</p>
 					</div>
 				</div>
@@ -163,5 +175,5 @@ export default function ListingPage() {
 				<ReviewsListStatic />
 			</div>
 		</div>
-	);
+	)
 }

@@ -1,5 +1,5 @@
-import inquirer from 'inquirer';
-import { seedListings, seedReservations, seedUsers } from '../src/db/seed';
+import inquirer from 'inquirer'
+import { seedListings, seedReservations, seedUsers } from '../src/db/seed'
 
 inquirer
 	.prompt([
@@ -16,11 +16,11 @@ inquirer
 	])
 	.then(async (answers) => {
 		for (const seedFunction of answers.mock) {
-			await seedFunction();
+			await seedFunction()
 		}
-		process.exit(0);
+		process.exit(0)
 	})
 	.catch((error) => {
-		if (error instanceof Error) console.error(error.message);
-		process.exit(1);
-	});
+		if (error instanceof Error) console.error(error.message)
+		process.exit(1)
+	})

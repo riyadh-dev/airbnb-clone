@@ -6,19 +6,19 @@ import {
 	listingLocationAtom,
 	listingPriceAtom,
 	listingTitleAtom,
-} from '@/jotai/atoms';
-import { trpc } from '@/utils/trpc';
-import { useAtomValue } from 'jotai';
+} from '@/jotai/atoms'
+import { trpc } from '@/utils/trpc'
+import { useAtomValue } from 'jotai'
 
 export default function useCreateListing() {
-	const { mutate, ...rest } = trpc.listings.create.useMutation();
-	const category = useAtomValue(listingCategoryAtom);
-	const location = useAtomValue(listingLocationAtom);
-	const images = useAtomValue(listingImagesAtom);
-	const price = useAtomValue(listingPriceAtom);
-	const description = useAtomValue(listingDescriptionAtom);
-	const title = useAtomValue(listingTitleAtom);
-	const floorPlan = useAtomValue(listingFloorPlanAtom);
+	const { mutate, ...rest } = trpc.listings.create.useMutation()
+	const category = useAtomValue(listingCategoryAtom)
+	const location = useAtomValue(listingLocationAtom)
+	const images = useAtomValue(listingImagesAtom)
+	const price = useAtomValue(listingPriceAtom)
+	const description = useAtomValue(listingDescriptionAtom)
+	const title = useAtomValue(listingTitleAtom)
+	const floorPlan = useAtomValue(listingFloorPlanAtom)
 
 	return {
 		...rest,
@@ -32,5 +32,5 @@ export default function useCreateListing() {
 				description,
 				title,
 			}),
-	};
+	}
 }

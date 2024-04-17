@@ -1,10 +1,10 @@
 declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
-			DATABASE_URL: string;
-			UNSPLASH_ACCESS_KEY: string;
+			POSTGRES_URL: string
+			UNSPLASH_ACCESS_KEY: string
 		}
 	}
 }
 
-export {};
+export {}

@@ -1,8 +1,8 @@
-import { useSession } from 'next-auth/react';
-import Image from 'next/image';
+import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 
 export default function AccountPage() {
-	const { data: session } = useSession();
+	const { data: session } = useSession()
 
 	if (session?.user)
 		return (
@@ -17,7 +17,10 @@ export default function AccountPage() {
 								alt='avatar'
 								className='mx-auto rounded-full'
 							/>
-							<button disabled={true} className='mt-1 font-bold underline'>
+							<button
+								disabled={true}
+								className='mt-1 font-bold underline'
+							>
 								Change Avatar
 							</button>
 						</div>
@@ -25,9 +28,14 @@ export default function AccountPage() {
 					<div className='flex justify-between space-x-2'>
 						<div>
 							<div>Legal name</div>
-							<div className='text-gray-400'>{session.user.name}</div>
+							<div className='text-gray-400'>
+								{session.user.name}
+							</div>
 						</div>
-						<button disabled={true} className='self-start font-bold underline'>
+						<button
+							disabled={true}
+							className='self-start font-bold underline'
+						>
 							Edit
 						</button>
 					</div>
@@ -37,9 +45,14 @@ export default function AccountPage() {
 					<div className='flex justify-between space-x-2'>
 						<div>
 							<div>Email</div>
-							<div className='text-gray-400'>{session.user.email}</div>
+							<div className='text-gray-400'>
+								{session.user.email}
+							</div>
 						</div>
-						<button disabled={true} className='self-start font-bold underline'>
+						<button
+							disabled={true}
+							className='self-start font-bold underline'
+						>
 							Edit
 						</button>
 					</div>
@@ -50,7 +63,9 @@ export default function AccountPage() {
 						<div>
 							<div>Joined on</div>
 							<div className='text-gray-400'>
-								{new Date(session.user.createdAt).toDateString()}
+								{new Date(
+									session.user.createdAt
+								).toDateString()}
 							</div>
 						</div>
 					</div>
@@ -58,12 +73,12 @@ export default function AccountPage() {
 					<div className='my-2 h-[0.25px] w-full bg-gray-200' />
 				</div>
 			</main>
-		);
+		)
 
 	// If no session, display access denied message.
 	return (
 		<main className='mt-32 flex items-center justify-center text-2xl font-bold text-gray-400'>
 			Access Denied
 		</main>
-	);
+	)
 }

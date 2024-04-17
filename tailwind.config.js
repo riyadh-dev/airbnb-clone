@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const plugin = require('tailwindcss/plugin');
+const plugin = require('tailwindcss/plugin')
 module.exports = {
 	darkMode: 'class',
 	content: [
@@ -26,7 +26,7 @@ module.exports = {
 						'scrollbar-width': 'none' /* Firefox */,
 					},
 				},
-			});
+			})
 		}),
 	],
-};
+}

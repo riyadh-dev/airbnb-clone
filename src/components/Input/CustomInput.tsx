@@ -1,13 +1,16 @@
-import { classNames } from '@/utils/helpers';
-import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
-import InputErrorMessage from './InputErrorMessage';
+import { classNames } from '@/utils/helpers'
+import { DetailedHTMLProps, InputHTMLAttributes } from 'react'
+import InputErrorMessage from './InputErrorMessage'
 
 interface IProps {
 	inputProps: Omit<
-		DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+		DetailedHTMLProps<
+			InputHTMLAttributes<HTMLInputElement>,
+			HTMLInputElement
+		>,
 		'className'
-	>;
-	errorMessage?: string;
+	>
+	errorMessage?: string
 }
 
 export default function CustomInput({ inputProps, errorMessage }: IProps) {
@@ -24,5 +27,5 @@ export default function CustomInput({ inputProps, errorMessage }: IProps) {
 			/>
 			<InputErrorMessage message={errorMessage} />
 		</div>
-	);
+	)
 }

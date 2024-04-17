@@ -1,44 +1,45 @@
+import { relations } from 'drizzle-orm'
 import {
 	boolean,
-	customType,
-	datetime,
-	int,
-	mysqlTable,
+	date,
+	integer,
+	pgTable,
+	primaryKey,
 	serial,
 	text,
 	timestamp,
 	uniqueIndex,
 	varchar,
-} from 'drizzle-orm/mysql-core';
+} from 'drizzle-orm/pg-core'
 
-//add bigint unsigned to drizzle-orm
-const bigintUnsigned = customType<{ data: number; driverData: string }>({
-	dataType: () => 'bigint unsigned',
-	fromDriver: (value) => Number(value),
-});
-
-export const users = mysqlTable(
+export const users = pgTable(
 	'users',
 	{
 		id: serial('id').primaryKey(),
 		name: varchar('name', { length: 191 }).notNull(),
 		email: varchar('email', { length: 191 }).notNull(),
-		emailVerified: datetime('email_verified'),
+		emailVerified: date('email_verified', { mode: 'date' }),
 		image: text('image'),
 		password: text('password').notNull(),
-		createdAt: timestamp('created_at').defaultNow().notNull(),
-		updatedAt: timestamp('updated_at').defaultNow().onUpdateNow().notNull(),
+		createdAt: timestamp('created_at', { mode: 'date' })
+			.defaultNow()
+			.notNull(),
+		updatedAt: timestamp('updated_at', { mode: 'date' })
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull(),
 		isMockAccount: boolean('is_mock_account').default(false).notNull(),
 	},
-	(table) => ({
-		emailIdx: uniqueIndex('email_idx').on(table.email),
+	(t) => ({
+		emailIdx: uniqueIndex('email_idx').on(t.email),
 	})
-);
+)
 
-export const listings = mysqlTable('listings', {
+export const listings = pgTable('listings', {
 	id: serial('id').primaryKey(),
-	ownerId: bigintUnsigned('owner_id').notNull(),
-	//.references(() => users.id, { onDelete: 'cascade' }), not supported by planetscale
+	ownerId: integer('owner_id')
+		.references(() => users.id, { onDelete: 'cascade' })
+		.notNull(),
 	category: varchar('category', { length: 191 }).notNull(),
 	country: varchar('country', { length: 191 }).notNull(),
 	state: varchar('state', { length: 191 }).notNull(),
@@ -46,51 +47,85 @@ export const listings = mysqlTable('listings', {
 	postalCode: varchar('postal_code', { length: 191 }).notNull(),
 	addressLine1: text('address_line_1').notNull(),
 	addressLine2: text('address_line_2'),
-	guestCount: int('guests_count').notNull(),
-	bedroomCount: int('bedrooms_count').notNull(),
-	bedCount: int('beds_count').notNull(),
-	bathroomCount: int('baths_count').notNull(),
+	guestCount: integer('guests_count').notNull(),
+	bedroomCount: integer('bedrooms_count').notNull(),
+	bedCount: integer('beds_count').notNull(),
+	bathroomCount: integer('baths_count').notNull(),
 	imagesCSV: text('image_csv').notNull(),
 	title: varchar('title', { length: 191 }).notNull(),
 	description: text('description').notNull(),
-	price: int('price').notNull(),
-	createdAt: timestamp('created_at').defaultNow().notNull(),
-	updatedAt: timestamp('updated_at').defaultNow().onUpdateNow().notNull(),
-});
+	price: integer('price').notNull(),
+	createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+	updatedAt: timestamp('updated_at', { mode: 'date' })
+		.defaultNow()
+		.$onUpdate(() => new Date())
+		.notNull(),
+})
 
-export const userLikedListings = mysqlTable(
+export const userLikedListings = pgTable(
 	'user_liked_listings',
 	{
-		userId: bigintUnsigned('user_id').notNull(),
-		listingId: bigintUnsigned('listing_id').notNull(),
+		userId: integer('user_id')
+			.references(() => users.id, { onDelete: 'cascade' })
+			.notNull(),
+		listingId: integer('listing_id')
+			.references(() => listings.id, { onDelete: 'cascade' })
+			.notNull(),
 	},
-	(table) => ({
-		userListingIdx: uniqueIndex('user_listing_idx').on(
-			table.userId,
-			table.listingId
-		),
+	(t) => ({
+		pk: primaryKey({ columns: [t.userId, t.listingId] }),
 	})
-);
+)
 
-export const reservations = mysqlTable(
-	'reservations',
-	{
-		id: serial('id').primaryKey(),
-		ownerId: bigintUnsigned('owner_id').notNull(),
-		listingId: bigintUnsigned('listing_id').notNull(),
-		startDate: datetime('start_date').notNull(),
-		endDate: datetime('end_date').notNull(),
-		adultGuestCount: int('adult_guest_count').notNull(),
-		childGuestCount: int('child_guest_count').notNull(),
-		infantGuestCount: int('infant_guest_count').notNull(),
-		petCount: int('pet_count').notNull(),
-		totalCost: int('total_cost').notNull(),
-		createdAt: timestamp('created_at').defaultNow().notNull(),
-	},
-	(table) => ({
-		userListingIdx: uniqueIndex('user_listing_idx').on(
-			table.ownerId,
-			table.listingId
-		),
+export const reservations = pgTable('reservations', {
+	id: serial('id').primaryKey(),
+	ownerId: integer('owner_id')
+		.references(() => users.id, { onDelete: 'cascade' })
+		.notNull(),
+	listingId: integer('listing_id')
+		.references(() => listings.id, { onDelete: 'cascade' })
+		.notNull(),
+	startDate: date('start_date', { mode: 'date' }).notNull(),
+	endDate: date('end_date', { mode: 'date' }).notNull(),
+	adultGuestCount: integer('adult_guest_count').notNull(),
+	childGuestCount: integer('child_guest_count').notNull(),
+	infantGuestCount: integer('infant_guest_count').notNull(),
+	petCount: integer('pet_count').notNull(),
+	totalCost: integer('total_cost').notNull(),
+	createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+})
+
+export const userRelations = relations(users, ({ many }) => ({
+	reservations: many(reservations),
+	userLikedListings: many(userLikedListings),
+}))
+
+export const listingRelations = relations(listings, ({ many }) => ({
+	reservations: many(reservations),
+	userLikedListings: many(userLikedListings),
+}))
+
+export const reservationRelations = relations(reservations, ({ one }) => ({
+	user: one(users, {
+		fields: [reservations.ownerId],
+		references: [users.id],
+	}),
+	listing: one(listings, {
+		fields: [reservations.listingId],
+		references: [listings.id],
+	}),
+}))
+
+export const userLikedListingsRelations = relations(
+	userLikedListings,
+	({ one }) => ({
+		user: one(users, {
+			fields: [userLikedListings.userId],
+			references: [users.id],
+		}),
+		listing: one(listings, {
+			fields: [userLikedListings.listingId],
+			references: [listings.id],
+		}),
 	})
-);
+)

@@ -1,28 +1,8 @@
-import { listings } from '@/db/schema';
-import { createInsertSchema } from 'drizzle-zod';
-import { z } from 'zod';
+import { listings } from '@/db/schema'
+import { createInsertSchema } from 'drizzle-zod'
+import { z } from 'zod'
 
-const listingInsertBaseSchema = createInsertSchema(listings, {
-	country: z.string().nonempty(),
-	addressLine1: z.string().nonempty(),
-	addressLine2: z.string(),
-	city: z.string().nonempty(),
-	state: z.string().nonempty(),
-	postalCode: z.string().nonempty(),
-
-	guestCount: z.number().positive(),
-	bedroomCount: z.number().positive(),
-	bedCount: z.number().positive(),
-	bathroomCount: z.number().positive(),
-
-	imagesCSV: z.string().nonempty(),
-
-	description: z.string(),
-
-	title: z.string().nonempty(),
-
-	price: z.number().positive(),
-});
+const listingInsertBaseSchema = createInsertSchema(listings)
 
 export const listingLocationSchema = listingInsertBaseSchema.pick({
 	country: true,
@@ -31,14 +11,14 @@ export const listingLocationSchema = listingInsertBaseSchema.pick({
 	city: true,
 	state: true,
 	postalCode: true,
-});
+})
 
 export const listingFloorPlanSchema = listingInsertBaseSchema.pick({
 	guestCount: true,
 	bedroomCount: true,
 	bedCount: true,
 	bathroomCount: true,
-});
+})
 
 const listingRestSchema = listingInsertBaseSchema.pick({
 	category: true,
@@ -46,11 +26,11 @@ const listingRestSchema = listingInsertBaseSchema.pick({
 	description: true,
 	title: true,
 	price: true,
-});
+})
 
 export const listingInsertSchema = listingLocationSchema
 	.merge(listingFloorPlanSchema)
-	.merge(listingRestSchema);
+	.merge(listingRestSchema)
 
 export const listingFilterSchema = createInsertSchema(listings, {
 	bedCount: z.number().positive().optional(),
@@ -67,4 +47,4 @@ export const listingFilterSchema = createInsertSchema(listings, {
 			minPrice: z.coerce.number().positive().optional(),
 			maxPrice: z.coerce.number().positive().optional(),
 		})
-	);
+	)

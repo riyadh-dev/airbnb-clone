@@ -1,43 +1,45 @@
 import {
 	disableUserSignActionsAtom,
 	logInSignUpModalOpenAtom,
-} from '@/jotai/atoms';
-import { trpc } from '@/utils/trpc';
-import { useAtom, useSetAtom } from 'jotai';
-import { signIn } from 'next-auth/react';
-import Image from 'next/image';
-import LoadingSpinner from './LoadingSpinner';
+} from '@/jotai/atoms'
+import { trpc } from '@/utils/trpc'
+import { useAtom, useSetAtom } from 'jotai'
+import { signIn } from 'next-auth/react'
+import Image from 'next/image'
+import LoadingSpinner from './LoadingSpinner'
 
 export default function MockAccountsList() {
-	const { data, isLoading } = trpc.users.listMocked.useQuery();
+	const { data, isLoading } = trpc.users.listMocked.useQuery()
 
-	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
+	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom)
 	const [disabled, setDisableUserSignActions] = useAtom(
 		disableUserSignActionsAtom
-	);
+	)
 
-	const utils = trpc.useContext();
+	const utils = trpc.useContext()
 	const handleLogin = (email: string) => () => {
-		setDisableUserSignActions(true);
+		setDisableUserSignActions(true)
 		signIn('credentials', {
 			redirect: false,
 			email,
 			password: 'password',
 		}).then((response) => {
-			setDisableUserSignActions(false);
+			setDisableUserSignActions(false)
 			if (response?.ok) {
-				setModalOpen(false);
-				utils.listings.invalidate();
+				setModalOpen(false)
+				utils.listings.invalidate()
 			}
-			if (response?.error) console.log(response.error);
-		});
-	};
+			if (response?.error) console.log(response.error)
+		})
+	}
 
-	if (disabled) return <LoadingSpinner className='!my-14 mx-auto h-20' />;
+	if (disabled) return <LoadingSpinner className='!my-14 mx-auto h-20' />
 
 	return (
 		<div>
-			<h1 className='pb-3 text-center text-gray-400'>Choose a mock account</h1>
+			<h1 className='pb-3 text-center text-gray-400'>
+				Choose a mock account
+			</h1>
 			<ul className='-mr-5 grid max-h-56 grid-cols-2 gap-2 overflow-y-scroll pr-5'>
 				{isLoading && <MockAccountsListSkeleton />}
 				{!isLoading &&
@@ -73,7 +75,7 @@ export default function MockAccountsList() {
 					))}
 			</ul>
 		</div>
-	);
+	)
 }
 
 function MockAccountsListSkeleton() {
@@ -90,5 +92,5 @@ function MockAccountsListSkeleton() {
 				</li>
 			))}
 		</>
-	);
+	)
 }

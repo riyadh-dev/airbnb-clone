@@ -1,11 +1,11 @@
-import LogInSignUpModal from '@/components/Modals/LogInSignUpModal';
-import Navbar from '@/components/Navbar';
-import ConfirmReservationModal from './Modals/ConfirmReservationModal';
+import LogInSignUpModal from '@/components/Modals/LogInSignUpModal'
+import Navbar from '@/components/Navbar'
+import ConfirmReservationModal from './Modals/ConfirmReservationModal'
 
 export default function MainLayout({
 	children,
 }: {
-	children: React.ReactNode;
+	children: React.ReactNode
 }) {
 	return (
 		<>
@@ -14,5 +14,5 @@ export default function MainLayout({
 			<LogInSignUpModal />
 			<ConfirmReservationModal />
 		</>
-	);
+	)
 }

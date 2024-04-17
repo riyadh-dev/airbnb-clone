@@ -1,19 +1,19 @@
-import BecameHostNavigation from '@/components/BecameHostNavigation';
-import CounterInput from '@/components/Input/CounterInput';
-import { listingFloorPlanAtom } from '@/jotai/atoms';
-import { listingFloorPlanSchema } from '@/zod/listings';
-import { useAtom } from 'jotai';
-import Head from 'next/head';
-import { z } from 'zod';
-type key = keyof z.infer<typeof listingFloorPlanSchema>;
+import BecameHostNavigation from '@/components/BecameHostNavigation'
+import CounterInput from '@/components/Input/CounterInput'
+import { listingFloorPlanAtom } from '@/jotai/atoms'
+import { listingFloorPlanSchema } from '@/zod/listings'
+import { useAtom } from 'jotai'
+import Head from 'next/head'
+import { z } from 'zod'
+type key = keyof z.infer<typeof listingFloorPlanSchema>
 
 export default function FloorPlanStep() {
-	const [counts, setCounts] = useAtom(listingFloorPlanAtom);
+	const [counts, setCounts] = useAtom(listingFloorPlanAtom)
 	const setCount = (countsKey: key) => (newCount: number) =>
 		setCounts({
 			...counts,
 			[countsKey]: newCount,
-		});
+		})
 	return (
 		<>
 			<div className='mx-auto max-w-[630px] px-4 pb-4'>
@@ -59,5 +59,5 @@ export default function FloorPlanStep() {
 			</div>
 			<BecameHostNavigation back='location' next='photos' />
 		</>
-	);
+	)
 }

@@ -1,11 +1,11 @@
-import { TRentModalStep } from '@/common/types';
-import Link from 'next/link';
+import { TRentModalStep } from '@/common/types'
+import Link from 'next/link'
 
 interface IProps {
-	back: TRentModalStep | (() => unknown);
-	next: TRentModalStep | (() => unknown);
-	nextButtonText?: string;
-	disabled?: boolean;
+	back: TRentModalStep | (() => unknown)
+	next: TRentModalStep | (() => unknown)
+	nextButtonText?: string
+	disabled?: boolean
 }
 export default function BecameHostNavigation({
 	back,
@@ -47,5 +47,5 @@ export default function BecameHostNavigation({
 				</button>
 			)}
 		</nav>
-	);
+	)
 }

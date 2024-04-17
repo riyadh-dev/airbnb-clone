@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import RightSection from './RightSection';
-import Search from './Search';
+import Link from 'next/link'
+import RightSection from './RightSection'
+import Search from './Search'
 
 export default function Navbar() {
 	return (
@@ -24,5 +24,5 @@ export default function Navbar() {
 			<Search />
 			<RightSection />
 		</nav>
-	);
+	)
 }

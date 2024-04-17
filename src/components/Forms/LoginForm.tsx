@@ -1,54 +1,59 @@
-import useZodForm from '@/hooks/useZodForm';
+import useZodForm from '@/hooks/useZodForm'
 import {
 	disableUserSignActionsAtom,
 	logInSignUpModalOpenAtom,
-} from '@/jotai/atoms';
-import { trpc } from '@/utils/trpc';
-import { loginInputSchema } from '@/zod/user';
-import { useAtom, useSetAtom } from 'jotai';
-import { signIn } from 'next-auth/react';
-import { useState } from 'react';
-import CustomInput from '../Input/CustomInput';
-import LoadingSpinner from '../LoadingSpinner';
+} from '@/jotai/atoms'
+import { trpc } from '@/utils/trpc'
+import { loginInputSchema } from '@/zod/user'
+import { useAtom, useSetAtom } from 'jotai'
+import { signIn } from 'next-auth/react'
+import { useState } from 'react'
+import CustomInput from '../Input/CustomInput'
+import LoadingSpinner from '../LoadingSpinner'
 
-const INVALID_CREDENTIALS = 'Invalid credentials';
+const INVALID_CREDENTIALS = 'Invalid credentials'
 
 interface IRequestError {
-	[key: string]: string | undefined;
+	[key: string]: string | undefined
 }
 
 export default function LoginForm() {
-	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
+	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom)
 	const {
 		register,
 		handleSubmit,
 		formState: { errors: formErrors },
-	} = useZodForm(loginInputSchema);
+	} = useZodForm(loginInputSchema)
 
 	const [disabled, setDisableUserSignActions] = useAtom(
 		disableUserSignActionsAtom
-	);
+	)
 
-	const [loginError, setLoginError] = useState<IRequestError>({});
-	const utils = trpc.useContext();
+	const [loginError, setLoginError] = useState<IRequestError>({})
+	const utils = trpc.useContext()
 	const onSubmit = handleSubmit(async (body) => {
-		setDisableUserSignActions(true);
+		setDisableUserSignActions(true)
 		signIn('credentials', { redirect: false, ...body }).then((response) => {
-			setDisableUserSignActions(false);
+			setDisableUserSignActions(false)
 			if (response?.ok) {
-				setModalOpen(false);
-				utils.listings.invalidate();
-			} else if (response?.error && response.error === INVALID_CREDENTIALS)
-				setLoginError({ badCredentials: INVALID_CREDENTIALS });
-			else console.log(response?.error);
-		});
-	});
+				setModalOpen(false)
+				utils.listings.invalidate()
+			} else if (
+				response?.error &&
+				response.error === INVALID_CREDENTIALS
+			)
+				setLoginError({ badCredentials: INVALID_CREDENTIALS })
+			else console.log(response?.error)
+		})
+	})
 
-	if (disabled) return <LoadingSpinner className='!my-14 mx-auto h-20' />;
+	if (disabled) return <LoadingSpinner className='!my-14 mx-auto h-20' />
 
 	return (
 		<form onSubmit={onSubmit} noValidate>
-			<h1 className='pb-3 text-center text-gray-400'>Login to your account</h1>
+			<h1 className='pb-3 text-center text-gray-400'>
+				Login to your account
+			</h1>
 
 			<div className='space-y-3'>
 				<CustomInput
@@ -58,7 +63,9 @@ export default function LoginForm() {
 						placeholder: 'Email',
 						...register('email'),
 					}}
-					errorMessage={formErrors.email?.message || loginError?.badCredentials}
+					errorMessage={
+						formErrors.email?.message || loginError?.badCredentials
+					}
 				/>
 
 				<CustomInput
@@ -69,7 +76,8 @@ export default function LoginForm() {
 						...register('password'),
 					}}
 					errorMessage={
-						formErrors.password?.message || loginError?.badCredentials
+						formErrors.password?.message ||
+						loginError?.badCredentials
 					}
 				/>
 			</div>
@@ -82,5 +90,5 @@ export default function LoginForm() {
 				Continue
 			</button>
 		</form>
-	);
+	)
 }

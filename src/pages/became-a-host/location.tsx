@@ -1,36 +1,36 @@
-import BecameHostNavigation from '@/components/BecameHostNavigation';
-import CustomInput from '@/components/Input/CustomInput';
-import useZodForm from '@/hooks/useZodForm';
-import { listingLocationAtom } from '@/jotai/atoms';
-import { listingLocationSchema } from '@/zod/listings';
-import { useAtom } from 'jotai';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import BecameHostNavigation from '@/components/BecameHostNavigation'
+import CustomInput from '@/components/Input/CustomInput'
+import useZodForm from '@/hooks/useZodForm'
+import { listingLocationAtom } from '@/jotai/atoms'
+import { listingLocationSchema } from '@/zod/listings'
+import { useAtom } from 'jotai'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 export default function LocationStep() {
-	const [location, setLocation] = useAtom(listingLocationAtom);
+	const [location, setLocation] = useAtom(listingLocationAtom)
 	const {
 		register,
 		handleSubmit,
 		formState: { errors: formErrors },
 		setValue,
-	} = useZodForm(listingLocationSchema);
-	const router = useRouter();
+	} = useZodForm(listingLocationSchema)
+	const router = useRouter()
 
 	useEffect(() => {
-		setValue('country', location.country);
-		setValue('addressLine1', location.addressLine1);
-		setValue('addressLine2', location.addressLine2);
-		setValue('city', location.city);
-		setValue('state', location.state);
-		setValue('postalCode', location.postalCode);
-	}, [location, setValue]);
+		setValue('country', location.country)
+		setValue('addressLine1', location.addressLine1)
+		setValue('addressLine2', location.addressLine2)
+		setValue('city', location.city)
+		setValue('state', location.state)
+		setValue('postalCode', location.postalCode)
+	}, [location, setValue])
 
 	const next = handleSubmit((data) => {
-		setLocation(data);
-		router.push('/became-a-host/floor-plan');
-	});
+		setLocation(data)
+		router.push('/became-a-host/floor-plan')
+	})
 	return (
 		<>
 			<div className='mx-auto max-w-[630px] space-y-4 px-4 pb-4'>
@@ -84,7 +84,8 @@ export default function LocationStep() {
 					<CustomInput
 						inputProps={{
 							type: 'text',
-							placeholder: 'State / province / territory (if applicable)',
+							placeholder:
+								'State / province / territory (if applicable)',
 							defaultValue: location.state,
 							...register('state'),
 						}}
@@ -103,5 +104,5 @@ export default function LocationStep() {
 			</div>
 			<BecameHostNavigation back='category' next={next} />
 		</>
-	);
+	)
 }

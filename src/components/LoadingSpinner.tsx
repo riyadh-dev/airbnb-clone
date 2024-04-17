@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react'
 
 export default function LoadingSpinner(props: HTMLAttributes<HTMLDivElement>) {
 	return (
@@ -8,5 +8,5 @@ export default function LoadingSpinner(props: HTMLAttributes<HTMLDivElement>) {
 				role='status'
 			/>
 		</div>
-	);
+	)
 }

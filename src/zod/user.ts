@@ -1,12 +1,12 @@
-import { users } from '@/db/schema';
-import { createInsertSchema } from 'drizzle-zod';
-import { z } from 'zod';
+import { users } from '@/db/schema'
+import { createInsertSchema } from 'drizzle-zod'
+import { z } from 'zod'
 
 export const signUpBodySchema = createInsertSchema(users, {
 	name: z.string().min(2),
 	email: z.string().email().toLowerCase(),
 	password: z.string().min(8),
-});
+})
 
 export const signUpInputSchema = signUpBodySchema
 	.extend({
@@ -20,9 +20,9 @@ export const signUpInputSchema = signUpBodySchema
 	.refine((data) => data.confirmPassword === data.password, {
 		message: 'Passwords do not match',
 		path: ['confirmPassword'],
-	});
+	})
 
 export const loginInputSchema = signUpBodySchema.pick({
 	email: true,
 	password: true,
-});
+})

@@ -1,17 +1,17 @@
-import { TLoginInSignUpFormTypes } from '@/common/types';
+import { TLoginInSignUpFormTypes } from '@/common/types'
 import {
 	disableUserSignActionsAtom,
 	logInSignUpFromTypeAtom,
 	logInSignUpModalOpenAtom,
-} from '@/jotai/atoms';
-import { Menu } from '@headlessui/react';
-import { useSetAtom } from 'jotai';
-import { signOut, useSession } from 'next-auth/react';
-import Link from 'next/link';
-import ThemeToggleMenuItem from './ThemeToggleMenuItem';
+} from '@/jotai/atoms'
+import { Menu } from '@headlessui/react'
+import { useSetAtom } from 'jotai'
+import { signOut, useSession } from 'next-auth/react'
+import Link from 'next/link'
+import ThemeToggleMenuItem from './ThemeToggleMenuItem'
 
 export default function NavbarMenuItems() {
-	const session = useSession();
+	const session = useSession()
 
 	return (
 		<Menu.Items className='absolute right-0 mt-2 w-60 rounded-lg border bg-white py-3 shadow-md dark:bg-neutral-950'>
@@ -23,17 +23,17 @@ export default function NavbarMenuItems() {
 			<div className='my-2 h-[0.25px] w-full bg-gray-200' />
 			<ThemeToggleMenuItem />
 		</Menu.Items>
-	);
+	)
 }
 
 function GuestMenuItems() {
-	const setSignUpModalOpen = useSetAtom(logInSignUpModalOpenAtom);
-	const setLoginSignUpFormType = useSetAtom(logInSignUpFromTypeAtom);
+	const setSignUpModalOpen = useSetAtom(logInSignUpModalOpenAtom)
+	const setLoginSignUpFormType = useSetAtom(logInSignUpFromTypeAtom)
 
 	const openModal = (modalType: TLoginInSignUpFormTypes) => () => {
-		setLoginSignUpFormType(modalType);
-		setSignUpModalOpen(true);
-	};
+		setLoginSignUpFormType(modalType)
+		setSignUpModalOpen(true)
+	}
 
 	return (
 		<>
@@ -70,17 +70,17 @@ function GuestMenuItems() {
 				</div>
 			</Menu.Item>
 		</>
-	);
+	)
 }
 
 function UserMenuItems() {
-	const setDisableUserSignActions = useSetAtom(disableUserSignActionsAtom);
+	const setDisableUserSignActions = useSetAtom(disableUserSignActionsAtom)
 	const handleSignOut = () => {
-		setDisableUserSignActions(true);
+		setDisableUserSignActions(true)
 		signOut().then(() => {
-			setDisableUserSignActions(false);
-		});
-	};
+			setDisableUserSignActions(false)
+		})
+	}
 
 	return (
 		<>
@@ -137,5 +137,5 @@ function UserMenuItems() {
 				</div>
 			</Menu.Item>
 		</>
-	);
+	)
 }

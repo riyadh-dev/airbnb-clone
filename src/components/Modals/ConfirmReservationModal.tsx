@@ -2,28 +2,28 @@ import {
 	confirmReservationModalOpenAtom,
 	reservationInputAtom,
 	reservationListingAtom,
-} from '@/jotai/atoms';
-import { reservationDateRangeAtom } from '@/jotai/selectors';
-import { trpc } from '@/utils/trpc';
-import { Dialog, Transition } from '@headlessui/react';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { Fragment, useEffect } from 'react';
+} from '@/jotai/atoms'
+import { reservationDateRangeAtom } from '@/jotai/selectors'
+import { trpc } from '@/utils/trpc'
+import { Dialog, Transition } from '@headlessui/react'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { Fragment, useEffect } from 'react'
 
 export default function ConfirmReservationModal() {
-	const router = useRouter();
-	const listingId = Number(router.query.id);
-	const setReservationInput = useSetAtom(reservationInputAtom);
+	const router = useRouter()
+	const listingId = Number(router.query.id)
+	const setReservationInput = useSetAtom(reservationInputAtom)
 
 	useEffect(() => {
 		setReservationInput((prev) => ({
 			...prev,
 			listingId,
-		}));
-	});
+		}))
+	})
 
-	const [modalOpen, setModalOpen] = useAtom(confirmReservationModalOpenAtom);
+	const [modalOpen, setModalOpen] = useAtom(confirmReservationModalOpenAtom)
 
 	return (
 		<Transition show={modalOpen} as={Fragment}>
@@ -58,39 +58,46 @@ export default function ConfirmReservationModal() {
 				</Transition.Child>
 			</Dialog>
 		</Transition>
-	);
+	)
 }
 
 function ConfirmReservationModalInner() {
-	const setModalOpen = useSetAtom(confirmReservationModalOpenAtom);
-	const listing = useAtomValue(reservationListingAtom);
-	const reservationInput = useAtomValue(reservationInputAtom);
-	const dateRange = useAtomValue(reservationDateRangeAtom);
+	const setModalOpen = useSetAtom(confirmReservationModalOpenAtom)
+	const listing = useAtomValue(reservationListingAtom)
+	const reservationInput = useAtomValue(reservationInputAtom)
+	const dateRange = useAtomValue(reservationDateRangeAtom)
 
-	const utils = trpc.useContext();
-	const { mutate, isLoading, isError } = trpc.reservations.create.useMutation({
-		async onMutate({ listingId: id }) {
-			await utils.listings.getById.cancel();
-			const prevListing = utils.listings.getById.getData(id);
+	const utils = trpc.useContext()
+	const { mutate, isLoading, isError } = trpc.reservations.create.useMutation(
+		{
+			async onMutate({ listingId: id }) {
+				await utils.listings.getById.cancel()
+				const prevListing = utils.listings.getById.getData(id)
 
-			utils.listings.getById.setData(id, (old) =>
-				old ? { ...old, isReserved: old.isReserved === '1' ? '0' : '1' } : null
-			);
+				utils.listings.getById.setData(id, (old) =>
+					old
+						? {
+								...old,
+								isReserved: old.isReserved === '1' ? '0' : '1',
+						  }
+						: null
+				)
 
-			return { prevListing };
-		},
-		onError(error, { listingId: id }, context) {
-			utils.listings.getById.setData(id, context?.prevListing);
-		},
-	});
+				return { prevListing }
+			},
+			onError(error, { listingId: id }, context) {
+				utils.listings.getById.setData(id, context?.prevListing)
+			},
+		}
+	)
 
-	if (!listing || !reservationInput) return null;
+	if (!listing || !reservationInput) return null
 
 	const onConfirm = () => {
 		mutate(reservationInput, {
 			onSuccess: () => setModalOpen(false),
-		});
-	};
+		})
+	}
 
 	return (
 		<div className='space-y-6 p-6'>
@@ -126,9 +133,11 @@ function ConfirmReservationModalInner() {
 						{reservationInput.adultGuestCount > 0 &&
 							`${reservationInput.adultGuestCount} adults` + ' '}
 						{reservationInput.childGuestCount > 0 &&
-							`${reservationInput.childGuestCount} children` + ' '}
+							`${reservationInput.childGuestCount} children` +
+								' '}
 						{reservationInput.infantGuestCount > 0 &&
-							`${reservationInput.infantGuestCount} infants` + ' '}
+							`${reservationInput.infantGuestCount} infants` +
+								' '}
 						{reservationInput.petCount > 0 &&
 							`${reservationInput.petCount} pets`}
 					</h2>
@@ -136,7 +145,8 @@ function ConfirmReservationModalInner() {
 				<div className='flex justify-between'>
 					<h2 className='font-semibold'>Total Cost:</h2>
 					<h2 className='text-gray-400'>
-						${listing.price} x {dateRange} nights = ${listing.price * dateRange}
+						${listing.price} x {dateRange} nights = $
+						{listing.price * dateRange}
 					</h2>
 				</div>
 			</div>
@@ -154,9 +164,13 @@ function ConfirmReservationModalInner() {
 					onClick={onConfirm}
 					className='h-14 rounded-lg bg-gradient-to-r from-[#e61e4d] from-30% to-[#bd1e59] px-12 text-center text-xl font-bold text-white'
 				>
-					{isLoading ? 'Submitting...' : isError ? 'Error' : 'Confirm And Pay'}
+					{isLoading
+						? 'Submitting...'
+						: isError
+						? 'Error'
+						: 'Confirm And Pay'}
 				</button>
 			</div>
 		</div>
-	);
+	)
 }

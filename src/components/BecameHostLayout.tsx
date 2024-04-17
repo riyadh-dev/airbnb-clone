@@ -1,14 +1,14 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
 export const metadata = {
 	title: 'Became a host',
 	description: 'An airbnb clone app using NexJS 13',
-};
+}
 
 export default function BecameHostLayout({
 	children,
 }: {
-	children: React.ReactNode;
+	children: React.ReactNode
 }) {
 	return (
 		<div className='flex min-h-screen flex-col justify-between'>
@@ -34,5 +34,5 @@ export default function BecameHostLayout({
 			</nav>
 			{children}
 		</div>
-	);
+	)
 }

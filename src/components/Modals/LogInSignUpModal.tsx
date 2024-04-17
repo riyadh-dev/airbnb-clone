@@ -2,16 +2,16 @@ import {
 	disableUserSignActionsAtom,
 	logInSignUpFromTypeAtom,
 	logInSignUpModalOpenAtom,
-} from '@/jotai/atoms';
-import { Dialog, Transition } from '@headlessui/react';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { Fragment } from 'react';
-import LoginForm from '../Forms/LoginForm';
-import SignUpForm from '../Forms/SignUpForm';
-import MockAccountsList from '../MockAccountsList';
+} from '@/jotai/atoms'
+import { Dialog, Transition } from '@headlessui/react'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { Fragment } from 'react'
+import LoginForm from '../Forms/LoginForm'
+import SignUpForm from '../Forms/SignUpForm'
+import MockAccountsList from '../MockAccountsList'
 
 export default function LogInSignUpModal() {
-	const [modalOpen, setModalOpen] = useAtom(logInSignUpModalOpenAtom);
+	const [modalOpen, setModalOpen] = useAtom(logInSignUpModalOpenAtom)
 	return (
 		<Transition show={modalOpen} as={Fragment}>
 			<Dialog
@@ -45,18 +45,18 @@ export default function LogInSignUpModal() {
 				</Transition.Child>
 			</Dialog>
 		</Transition>
-	);
+	)
 }
 
 function LogInSignUpModalInner() {
-	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom);
-	const [fromType, setFromType] = useAtom(logInSignUpFromTypeAtom);
+	const setModalOpen = useSetAtom(logInSignUpModalOpenAtom)
+	const [fromType, setFromType] = useAtom(logInSignUpFromTypeAtom)
 	const toggleFormType = () =>
 		setFromType((prevFromType) =>
 			prevFromType === 'login' ? 'sign-up' : 'login'
-		);
+		)
 
-	const disabled = useAtomValue(disableUserSignActionsAtom);
+	const disabled = useAtomValue(disableUserSignActionsAtom)
 
 	return (
 		<div>
@@ -68,7 +68,9 @@ function LogInSignUpModalInner() {
 					></i>
 				</span>
 
-				<h1 className='text-center text-lg font-bold'>Log in or sign up</h1>
+				<h1 className='text-center text-lg font-bold'>
+					Log in or sign up
+				</h1>
 			</div>
 			<div className='border-t' />
 			<div className='space-y-5 p-6'>
@@ -91,7 +93,9 @@ function LogInSignUpModalInner() {
 						className='relative h-12 w-full animate-pulse rounded-lg border bg-neutral-950 text-white dark:bg-white dark:text-black'
 					>
 						<i className='ri-user-smile-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
-						<span className='font-bold'>Continue with Mock account</span>
+						<span className='font-bold'>
+							Continue with Mock account
+						</span>
 					</button>
 				)}
 
@@ -107,7 +111,9 @@ function LogInSignUpModalInner() {
 						className='relative h-12 w-full rounded-lg border border-black dark:border-white'
 					>
 						<i className='ri-mail-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
-						<span className='font-bold'>Sign up with Email and password</span>
+						<span className='font-bold'>
+							Sign up with Email and password
+						</span>
 					</button>
 				)}
 
@@ -118,10 +124,12 @@ function LogInSignUpModalInner() {
 						className='relative h-12 w-full rounded-lg border border-black dark:border-white'
 					>
 						<i className='ri-mail-line absolute bottom-1/2 left-6 translate-y-1/2 text-2xl'></i>
-						<span className='font-bold'>Login with Email and password</span>
+						<span className='font-bold'>
+							Login with Email and password
+						</span>
 					</button>
 				)}
 			</div>
 		</div>
-	);
+	)
 }

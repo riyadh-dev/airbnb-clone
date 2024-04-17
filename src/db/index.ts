@@ -1,12 +1,6 @@
-import { connect } from '@planetscale/database';
-import { drizzle as planetscaleDrizzle } from 'drizzle-orm/planetscale-serverless';
-//import { drizzle as mysqlDrizzle } from 'drizzle-orm/mysql2';
-//import { createPool } from 'mysql2/promise';
+import { sql } from '@vercel/postgres'
+import { drizzle } from 'drizzle-orm/vercel-postgres'
 
-const db = planetscaleDrizzle(connect({ url: process.env.DATABASE_URL }));
+const db = drizzle(sql)
 
-//const db = mysqlDrizzle(createPool(process.env.DATABASE_URL as string), {
-//logger: true,
-//});
-
-export default db;
+export default db

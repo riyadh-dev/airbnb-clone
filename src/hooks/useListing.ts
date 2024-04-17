@@ -1,59 +1,63 @@
 import {
 	logInSignUpFromTypeAtom,
 	logInSignUpModalOpenAtom,
-} from '@/jotai/atoms';
-import { trpc } from '@/utils/trpc';
-import { useSetAtom } from 'jotai';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
+} from '@/jotai/atoms'
+import { trpc } from '@/utils/trpc'
+import { useSetAtom } from 'jotai'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 export default function useListing() {
-	const router = useRouter();
-	const id = Number(router.query.id);
+	const router = useRouter()
+	const id = Number(router.query.id)
 
-	const { data, isLoading: isLoadingListing } = trpc.listings.getById.useQuery(
-		id,
-		{ enabled: Boolean(id) }
-	);
-	const { data: user, isLoading: isLoadingUser } = trpc.users.getById.useQuery(
-		data?.listing.ownerId as number,
-		{ enabled: Boolean(data?.listing.ownerId) }
-	);
+	const { data, isLoading: isLoadingListing } =
+		trpc.listings.getById.useQuery(id, { enabled: Boolean(id) })
+	const { data: user, isLoading: isLoadingUser } =
+		trpc.users.getById.useQuery(data?.listing.ownerId as number, {
+			enabled: Boolean(data?.listing.ownerId),
+		})
 
-	const utils = trpc.useContext();
+	const utils = trpc.useContext()
 	const { mutate } = trpc.listings.toggleLike.useMutation({
 		async onMutate(id) {
-			await utils.listings.getById.cancel();
-			const prevListing = utils.listings.getById.getData(id);
+			await utils.listings.getById.cancel()
+			const prevListing = utils.listings.getById.getData(id)
 
 			utils.listings.getById.setData(id, (old) =>
-				old ? { ...old, isLiked: old.isLiked === '1' ? '0' : '1' } : null
-			);
+				old
+					? { ...old, isLiked: old.isLiked === '1' ? '0' : '1' }
+					: null
+			)
 
-			return { prevListing };
+			return { prevListing }
 		},
 		onError(error, id, context) {
-			utils.listings.getById.setData(id, context?.prevListing);
+			utils.listings.getById.setData(id, context?.prevListing)
 		},
-	});
+	})
 
-	const session = useSession();
-	const setLoginSignUpFormType = useSetAtom(logInSignUpFromTypeAtom);
-	const setLogInSignUpModalOpen = useSetAtom(logInSignUpModalOpenAtom);
+	const session = useSession()
+	const setLoginSignUpFormType = useSetAtom(logInSignUpFromTypeAtom)
+	const setLogInSignUpModalOpen = useSetAtom(logInSignUpModalOpenAtom)
 
 	const toggleLike = () => {
 		if (session.status !== 'authenticated') {
-			setLoginSignUpFormType('mock-list');
-			setLogInSignUpModalOpen(true);
-		} else mutate(data?.listing.id as number);
-	};
+			setLoginSignUpFormType('mock-list')
+			setLogInSignUpModalOpen(true)
+		} else mutate(data?.listing.id as number)
+	}
 
 	return {
 		isLoading: isLoadingListing || isLoadingUser,
 		listing: data
-			? { ...data.listing, isLiked: data.isLiked, isReserved: data.isReserved }
+			? {
+					...data.listing,
+					isLiked: data.isLiked,
+					isReserved: data.isReserved,
+			  }
 			: null,
 		user,
 		toggleLike,
-	};
+	}
 }

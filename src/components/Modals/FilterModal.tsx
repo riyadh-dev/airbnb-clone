@@ -1,18 +1,18 @@
-import useZodForm from '@/hooks/useZodForm';
-import { FilterModalOpenAtom, filterOptionsAtom } from '@/jotai/atoms';
-import { classNames } from '@/utils/helpers';
-import { listingFilterSchema } from '@/zod/listings';
-import { Dialog, Transition } from '@headlessui/react';
-import { useAtom, useSetAtom } from 'jotai';
-import { Fragment, useEffect, useState } from 'react';
-import CustomInput from '../Input/CustomInput';
+import useZodForm from '@/hooks/useZodForm'
+import { FilterModalOpenAtom, filterOptionsAtom } from '@/jotai/atoms'
+import { classNames } from '@/utils/helpers'
+import { listingFilterSchema } from '@/zod/listings'
+import { Dialog, Transition } from '@headlessui/react'
+import { useAtom, useSetAtom } from 'jotai'
+import { Fragment, useEffect, useState } from 'react'
+import CustomInput from '../Input/CustomInput'
 
 function isEmptyString(str: string) {
-	return !str || str.length === 0;
+	return !str || str.length === 0
 }
 
 export default function FilterModal() {
-	const [modalOpen, setModalOpen] = useAtom(FilterModalOpenAtom);
+	const [modalOpen, setModalOpen] = useAtom(FilterModalOpenAtom)
 
 	return (
 		<Transition show={modalOpen} as={Fragment}>
@@ -47,12 +47,12 @@ export default function FilterModal() {
 				</Transition.Child>
 			</Dialog>
 		</Transition>
-	);
+	)
 }
 
 function FilterModalInner() {
-	const setModalOpen = useSetAtom(FilterModalOpenAtom);
-	const [filterOptions, setFilterOptions] = useAtom(filterOptionsAtom);
+	const setModalOpen = useSetAtom(FilterModalOpenAtom)
+	const [filterOptions, setFilterOptions] = useAtom(filterOptionsAtom)
 	const {
 		register,
 		handleSubmit,
@@ -89,22 +89,22 @@ function FilterModalInner() {
 				minPrice: filterOptions.minPrice,
 			},
 		}
-	);
+	)
 
-	const [bedCount, setBedCount] = useState<number | undefined>(undefined);
+	const [bedCount, setBedCount] = useState<number | undefined>(undefined)
 	const [bathroomCount, setBathroomCount] = useState<number | undefined>(
 		undefined
-	);
+	)
 
 	useEffect(() => {
-		if (filterOptions.bedCount) setBedCount(filterOptions.bedCount);
+		if (filterOptions.bedCount) setBedCount(filterOptions.bedCount)
 		if (filterOptions.bathroomCount)
-			setBathroomCount(filterOptions.bathroomCount);
+			setBathroomCount(filterOptions.bathroomCount)
 	}, [
 		filterOptions.bathroomCount,
 		filterOptions.bedCount,
 		filterOptions.minPrice,
-	]);
+	])
 
 	const onSubmit = handleSubmit(({ maxPrice, minPrice }) => {
 		setFilterOptions({
@@ -113,16 +113,16 @@ function FilterModalInner() {
 			minPrice,
 			bedCount,
 			bathroomCount,
-		});
-		setModalOpen(false);
-	});
+		})
+		setModalOpen(false)
+	})
 
 	const onClear = () => {
-		setValue('maxPrice', undefined);
-		setValue('minPrice', undefined);
-		setBedCount(undefined);
-		setBathroomCount(undefined);
-	};
+		setValue('maxPrice', undefined)
+		setValue('minPrice', undefined)
+		setBedCount(undefined)
+		setBathroomCount(undefined)
+	}
 
 	return (
 		<form onSubmit={onSubmit}>
@@ -145,7 +145,9 @@ function FilterModalInner() {
 							placeholder: 'Minimum',
 							...register('minPrice', {
 								setValueAs: (value) =>
-									isEmptyString(value) ? undefined : Number(value),
+									isEmptyString(value)
+										? undefined
+										: Number(value),
 							}),
 						}}
 						errorMessage={formErrors.minPrice?.message}
@@ -157,7 +159,9 @@ function FilterModalInner() {
 							placeholder: 'Maximum',
 							...register('maxPrice', {
 								setValueAs: (value) =>
-									isEmptyString(value) ? undefined : Number(value),
+									isEmptyString(value)
+										? undefined
+										: Number(value),
 							}),
 						}}
 						errorMessage={formErrors.maxPrice?.message}
@@ -244,5 +248,5 @@ function FilterModalInner() {
 				</button>
 			</div>
 		</form>
-	);
+	)
 }

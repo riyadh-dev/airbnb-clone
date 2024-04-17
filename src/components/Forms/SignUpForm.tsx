@@ -1,16 +1,16 @@
-import useSignUp from '@/hooks/useSignUp';
-import useZodForm from '@/hooks/useZodForm';
-import { disableUserSignActionsAtom } from '@/jotai/atoms';
-import { exclude } from '@/utils/helpers';
-import { signUpInputSchema } from '@/zod/user';
-import { useAtomValue } from 'jotai';
-import { useState } from 'react';
-import CustomInput from '../Input/CustomInput';
-import InputErrorMessage from '../Input/InputErrorMessage';
-import LoadingSpinner from '../LoadingSpinner';
+import useSignUp from '@/hooks/useSignUp'
+import useZodForm from '@/hooks/useZodForm'
+import { disableUserSignActionsAtom } from '@/jotai/atoms'
+import { exclude } from '@/utils/helpers'
+import { signUpInputSchema } from '@/zod/user'
+import { useAtomValue } from 'jotai'
+import { useState } from 'react'
+import CustomInput from '../Input/CustomInput'
+import InputErrorMessage from '../Input/InputErrorMessage'
+import LoadingSpinner from '../LoadingSpinner'
 
 interface IRequestError {
-	[key: string]: string | undefined;
+	[key: string]: string | undefined
 }
 
 export default function SignUpFrom() {
@@ -18,29 +18,31 @@ export default function SignUpFrom() {
 		register,
 		handleSubmit,
 		formState: { errors: formErrors },
-	} = useZodForm(signUpInputSchema);
+	} = useZodForm(signUpInputSchema)
 
-	const signUp = useSignUp();
-	const [requestError, setRequestError] = useState<IRequestError>();
+	const signUp = useSignUp()
+	const [requestError, setRequestError] = useState<IRequestError>()
 
 	const onSubmit = handleSubmit(async (body) => {
 		const requestError = await signUp(
 			exclude(body, ['confirmPassword', 'confirmEmail'])
-		);
-		const isEmailUsed = requestError?.message.includes('Duplicate');
+		)
+		const isEmailUsed = requestError?.message.includes('Duplicate')
 		setRequestError(
 			isEmailUsed
 				? { email: 'Email already in use' }
 				: { other: 'Internal server error' }
-		);
-	});
+		)
+	})
 
-	const disabled = useAtomValue(disableUserSignActionsAtom);
-	if (disabled) return <LoadingSpinner className='!my-14 mx-auto h-20' />;
+	const disabled = useAtomValue(disableUserSignActionsAtom)
+	if (disabled) return <LoadingSpinner className='!my-14 mx-auto h-20' />
 
 	return (
 		<form onSubmit={onSubmit} noValidate>
-			<h1 className='pb-3 text-center text-gray-400'>Create an account</h1>
+			<h1 className='pb-3 text-center text-gray-400'>
+				Create an account
+			</h1>
 
 			<div className='space-y-3'>
 				<CustomInput
@@ -75,7 +77,8 @@ export default function SignUpFrom() {
 							...register('confirmEmail'),
 						}}
 						errorMessage={
-							formErrors.confirmEmail?.message || requestError?.email
+							formErrors.confirmEmail?.message ||
+							requestError?.email
 						}
 					/>
 
@@ -113,5 +116,5 @@ export default function SignUpFrom() {
 				Continue
 			</button>
 		</form>
-	);
+	)
 }

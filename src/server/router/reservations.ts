@@ -1,15 +1,15 @@
-import { TListing } from '@/common/types';
-import { AIRBNB_SERVICE_FEE } from '@/constants';
-import db from '@/db';
+import { TListing } from '@/common/types'
+import { AIRBNB_SERVICE_FEE } from '@/constants'
+import db from '@/db'
 import {
 	listings as ListingsTable,
 	reservations as reservationsTable,
-} from '@/db/schema';
-import { getDateDiffInDays } from '@/utils/helpers';
-import { reservationInsertSchema } from '@/zod/reservation';
-import { and, eq } from 'drizzle-orm/expressions';
-import { z } from 'zod';
-import { protectedProcedure, router } from '../trpc';
+} from '@/db/schema'
+import { getDateDiffInDays } from '@/utils/helpers'
+import { reservationInsertSchema } from '@/zod/reservation'
+import { and, eq } from 'drizzle-orm'
+import { z } from 'zod'
+import { protectedProcedure, router } from '../trpc'
 
 const reservationsRouter = router({
 	create: protectedProcedure
@@ -17,39 +17,40 @@ const reservationsRouter = router({
 		.input(reservationInsertSchema)
 		.mutation(async ({ input: { pricePerNight, ...input }, ctx }) => {
 			const totalCostBeforeFee =
-				getDateDiffInDays(input.startDate, input.endDate) * pricePerNight;
+				getDateDiffInDays(input.startDate, input.endDate) *
+				pricePerNight
 			const totalCost =
-				totalCostBeforeFee + totalCostBeforeFee * AIRBNB_SERVICE_FEE;
+				totalCostBeforeFee + totalCostBeforeFee * AIRBNB_SERVICE_FEE
 
 			await db.insert(reservationsTable).values({
 				...input,
 				ownerId: ctx.session.user.id,
 				totalCost,
-			});
-			return 'reservation created';
+			})
+			return 'reservation created'
 		}),
 
 	listWithListing: protectedProcedure.query(async ({ ctx }) => {
 		const reservations = await db
 			.select()
 			.from(reservationsTable)
-			.where(eq(reservationsTable.ownerId, ctx.session.user.id));
+			.where(eq(reservationsTable.ownerId, ctx.session.user.id))
 
-		const listingPromises: Promise<unknown>[] = [];
+		const listingPromises: Promise<unknown>[] = []
 		for (const reservation of reservations) {
 			listingPromises.push(
 				db
 					.select()
 					.from(ListingsTable)
 					.where(eq(ListingsTable.id, reservation.listingId))
-			);
+			)
 		}
-		const listings = (await Promise.all(listingPromises)) as TListing[][];
+		const listings = (await Promise.all(listingPromises)) as TListing[][]
 
 		return reservations.map((reservation, index) => ({
 			reservation,
 			listing: listings[index][0],
-		}));
+		}))
 	}),
 
 	delete: protectedProcedure
@@ -62,10 +63,10 @@ const reservationsRouter = router({
 						eq(reservationsTable.id, id),
 						eq(reservationsTable.ownerId, ctx.session.user.id)
 					)
-				);
+				)
 
-			return 'reservation deleted';
+			return 'reservation deleted'
 		}),
-});
+})
 
-export default reservationsRouter;
+export default reservationsRouter

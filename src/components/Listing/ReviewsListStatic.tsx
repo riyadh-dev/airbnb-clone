@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/image'
 
 export default function ReviewsListStatic() {
 	return (
@@ -22,14 +22,14 @@ export default function ReviewsListStatic() {
 					</div>
 					{/*cspell:disable */}
 					<p className='mt-4'>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-						delectus quas repudiandae laudantium unde perferendis et, mollitia
-						ab libero quod eos cumque suscipit hic aliquam! Id ab nam tenetur
-						iusto.
+						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						Praesentium delectus quas repudiandae laudantium unde
+						perferendis et, mollitia ab libero quod eos cumque
+						suscipit hic aliquam! Id ab nam tenetur iusto.
 					</p>
 					{/*cspell:enable */}
 				</li>
 			))}
 		</ul>
-	);
+	)
 }
