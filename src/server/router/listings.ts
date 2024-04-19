@@ -1,7 +1,7 @@
 import db from '@/db'
 import { listings, reservations, userLikedListings } from '@/db/schema'
 import { listingFilterSchema, listingInsertSchema } from '@/zod/listings'
-import { SQL, and, between, eq, exists, sql } from 'drizzle-orm'
+import { and, between, eq, exists, sql } from 'drizzle-orm'
 import { z } from 'zod'
 import { protectedProcedure, publicProcedure, router } from '../trpc'
 
@@ -26,35 +26,28 @@ const listingsRouter = router({
 			return results[0].id
 		}),
 
-	getById: publicProcedure
-		.input(z.number())
-		.query(async ({ ctx, input: id }) => {
-			const user = ctx.session?.user
+	getById: publicProcedure.input(z.number()).query(
+		async ({ ctx, input: id }) =>
+			await db.query.listings.findFirst({
+				where: eq(listings.id, id),
+				extras: {
+					isLiked: isLikedSQL(ctx.session?.user?.id).as('is_liked'),
+					isReserved: isReservedSQL(ctx.session?.user?.id).as(
+						'is_reserved'
+					),
+				},
+			})
+	),
 
-			const select = {
-				listing: listings,
-				isLiked: isLikedSQL(user?.id),
-				isReserved: isReservedSQL(user?.id),
-			}
-
-			const results = await db
-				.select(select)
+	list: publicProcedure.query(
+		async ({ ctx }) =>
+			await db
+				.select({
+					...listingListItemSelect,
+					isLiked: isLikedSQL(ctx.session?.user?.id),
+				})
 				.from(listings)
-				.where(eq(listings.id, id))
-
-			return results.length ? results[0] : null
-		}),
-
-	list: publicProcedure.query(async ({ ctx }) => {
-		const user = ctx.session?.user
-
-		const select = {
-			...listingListItemSelect,
-			isLiked: isLikedSQL(user?.id),
-		}
-
-		return await db.select(select).from(listings)
-	}),
+	),
 
 	listFilter: publicProcedure
 		.input(listingFilterSchema)
@@ -156,7 +149,7 @@ const listingsRouter = router({
 
 //HACK for some reason working with planetscale return strings of 1 or 0 when using drizzle orm exists()
 function isLikedSQL(userId?: number) {
-	if (!userId) return sql<'0'>`0`
+	if (!userId) return sql`false`
 
 	return exists(
 		db
@@ -168,11 +161,11 @@ function isLikedSQL(userId?: number) {
 					eq(userLikedListings.userId, userId)
 				)
 			)
-	) as SQL<'1' | '0'>
+	)
 }
 
 function isReservedSQL(userId?: number) {
-	if (!userId) return sql<'0'>`0`
+	if (!userId) return sql`false`
 
 	return exists(
 		db
@@ -184,7 +177,7 @@ function isReservedSQL(userId?: number) {
 					eq(reservations.ownerId, userId)
 				)
 			)
-	) as SQL<'1' | '0'>
+	)
 }
 
 export default listingsRouter

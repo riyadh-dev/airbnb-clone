@@ -5,6 +5,7 @@ import {
 	integer,
 	pgTable,
 	primaryKey,
+	real,
 	serial,
 	text,
 	timestamp,
@@ -91,7 +92,7 @@ export const reservations = pgTable('reservations', {
 	childGuestCount: integer('child_guest_count').notNull(),
 	infantGuestCount: integer('infant_guest_count').notNull(),
 	petCount: integer('pet_count').notNull(),
-	totalCost: integer('total_cost').notNull(),
+	totalCost: real('total_cost').notNull(),
 	createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 })
 

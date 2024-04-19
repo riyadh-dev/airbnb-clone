@@ -24,7 +24,11 @@ export default function Wishlist() {
 			<h1 className='mt-6 text-center text-4xl font-semibold'>
 				Wishlist
 			</h1>
-			<ListingList listings={listings} toggleLike={toggleLike} />
+			<ListingList
+				listings={listings}
+				toggleLike={toggleLike}
+				isWishList
+			/>
 		</main>
 	)
 }

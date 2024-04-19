@@ -26,18 +26,15 @@ export default function useListings() {
 			await utils.listings.listFilter.cancel()
 			const prevListings = utils.listings.listFilter.getData()
 
-			utils.listings.listFilter.setData(
-				filter,
-				(old) =>
-					old?.map((listing) =>
-						listing.id === id
-							? {
-									...listing,
-									isLiked:
-										listing.isLiked === '1' ? '0' : '1',
-							  }
-							: listing
-					)
+			utils.listings.listFilter.setData(filter, (old) =>
+				old?.map((listing) =>
+					listing.id === id
+						? {
+								...listing,
+								isLiked: !listing.isLiked,
+							}
+						: listing
+				)
 			)
 
 			return { prevListings }

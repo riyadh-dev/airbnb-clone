@@ -78,9 +78,9 @@ function ConfirmReservationModalInner() {
 					old
 						? {
 								...old,
-								isReserved: old.isReserved === '1' ? '0' : '1',
-						  }
-						: null
+								isReserved: !old.isReserved,
+							}
+						: undefined
 				)
 
 				return { prevListing }
@@ -155,7 +155,7 @@ function ConfirmReservationModalInner() {
 			<div className='flex flex-wrap justify-between gap-4'>
 				<button
 					onClick={() => setModalOpen(false)}
-					className='h-14 rounded-lg border px-12 text-xl font-bold text-white'
+					className='h-14 rounded-lg border px-12 text-xl font-bold dark:text-white'
 				>
 					Cancel
 				</button>
@@ -167,8 +167,8 @@ function ConfirmReservationModalInner() {
 					{isLoading
 						? 'Submitting...'
 						: isError
-						? 'Error'
-						: 'Confirm And Pay'}
+							? 'Error'
+							: 'Confirm And Pay'}
 				</button>
 			</div>
 		</div>

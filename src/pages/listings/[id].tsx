@@ -78,7 +78,7 @@ export default function ListingPage() {
 							role='presentation'
 							focusable='false'
 							className={classNames(
-								listing.isLiked === '1'
+								listing.isLiked
 									? 'fill-primary dark:stroke-white'
 									: 'fill-white stroke-black stroke-2 dark:fill-black dark:stroke-white',
 								'h-5 w-5'
@@ -161,7 +161,7 @@ export default function ListingPage() {
 					</div>
 				</div>
 
-				<ReservationBox disabled={listing.isReserved === '1'} />
+				<ReservationBox disabled={!!listing.isReserved} />
 			</div>
 
 			<div className='my-8 border-t' />

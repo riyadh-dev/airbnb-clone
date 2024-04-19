@@ -14,8 +14,8 @@ export default function useListing() {
 	const { data, isLoading: isLoadingListing } =
 		trpc.listings.getById.useQuery(id, { enabled: Boolean(id) })
 	const { data: user, isLoading: isLoadingUser } =
-		trpc.users.getById.useQuery(data?.listing.ownerId as number, {
-			enabled: Boolean(data?.listing.ownerId),
+		trpc.users.getById.useQuery(data?.ownerId as number, {
+			enabled: Boolean(data?.ownerId),
 		})
 
 	const utils = trpc.useContext()
@@ -25,9 +25,7 @@ export default function useListing() {
 			const prevListing = utils.listings.getById.getData(id)
 
 			utils.listings.getById.setData(id, (old) =>
-				old
-					? { ...old, isLiked: old.isLiked === '1' ? '0' : '1' }
-					: null
+				old ? { ...old, isLiked: !old.isLiked } : undefined
 			)
 
 			return { prevListing }
@@ -45,17 +43,17 @@ export default function useListing() {
 		if (session.status !== 'authenticated') {
 			setLoginSignUpFormType('mock-list')
 			setLogInSignUpModalOpen(true)
-		} else mutate(data?.listing.id as number)
+		} else mutate(data?.id as number)
 	}
 
 	return {
 		isLoading: isLoadingListing || isLoadingUser,
 		listing: data
 			? {
-					...data.listing,
+					...data,
 					isLiked: data.isLiked,
 					isReserved: data.isReserved,
-			  }
+				}
 			: null,
 		user,
 		toggleLike,

@@ -32,10 +32,12 @@ const usersRouter = router({
 			return 'user created successfully'
 		}),
 
-	getById: publicProcedure.input(z.number()).query(async ({ input: id }) => {
-		const results = await db.select().from(users).where(eq(users.id, id))
-		return results.length > 0 ? results[0] : null
-	}),
+	getById: publicProcedure.input(z.number()).query(
+		async ({ input: id }) =>
+			await db.query.users.findFirst({
+				where: eq(users.id, id),
+			})
+	),
 })
 
 export default usersRouter

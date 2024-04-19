@@ -10,7 +10,7 @@ interface IListing {
 	country: string
 	price: number
 	//if undefined assume its listing liked
-	isLiked?: '0' | '1'
+	isLiked?: unknown
 	imagesCSV: string
 	description: string
 }
@@ -18,9 +18,11 @@ interface IListing {
 export default function ListingList({
 	listings,
 	toggleLike,
+	isWishList,
 }: {
 	listings: IListing[]
 	toggleLike?: (id: number) => void
+	isWishList?: boolean
 }) {
 	return (
 		<ul className='grid grid-cols-1 gap-x-6 gap-y-10 px-5 pt-6 md:grid-cols-2 md:px-20 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
@@ -29,6 +31,7 @@ export default function ListingList({
 					key={listing.id}
 					listing={listing}
 					toggleLike={toggleLike}
+					isWishList={isWishList}
 				/>
 			))}
 		</ul>
@@ -38,9 +41,11 @@ export default function ListingList({
 function ListingListItem({
 	listing,
 	toggleLike,
+	isWishList,
 }: {
 	listing: IListing
 	toggleLike?: (id: number) => void
+	isWishList?: boolean
 }) {
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const [loaded, setLoaded] = useState(false)
@@ -70,8 +75,7 @@ function ListingListItem({
 						role='presentation'
 						focusable='false'
 						className={classNames(
-							listing.isLiked === '1' ||
-								listing.isLiked === undefined
+							listing.isLiked ?? isWishList
 								? 'fill-primary stroke-white stroke-2'
 								: 'fill-black/50 stroke-white stroke-2',
 							'h-6 w-6'

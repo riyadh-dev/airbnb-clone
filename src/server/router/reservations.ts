@@ -21,12 +21,20 @@ const reservationsRouter = router({
 				pricePerNight
 			const totalCost =
 				totalCostBeforeFee + totalCostBeforeFee * AIRBNB_SERVICE_FEE
+			try {
+				await db.insert(reservationsTable).values({
+					...input,
+					ownerId: ctx.session.user.id,
+					totalCost,
+				})
+			} catch (error) {
+				console.log(error, {
+					...input,
+					ownerId: ctx.session.user.id,
+					totalCost,
+				})
+			}
 
-			await db.insert(reservationsTable).values({
-				...input,
-				ownerId: ctx.session.user.id,
-				totalCost,
-			})
 			return 'reservation created'
 		}),
 
