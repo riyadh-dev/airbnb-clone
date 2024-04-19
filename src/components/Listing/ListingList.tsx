@@ -1,4 +1,4 @@
-import { classNames } from '@/utils/helpers'
+import { USDFormatter, classNames } from '@/utils/helpers'
 import { useKeenSlider } from 'keen-slider/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -172,7 +172,9 @@ function ListingListItem({
 				<div className='text-gray-400'>July 30 - Aug 25</div>
 
 				<div className='pt-1'>
-					<span className='font-bold'>{listing.price}$ </span>
+					<span className='font-bold'>
+						{USDFormatter(listing.price) + ' '}
+					</span>
 					night
 				</div>
 			</div>

@@ -4,6 +4,7 @@ import {
 	reservationListingAtom,
 } from '@/jotai/atoms'
 import { reservationDateRangeAtom } from '@/jotai/selectors'
+import { USDFormatter } from '@/utils/helpers'
 import { trpc } from '@/utils/trpc'
 import { Dialog, Transition } from '@headlessui/react'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
@@ -145,8 +146,8 @@ function ConfirmReservationModalInner() {
 				<div className='flex justify-between'>
 					<h2 className='font-semibold'>Total Cost:</h2>
 					<h2 className='text-gray-400'>
-						${listing.price} x {dateRange} nights = $
-						{listing.price * dateRange}
+						{USDFormatter(listing.price)} x {dateRange} nights ={' '}
+						{USDFormatter(listing.price * dateRange)}
 					</h2>
 				</div>
 			</div>

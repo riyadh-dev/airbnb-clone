@@ -16,3 +16,10 @@ export const getDateDiffInDays = (date1: Date, date2: Date) => {
 	const diffInMs = date2.getTime() - date1.getTime()
 	return diffInMs / (1000 * 60 * 60 * 24) + 1
 }
+
+export function USDFormatter(value: number) {
+	return value.toLocaleString('en-US', {
+		style: 'currency',
+		currency: 'USD',
+	})
+}

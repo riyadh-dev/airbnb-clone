@@ -1,4 +1,5 @@
 import { ListingsListSkeleton } from '@/components/ListingsListSkeleton'
+import { USDFormatter } from '@/utils/helpers'
 import { trpc } from '@/utils/trpc'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -14,12 +15,8 @@ export default function trips() {
 				await utils.listings.getById.cancel()
 				const prevData = utils.reservations.listWithListing.getData()
 
-				utils.reservations.listWithListing.setData(
-					undefined,
-					(old) =>
-						old?.filter(
-							(item) => item.reservation.id !== reservationId
-						)
+				utils.reservations.listWithListing.setData(undefined, (old) =>
+					old?.filter((item) => item.reservation.id !== reservationId)
 				)
 
 				return { prevData }
@@ -83,7 +80,7 @@ export default function trips() {
 						</div>
 
 						<div className='font-bold'>
-							${reservation.totalCost}
+							{USDFormatter(reservation.totalCost)}
 						</div>
 
 						<button

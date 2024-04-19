@@ -5,7 +5,7 @@ import {
 	reservationListingAtom,
 } from '@/jotai/atoms'
 import { reservationDateRangeAtom } from '@/jotai/selectors'
-import { classNames } from '@/utils/helpers'
+import { USDFormatter, classNames } from '@/utils/helpers'
 import { Menu } from '@headlessui/react'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import DatePicker from 'react-tailwindcss-datepicker'
@@ -62,7 +62,10 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 			<div>
 				<div className='flex items-center justify-between'>
 					<span className='text-lg'>
-						<b className='capitalize'>${listing.price}</b> night
+						<b className='capitalize'>
+							{USDFormatter(listing.price)}
+						</b>{' '}
+						night
 					</span>
 					<div className='flex shrink-0 items-center gap-1'>
 						<i className='ri-star-fill text-sm'></i>
@@ -216,14 +219,16 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 
 			<div className='flex'>
 				<span>
-					${listing.price} x {dateRange} nights
+					{USDFormatter(listing.price)} x {dateRange} nights
 				</span>
-				<span className='ml-auto'>${totalCostBeforeFee}</span>
+				<span className='ml-auto'>
+					{USDFormatter(totalCostBeforeFee)}
+				</span>
 			</div>
 			<div className='flex'>
 				<span>Airbnb service fee</span>
 				<span className='ml-auto'>
-					${(totalCostBeforeFee * AIRBNB_SERVICE_FEE).toFixed(2)} (
+					{USDFormatter(totalCostBeforeFee * AIRBNB_SERVICE_FEE)} (
 					{AIRBNB_SERVICE_FEE * 100}%)
 				</span>
 			</div>
@@ -232,7 +237,7 @@ export default function ReservationBox({ disabled }: { disabled: boolean }) {
 
 			<div className='flex font-bold'>
 				<span>Total before taxes</span>
-				<span className='ml-auto'>${totalCost}</span>
+				<span className='ml-auto'>{USDFormatter(totalCost)}</span>
 			</div>
 		</div>
 	)
